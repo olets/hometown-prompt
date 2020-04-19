@@ -6,8 +6,8 @@
 # https://github.com/romkatv/gitstatus
 
 
-_PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=${_PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=1}
-_PORCELAIN_PROMPT_SHOW_TOOL_NAMES=${_PORCELAIN_PROMPT_SHOW_TOOL_NAMES=0}
+PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=${PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=1}
+PORCELAIN_PROMPT_SHOW_TOOL_NAMES=${PORCELAIN_PROMPT_SHOW_TOOL_NAMES=0}
 
 function if_not_zero() {
   [ "$1" = 0 ] && echo "$1"
@@ -128,7 +128,7 @@ function gitstatus_prompt_update() {
     fi
   fi
 
-  if (( _PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE )); then
+  if (( PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE )); then
     WHERE="${w}%f"
   else
     p+="$w"
@@ -137,7 +137,7 @@ function gitstatus_prompt_update() {
   p+="$color_inactive"
   [[ -n $VCS_STATUS_ACTION ]] && p+=" $color_action$VCS_STATUS_ACTION"
 
-  (( _PORCELAIN_PROMPT_SHOW_TOOL_NAMES )) && GITSTATUS_PROMPT+="Git "
+  (( PORCELAIN_PROMPT_SHOW_TOOL_NAMES )) && GITSTATUS_PROMPT+="Git "
   GITSTATUS_PROMPT+="${p}%f"
 }
 
