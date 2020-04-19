@@ -5,13 +5,27 @@
 # Forked from and requires gitstatus prompt
 # https://github.com/romkatv/gitstatus
 
+# Configurable options
+PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=${PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE:=1}
+PORCELAIN_PROMPT_SHOW_TOOL_NAMES=${PORCELAIN_PROMPT_SHOW_TOOL_NAMES:=0}
+PORCELAIN_PROMPT_DEFAULT_USER=${PORCELAIN_PROMPT_DEFAULT_USER:=}
+PORCELAIN_PROMPT_DEFAULT_HOST=${PORCELAIN_PROMPT_DEFAULT_HOST:=}
 
-PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=${PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=1}
-PORCELAIN_PROMPT_SHOW_TOOL_NAMES=${PORCELAIN_PROMPT_SHOW_TOOL_NAMES=0}
-PORCELAIN_PROMPT_DEFAULT_USER=${PORCELAIN_PROMPT_DEFAULT_USER:-}
-PORCELAIN_PROMPT_DEFAULT_HOST=${PORCELAIN_PROMPT_DEFAULT_HOST:-}
+# Configurable colors
+PORCELAIN_PROMPT_COLOR_ACTION=${PORCELAIN_PROMPT_COLOR_ACTION:=199}
+PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED=${PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED:=2}
+PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED=${PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED:=1}
+PORCELAIN_PROMPT_COLOR_CWD=${PORCELAIN_PROMPT_COLOR_CWD:=39}
+PORCELAIN_PROMPT_COLOR_FAIL=${PORCELAIN_PROMPT_COLOR_FAIL:=196}
+PORCELAIN_PROMPT_COLOR_HOST=${PORCELAIN_PROMPT_COLOR_HOST:=109}
+PORCELAIN_PROMPT_COLOR_INACTIVE=${PORCELAIN_PROMPT_COLOR_INACTIVE:=248}
+PORCELAIN_PROMPT_COLOR_REMOTE=${PORCELAIN_PROMPT_COLOR_REMOTE:=216}
+PORCELAIN_PROMPT_COLOR_STASH=${PORCELAIN_PROMPT_COLOR_STASH:=81}
+PORCELAIN_PROMPT_COLOR_SUCCESS=${PORCELAIN_PROMPT_COLOR_SUCCESS:=76}
+PORCELAIN_PROMPT_COLOR_USER=${PORCELAIN_PROMPT_COLOR_USER:=109}
+PORCELAIN_PROMPT_COLOR_WHERE=${PORCELAIN_PROMPT_COLOR_WHERE:=140}
 
-function if_not_zero() {
+function if_porcelain_prompt_not_zero() {
   [ "$1" = 0 ] && echo "$1"
 }
 
@@ -31,13 +45,6 @@ function gitstatus_prompt_update() {
   local unstaged_count
   local node_version=''
 
-  local color_inactive='%248F'
-  local color_action='%199F'
-  local color_active_staged='%2F'
-  local color_active_unstaged='%1F'
-  local color_remote='%216F'
-  local color_where='%140F'
-  local color_stash='%81F'
 
   local symbol_modified='_M'
   local symbol_modified_staged='M_'
@@ -55,53 +62,53 @@ function gitstatus_prompt_update() {
   local symbol_branch='#'
   local symbol_commit='•'
 
-  p+="$color_inactive"
-  (( VCS_STATUS_STASHES )) && p+="$color_stash$VCS_STATUS_STASHES"
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+  (( VCS_STATUS_STASHES )) && p+="%${PORCELAIN_PROMPT_COLOR_STASH}F$VCS_STATUS_STASHES"
   p+="$symbol_stash "
 
-  p+="$color_inactive"
-  (( VCS_STATUS_NUM_ASSUME_UNCHANGED )) && p+="$color_stash$VCS_STATUS_NUM_ASSUME_UNCHANGED"
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+  (( VCS_STATUS_NUM_ASSUME_UNCHANGED )) && p+="%${PORCELAIN_PROMPT_COLOR_STASH}F$VCS_STATUS_NUM_ASSUME_UNCHANGED"
   p+="$symbol_assume_unchanged "
 
-  p+="$color_inactive"
-  (( VCS_STATUS_NUM_SKIP_WORKTREE )) && p+="$color_stash$VCS_STATUS_NUM_SKIP_WORKTREE"
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+  (( VCS_STATUS_NUM_SKIP_WORKTREE )) && p+="%${PORCELAIN_PROMPT_COLOR_STASH}F$VCS_STATUS_NUM_SKIP_WORKTREE"
   p+="$symbol_skip_worktree "
 
-  p+="$color_inactive"
-  (( VCS_STATUS_NUM_UNTRACKED )) && p+="$color_active_unstaged$VCS_STATUS_NUM_UNTRACKED" && dirty=1
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+  (( VCS_STATUS_NUM_UNTRACKED )) && p+="%${PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}F$VCS_STATUS_NUM_UNTRACKED" && dirty=1
   p+="$symbol_added "
 
-  p+="$color_inactive"
-  (( VCS_STATUS_NUM_CONFLICTED )) && p+="$color_active_unstaged$VCS_STATUS_NUM_CONFLICTED" && dirty=1
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+  (( VCS_STATUS_NUM_CONFLICTED )) && p+="%${PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}F$VCS_STATUS_NUM_CONFLICTED" && dirty=1
   p+="$symbol_conflicted "
 
-  p+="$color_inactive"
-  (( VCS_STATUS_NUM_UNSTAGED_DELETED )) && p+="$color_active_unstaged$VCS_STATUS_NUM_UNSTAGED_DELETED" && dirty=1
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+  (( VCS_STATUS_NUM_UNSTAGED_DELETED )) && p+="%${PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}F$VCS_STATUS_NUM_UNSTAGED_DELETED" && dirty=1
   p+="$symbol_deleted "
 
-  p+="$color_inactive"
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
   (( unstaged_count = VCS_STATUS_NUM_UNSTAGED - VCS_STATUS_NUM_UNSTAGED_DELETED ))
-  (( $unstaged_count )) && p+="$color_active_unstaged$unstaged_count" && dirty=1
+  (( $unstaged_count )) && p+="%${PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}F$unstaged_count" && dirty=1
   p+="$symbol_modified "
 
-  p+="$color_inactive"
-  (( VCS_STATUS_NUM_STAGED_NEW )) && p+="$color_active_staged$VCS_STATUS_NUM_STAGED_NEW" && dirty=1
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+  (( VCS_STATUS_NUM_STAGED_NEW )) && p+="%${PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}F$VCS_STATUS_NUM_STAGED_NEW" && dirty=1
   p+="$symbol_added_staged "
 
-  p+="$color_inactive"
-  (( VCS_STATUS_NUM_STAGED_DELETED )) && p+="$color_active_staged$VCS_STATUS_NUM_STAGED_DELETED" && dirty=1
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+  (( VCS_STATUS_NUM_STAGED_DELETED )) && p+="%${PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}F$VCS_STATUS_NUM_STAGED_DELETED" && dirty=1
   p+="$symbol_deleted_staged "
 
-  p+="$color_inactive"
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
   (( added_staged_count = VCS_STATUS_NUM_STAGED - VCS_STATUS_NUM_STAGED_NEW - VCS_STATUS_NUM_STAGED_DELETED ))
-  (( added_staged_count )) && p+="$color_active_staged$added_staged_count" && dirty=1
+  (( added_staged_count )) && p+="%${PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}F$added_staged_count" && dirty=1
   p+="$symbol_modified_staged"
 
   w=' '
   if (( $dirty )); then
-    w+="${color_where}"
+    w+="%${PORCELAIN_PROMPT_COLOR_WHERE}F"
   else
-    w+="$color_inactive"
+    w+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
   fi
 
   if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
@@ -113,20 +120,20 @@ function gitstatus_prompt_update() {
 
   [[ -n $VCS_STATUS_TAG ]] && w+="$symbol_tag$VCS_STATUS_TAG "
 
-  w+="$color_inactive"
+  w+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
   if [[ -z $VCS_STATUS_REMOTE_BRANCH ]]; then
-    w+="${color_remote}local"
+    w+="${PORCELAIN_PROMPT_COLOR_REMOTE}local"
   else
-    (( VCS_STATUS_COMMITS_BEHIND )) && w+="$color_where$VCS_STATUS_COMMITS_BEHIND"
+    (( VCS_STATUS_COMMITS_BEHIND )) && w+="%${PORCELAIN_PROMPT_COLOR_WHERE}F$VCS_STATUS_COMMITS_BEHIND"
     w+="$symbol_behind "
 
-    (( VCS_STATUS_COMMITS_AHEAD )) && w+="$color_remote$VCS_STATUS_COMMITS_AHEAD"
+    (( VCS_STATUS_COMMITS_AHEAD )) && w+="%${PORCELAIN_PROMPT_COLOR_REMOTE}F$VCS_STATUS_COMMITS_AHEAD"
     w+="$symbol_ahead "
 
     if [[ $VCS_STATUS_LOCAL_BRANCH != $VCS_STATUS_REMOTE_BRANCH ]]; then
-      w+="$color_remote${VCS_STATUS_REMOTE_NAME}/${VCS_STATUS_REMOTE_BRANCH}"
+      w+="%${PORCELAIN_PROMPT_COLOR_REMOTE}F${VCS_STATUS_REMOTE_NAME}/${VCS_STATUS_REMOTE_BRANCH}"
     elif [[ $VCS_STATUS_REMOTE_NAME != 'origin' ]]; then
-      w+="$color_remote$VCS_STATUS_REMOTE_NAME"
+      w+="%${PORCELAIN_PROMPT_COLOR_REMOTE}F$VCS_STATUS_REMOTE_NAME"
     fi
   fi
 
@@ -136,8 +143,8 @@ function gitstatus_prompt_update() {
     p+="$w"
   fi
 
-  p+="$color_inactive"
-  [[ -n $VCS_STATUS_ACTION ]] && p+=" $color_action$VCS_STATUS_ACTION"
+  p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+  [[ -n $VCS_STATUS_ACTION ]] && p+=" %${PORCELAIN_PROMPT_COLOR_ACTION}F$VCS_STATUS_ACTION"
 
   (( PORCELAIN_PROMPT_SHOW_TOOL_NAMES )) && GITSTATUS_PROMPT+="Git "
   GITSTATUS_PROMPT+="${p}%f"
@@ -170,17 +177,16 @@ if [[ ${(%):-%m} != $PORCELAIN_PROMPT_DEFAULT_HOST ]]; then
 fi
 
 if (( _porcelain_prompt_not_default_user || _porcelain_prompt_not_default_host )); then
-  PROMPT+='%70F'
-  (( _porcelain_prompt_not_default_user )) && PROMPT+='%n'
-  (( _porcelain_prompt_not_default_host )) && PROMPT+='@%m'
-  PROMPT+='%f '
+  (( _porcelain_prompt_not_default_user )) && PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_USER}%n$f'
+  (( _porcelain_prompt_not_default_host )) && PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_HOST}@%m%f'
+  PROMPT+=' '
 fi
 
 # time
 PROMPT+=$'%* '
 
 # cwd
-PROMPT+='%39F%2~%f'
+PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_CWD}%2~%f'
 
 # ref
 PROMPT+='${WHERE:+$WHERE}'
@@ -191,4 +197,4 @@ PROMPT+='${GITSTATUS_PROMPT:+$GITSTATUS_PROMPT
 }'
 
 # prompt. %/# (normal/root); green/red (ok/error)
-PROMPT+='%F{%(?.76.196)}%#%f '
+PROMPT+='%F{%(?.$PORCELAIN_PROMPT_COLOR_SUCCESS.$PORCELAIN_PROMPT_COLOR_FAIL)}%#%f '
