@@ -8,6 +8,8 @@
 
 PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=${PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=1}
 PORCELAIN_PROMPT_SHOW_TOOL_NAMES=${PORCELAIN_PROMPT_SHOW_TOOL_NAMES=0}
+PORCELAIN_PROMPT_DEFAULT_USER=${PORCELAIN_PROMPT_DEFAULT_USER:-}
+PORCELAIN_PROMPT_DEFAULT_HOST=${PORCELAIN_PROMPT_DEFAULT_HOST:-}
 
 function if_not_zero() {
   [ "$1" = 0 ] && echo "$1"
@@ -156,7 +158,23 @@ PROMPT=
 PROMPT+=$'\n'
 
 # user@host
-PROMPT+='%70F%n@%m%f '
+_porcelain_prompt_not_default_user=0
+_porcelain_prompt_not_default_host=0
+
+if [[ ${(%):-%n} != $PORCELAIN_PROMPT_DEFAULT_USER ]]; then
+  _porcelain_prompt_not_default_user=1
+fi
+
+if [[ ${(%):-%m} != $PORCELAIN_PROMPT_DEFAULT_HOST ]]; then
+  _porcelain_prompt_not_default_host=1
+fi
+
+if (( _porcelain_prompt_not_default_user || _porcelain_prompt_not_default_host )); then
+  PROMPT+='%70F'
+  (( _porcelain_prompt_not_default_user )) && PROMPT+='%n'
+  (( _porcelain_prompt_not_default_host )) && PROMPT+='@%m'
+  PROMPT+='%f '
+fi
 
 # time
 PROMPT+=$'%* '
