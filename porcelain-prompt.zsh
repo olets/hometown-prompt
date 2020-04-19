@@ -109,9 +109,7 @@ function gitstatus_prompt_update() {
   fi
   w+="$ref "
 
-  if [[ -n $VCS_STATUS_TAG ]]; then
-    w+="@$VCS_STATUS_TAG "
-  fi
+  [[ -n $VCS_STATUS_TAG ]] && w+="$symbol_tag$VCS_STATUS_TAG "
 
   w+="$color_inactive"
   if [[ -z $VCS_STATUS_REMOTE_BRANCH ]]; then
