@@ -141,7 +141,7 @@ function gitstatus_prompt_update() {
     w+="$PORCELAIN_PROMPT_SYMBOL_AHEAD "
 
     if [[ $VCS_STATUS_LOCAL_BRANCH != $VCS_STATUS_REMOTE_BRANCH ]]; then
-      w+="%${PORCELAIN_PROMPT_COLOR_REMOTE}F${VCS_STATUS_REMOTE_BRANCH}"
+      w+="%${PORCELAIN_PROMPT_COLOR_REMOTE}F${PORCELAIN_PROMPT_SYMBOL_BRANCH}${VCS_STATUS_REMOTE_BRANCH}"
 
       if (( not_default_remote )); then
         w+="/"
