@@ -61,11 +61,16 @@ function gitstatus_prompt_update() {
   [[ $VCS_STATUS_RESULT == 'ok-sync' ]] || return 0  # not a git repo
 
   local added_staged_count
-  local p
-  local w
-  local unstaged_count
-  local node_version=''
   local dirty=0
+  local node_version=''
+  local not_default_remote=0
+  local p
+  local unstaged_count
+  local w
+
+  if [[ $VCS_STATUS_REMOTE_NAME != $PORCELAIN_PROMPT_DEFAULT_REMOTE ]]; then
+    not_default_remote=1
+  fi
 
   p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
   (( VCS_STATUS_STASHES )) && p+="%${PORCELAIN_PROMPT_COLOR_STASH}F$VCS_STATUS_STASHES"
@@ -136,8 +141,15 @@ function gitstatus_prompt_update() {
     w+="$PORCELAIN_PROMPT_SYMBOL_AHEAD "
 
     if [[ $VCS_STATUS_LOCAL_BRANCH != $VCS_STATUS_REMOTE_BRANCH ]]; then
-      w+="%${PORCELAIN_PROMPT_COLOR_REMOTE}F${VCS_STATUS_REMOTE_NAME}/${VCS_STATUS_REMOTE_BRANCH}"
-    elif [[ $VCS_STATUS_REMOTE_NAME != $PORCELAIN_PROMPT_DEFAULT_REMOTE ]]; then
+      w+="%${PORCELAIN_PROMPT_COLOR_REMOTE}F${VCS_STATUS_REMOTE_BRANCH}"
+
+      if (( not_default_remote )); then
+        w+="/"
+      fi
+      w+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
+    fi
+
+    if (( not_default_remote )); then
       w+="%${PORCELAIN_PROMPT_COLOR_REMOTE}F$VCS_STATUS_REMOTE_NAME"
     fi
   fi
