@@ -47,11 +47,21 @@ function gitstatus_prompt_update() {
   local symbol_behind='⇣'
   local symbol_ahead='⇡'
   local symbol_stash=''
+  local symbol_assume_unchanged=' '
+  local symbol_skip_worktree=' '
   local dirty=0
 
   p+="$color_inactive"
   (( VCS_STATUS_STASHES )) && p+="$color_stash$VCS_STATUS_STASHES"
   p+="$symbol_stash "
+
+  p+="$color_inactive"
+  (( VCS_STATUS_NUM_ASSUME_UNCHANGED )) && p+="$color_stash$VCS_STATUS_NUM_ASSUME_UNCHANGED"
+  p+="$symbol_assume_unchanged "
+
+  p+="$color_inactive"
+  (( VCS_STATUS_NUM_SKIP_WORKTREE )) && p+="$color_stash$VCS_STATUS_NUM_SKIP_WORKTREE"
+  p+="$symbol_skip_worktree "
 
   p+="$color_inactive"
   (( VCS_STATUS_NUM_UNTRACKED )) && p+="$color_active_unstaged$VCS_STATUS_NUM_UNTRACKED" && dirty=1
