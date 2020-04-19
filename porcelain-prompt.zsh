@@ -2,93 +2,134 @@
 # https://github.com/olets/porcelain-prompt
 # Copyright (c) 2019-2020 Henry Bley-Vroman
 #
-# Forked from gitstatus prompt
+# Forked from and requires gitstatus prompt
 # https://github.com/romkatv/gitstatus
 
-# Simple Zsh prompt with Git status.
 
-# Source gitstatus.plugin.zsh from $GITSTATUS_DIR or from the same directory
-# in which the current script resides if the variable isn't set.
-source "${GITSTATUS_DIR:-${${(%):-%x}:h}}/gitstatus.plugin.zsh" || return
+_PROMPT_GIT_REF_ON_DIR_LINE=${_PROMPT_GIT_REF_ON_DIR_LINE=1}
+_PROMPT_SHOW_TOOL_NAMES=${_PROMPT_SHOW_TOOL_NAMES=0}
 
-# Sets GITSTATUS_PROMPT to reflect the state of the current git repository. Empty if not
-# in a git repository. In addition, sets GITSTATUS_PROMPT_LEN to the number of columns
-# $GITSTATUS_PROMPT will occupy when printed.
-#
-# Example:
-#
-#   GITSTATUS_PROMPT='master ⇣42⇡42 ⇠42⇢42 *42 merge ~42 +42 !42 ?42'
-#   GITSTATUS_PROMPT_LEN=39
-#
-#   master  current branch
-#      ⇣42  local branch is 42 commits behind the remote
-#      ⇡42  local branch is 42 commits ahead of the remote
-#      ⇠42  local branch is 42 commits behind the push remote
-#      ⇢42  local branch is 42 commits ahead of the push remote
-#      *42  42 stashes
-#    merge  merge in progress
-#      ~42  42 merge conflicts
-#      +42  42 staged changes
-#      !42  42 unstaged changes
-#      ?42  42 untracked files
+function if_not_zero() {
+  [ "$1" = 0 ] && echo "$1"
+}
+
 function gitstatus_prompt_update() {
   emulate -L zsh
-  typeset -g  GITSTATUS_PROMPT=''
-  typeset -gi GITSTATUS_PROMPT_LEN=0
+  typeset -g GITSTATUS_PROMPT=''
+  typeset -g WHERE=
 
   # Call gitstatus_query synchronously. Note that gitstatus_query can also be called
   # asynchronously; see documentation in gitstatus.plugin.zsh.
   gitstatus_query 'MY'                  || return 1  # error
   [[ $VCS_STATUS_RESULT == 'ok-sync' ]] || return 0  # not a git repo
 
-  local      clean='%76F'   # green foreground
-  local   modified='%178F'  # yellow foreground
-  local  untracked='%39F'   # blue foreground
-  local conflicted='%196F'  # red foreground
-
+  local added_staged_count
   local p
+  local w
+  local unstaged_count
+  local node_version=''
 
-  local where  # branch name, tag or commit
-  if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
-    where=$VCS_STATUS_LOCAL_BRANCH
-  elif [[ -n $VCS_STATUS_TAG ]]; then
-    p+='%f#'
-    where=$VCS_STATUS_TAG
+  local color_inactive='%248F'
+  local color_action='%199F'
+  local color_active_staged='%2F'
+  local color_active_unstaged='%1F'
+  local color_remote='%216F'
+  local color_where='%140F'
+  local color_stash='%81F'
+
+  local symbol_modified='_M'
+  local symbol_modified_staged='M_'
+  local symbol_added='??'
+  local symbol_added_staged='A_'
+  local symbol_deleted='_D'
+  local symbol_deleted_staged='D_'
+  local symbol_conflicted='UU'
+  local symbol_behind='⇣'
+  local symbol_ahead='⇡'
+  local symbol_stash=''
+  local dirty=0
+
+  p+="$color_inactive"
+  (( VCS_STATUS_STASHES )) && p+="$color_stash$VCS_STATUS_STASHES"
+  p+="$symbol_stash "
+
+  p+="$color_inactive"
+  (( VCS_STATUS_NUM_UNTRACKED )) && p+="$color_active_unstaged$VCS_STATUS_NUM_UNTRACKED" && dirty=1
+  p+="$symbol_added "
+
+  p+="$color_inactive"
+  (( VCS_STATUS_NUM_CONFLICTED )) && p+="$color_active_unstaged$VCS_STATUS_NUM_CONFLICTED" && dirty=1
+  p+="$symbol_conflicted "
+
+  p+="$color_inactive"
+  (( VCS_STATUS_NUM_UNSTAGED_DELETED )) && p+="$color_active_unstaged$VCS_STATUS_NUM_UNSTAGED_DELETED" && dirty=1
+  p+="$symbol_deleted "
+
+  p+="$color_inactive"
+  (( unstaged_count = VCS_STATUS_NUM_UNSTAGED - VCS_STATUS_NUM_UNSTAGED_DELETED ))
+  (( $unstaged_count )) && p+="$color_active_unstaged$unstaged_count" && dirty=1
+  p+="$symbol_modified "
+
+  p+="$color_inactive"
+  (( VCS_STATUS_NUM_STAGED_NEW )) && p+="$color_active_staged$VCS_STATUS_NUM_STAGED_NEW" && dirty=1
+  p+="$symbol_added_staged "
+
+  p+="$color_inactive"
+  (( VCS_STATUS_NUM_STAGED_DELETED )) && p+="$color_active_staged$VCS_STATUS_NUM_STAGED_DELETED" && dirty=1
+  p+="$symbol_deleted_staged "
+
+  p+="$color_inactive"
+  (( added_staged_count = VCS_STATUS_NUM_STAGED - VCS_STATUS_NUM_STAGED_NEW - VCS_STATUS_NUM_STAGED_DELETED ))
+  (( added_staged_count )) && p+="$color_active_staged$added_staged_count" && dirty=1
+  p+="$symbol_modified_staged"
+
+  w=' '
+  if (( $dirty )); then
+    w+="${color_where}"
   else
-    p+='%f@'
-    where=${VCS_STATUS_COMMIT[1,8]}
+    w+="$color_inactive"
   fi
 
-  (( $#where > 32 )) && where[13,-13]="…"  # truncate long branch names and tags
-  p+="${clean}${where//\%/%%}"             # escape %
+  if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
+    ref="$VCS_STATUS_LOCAL_BRANCH"
+  else
+    ref=${VCS_STATUS_COMMIT[1,8]}
+  fi
+  # w+='#'
+  w+="$ref "
 
-  # ⇣42 if behind the remote.
-  (( VCS_STATUS_COMMITS_BEHIND )) && p+=" ${clean}⇣${VCS_STATUS_COMMITS_BEHIND}"
-  # ⇡42 if ahead of the remote; no leading space if also behind the remote: ⇣42⇡42.
-  (( VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )) && p+=" "
-  (( VCS_STATUS_COMMITS_AHEAD  )) && p+="${clean}⇡${VCS_STATUS_COMMITS_AHEAD}"
-  # ⇠42 if behind the push remote.
-  (( VCS_STATUS_PUSH_COMMITS_BEHIND )) && p+=" ${clean}⇠${VCS_STATUS_PUSH_COMMITS_BEHIND}"
-  (( VCS_STATUS_PUSH_COMMITS_AHEAD && !VCS_STATUS_PUSH_COMMITS_BEHIND )) && p+=" "
-  # ⇢42 if ahead of the push remote; no leading space if also behind: ⇠42⇢42.
-  (( VCS_STATUS_PUSH_COMMITS_AHEAD  )) && p+="${clean}⇢${VCS_STATUS_PUSH_COMMITS_AHEAD}"
-  # *42 if have stashes.
-  (( VCS_STATUS_STASHES        )) && p+=" ${clean}*${VCS_STATUS_STASHES}"
-  # 'merge' if the repo is in an unusual state.
-  [[ -n $VCS_STATUS_ACTION     ]] && p+=" ${conflicted}${VCS_STATUS_ACTION}"
-  # ~42 if have merge conflicts.
-  (( VCS_STATUS_NUM_CONFLICTED )) && p+=" ${conflicted}~${VCS_STATUS_NUM_CONFLICTED}"
-  # +42 if have staged changes.
-  (( VCS_STATUS_NUM_STAGED     )) && p+=" ${modified}+${VCS_STATUS_NUM_STAGED}"
-  # !42 if have unstaged changes.
-  (( VCS_STATUS_NUM_UNSTAGED   )) && p+=" ${modified}!${VCS_STATUS_NUM_UNSTAGED}"
-  # ?42 if have untracked files. It's really a question mark, your font isn't broken.
-  (( VCS_STATUS_NUM_UNTRACKED  )) && p+=" ${untracked}?${VCS_STATUS_NUM_UNTRACKED}"
+  if [[ -n $VCS_STATUS_TAG ]]; then
+    w+="@$VCS_STATUS_TAG "
+  fi
 
-  GITSTATUS_PROMPT="${p}%f"
+  w+="$color_inactive"
+  if [[ -z $VCS_STATUS_REMOTE_BRANCH ]]; then
+    w+="${color_remote}local"
+  else
+    (( VCS_STATUS_COMMITS_BEHIND )) && w+="$color_where$VCS_STATUS_COMMITS_BEHIND"
+    w+="$symbol_behind "
 
-  # The length of GITSTATUS_PROMPT after removing %f and %F.
-  GITSTATUS_PROMPT_LEN="${(m)#${${GITSTATUS_PROMPT//\%\%/x}//\%(f|<->F)}}"
+    (( VCS_STATUS_COMMITS_AHEAD )) && w+="$color_remote$VCS_STATUS_COMMITS_AHEAD"
+    w+="$symbol_ahead "
+
+    if [[ $VCS_STATUS_LOCAL_BRANCH != $VCS_STATUS_REMOTE_BRANCH ]]; then
+      w+="$color_remote${VCS_STATUS_REMOTE_NAME}/${VCS_STATUS_REMOTE_BRANCH}"
+    elif [[ $VCS_STATUS_REMOTE_NAME != 'origin' ]]; then
+      w+="$color_remote$VCS_STATUS_REMOTE_NAME"
+    fi
+  fi
+
+  if (( _PROMPT_GIT_REF_ON_DIR_LINE )); then
+    WHERE="${w}%f"
+  else
+    p+="$w"
+  fi
+
+  p+="$color_inactive"
+  [[ -n $VCS_STATUS_ACTION ]] && p+=" $color_action$VCS_STATUS_ACTION"
+
+  (( _PROMPT_SHOW_TOOL_NAMES )) && GITSTATUS_PROMPT+="Git "
+  GITSTATUS_PROMPT+="${p}%f"
 }
 
 # Start gitstatusd instance with name "MY". The same name is passed to
@@ -100,19 +141,27 @@ gitstatus_stop 'MY' && gitstatus_start -s -1 -u -1 -c -1 -d -1 'MY'
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd gitstatus_prompt_update
 
-# Enable/disable the right prompt options.
-setopt no_prompt_bang prompt_percent prompt_subst
+# Build the prompt
+#
+PROMPT=
+PROMPT+=$'\n'
 
-# Customize prompt. Put $GITSTATUS_PROMPT in it to reflect git status.
-#
-# Example:
-#
-#   user@host ~/projects/skynet master ⇡42
-#   % █
-#
-# The current directory gets truncated from the left if the whole prompt doesn't fit on the line.
-PROMPT='%70F%n@%m%f '                                  # green user@host
-PROMPT+='%39F%$((-GITSTATUS_PROMPT_LEN-1))<…<%~%<<%f'  # blue current working directory
-PROMPT+='${GITSTATUS_PROMPT:+ $GITSTATUS_PROMPT}'      # git status
-PROMPT+=$'\n'                                          # new line
-PROMPT+='%F{%(?.76.196)}%#%f '                         # %/# (normal/root); green/red (ok/error)
+# user@host
+PROMPT+='%70F%n@%m%f '
+
+# time
+PROMPT+=$'%* '
+
+# cwd
+PROMPT+='%39F%2~%f'
+
+# ref
+PROMPT+='${WHERE:+$WHERE}'
+PROMPT+=$'\n'
+
+# status
+PROMPT+='${GITSTATUS_PROMPT:+$GITSTATUS_PROMPT
+}'
+
+# prompt. %/# (normal/root); green/red (ok/error)
+PROMPT+='%F{%(?.76.196)}%#%f '
