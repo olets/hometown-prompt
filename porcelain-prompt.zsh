@@ -46,9 +46,9 @@ function gitstatus_prompt_update() {
   local symbol_conflicted='UU'
   local symbol_behind='↓'
   local symbol_ahead='↑'
-  local symbol_stash='⇲'
-  local symbol_assume_unchanged='⥱'
-  local symbol_skip_worktree='⤳'
+  local symbol_stash='⇲ '
+  local symbol_assume_unchanged='⥱ '
+  local symbol_skip_worktree='⤳ '
   local dirty=0
   local symbol_branch='#'
   local symbol_commit='•'
