@@ -50,6 +50,8 @@ function gitstatus_prompt_update() {
   local symbol_assume_unchanged=' '
   local symbol_skip_worktree=' '
   local dirty=0
+  local symbol_branch='#'
+  local symbol_commit='•'
 
   p+="$color_inactive"
   (( VCS_STATUS_STASHES )) && p+="$color_stash$VCS_STATUS_STASHES"
@@ -101,11 +103,10 @@ function gitstatus_prompt_update() {
   fi
 
   if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
-    ref="$VCS_STATUS_LOCAL_BRANCH"
+    ref="$symbol_branch$VCS_STATUS_LOCAL_BRANCH"
   else
-    ref=${VCS_STATUS_COMMIT[1,8]}
+    ref=$symbol_commit${VCS_STATUS_COMMIT[1,8]}
   fi
-  # w+='#'
   w+="$ref "
 
   if [[ -n $VCS_STATUS_TAG ]]; then
