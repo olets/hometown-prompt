@@ -12,6 +12,9 @@ PORCELAIN_PROMPT_DEFAULT_USER=${PORCELAIN_PROMPT_DEFAULT_USER:=}
 PORCELAIN_PROMPT_DEFAULT_HOST=${PORCELAIN_PROMPT_DEFAULT_HOST:=}
 PORCELAIN_PROMPT_CWD=${PORCELAIN_PROMPT_CWD:=%2~}
 
+# Configurable symbols
+PORCELAIN_PROMPT_SYMBOL_HOST=${PORCELAIN_PROMPT_SYMBOL_HOST:=@}
+
 # Configurable colors
 PORCELAIN_PROMPT_COLOR_ACTION=${PORCELAIN_PROMPT_COLOR_ACTION:=199}
 PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED=${PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED:=2}
@@ -47,7 +50,6 @@ function gitstatus_prompt_update() {
   local w
   local unstaged_count
   local node_version=''
-
 
   local symbol_modified='_M'
   local symbol_modified_staged='M_'
@@ -181,7 +183,7 @@ fi
 
 if (( _porcelain_prompt_not_default_user || _porcelain_prompt_not_default_host )); then
   (( _porcelain_prompt_not_default_user )) && PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_USER}%n$f'
-  (( _porcelain_prompt_not_default_host )) && PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_HOST}@%m%f'
+  (( _porcelain_prompt_not_default_host )) && PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_HOST}${PORCELAIN_PROMPT_SYMBOL_HOST}%m%f'
   PROMPT+=' '
 fi
 
