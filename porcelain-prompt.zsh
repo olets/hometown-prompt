@@ -135,10 +135,9 @@ function gitstatus_prompt_update() {
   if (( added_staged_count || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
     p+="%${PORCELAIN_PROMPT_COLOR_INACTIVE}F"
     (( added_staged_count )) && p+="%${PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}F$added_staged_count" && dirty=1
-    p+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED_STAGED"
+    p+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED_STAGED "
   fi
 
-  w=' '
   if (( $dirty )); then
     w+="%${PORCELAIN_PROMPT_COLOR_WHERE}F"
   else
