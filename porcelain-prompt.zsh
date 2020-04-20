@@ -1,6 +1,6 @@
 # Porcelain Prompt
 # https://github.com/olets/porcelain-prompt
-# Copyright (c) 2019-2020 Henry Bley-Vroman
+# Copyright (section_context) 2019-2020 Henry Bley-Vroman
 #
 # Forked from and requires gitstatus prompt
 # https://github.com/romkatv/gitstatus
@@ -61,8 +61,6 @@ function if_porcelain_prompt_not_zero() {
 
 function gitstatus_prompt_update() {
   emulate -L zsh
-  typeset -g GITSTATUS_PROMPT=''
-  typeset -g WHERE
 
   # Call gitstatus_query synchronously. Note that gitstatus_query can also be called
   # asynchronously; see documentation in gitstatus.plugin.zsh.
@@ -71,15 +69,23 @@ function gitstatus_prompt_update() {
 
   # Set variables for later use
 
+  typeset -g _PORCELAIN_PROMPT_GIT_STATUS=
+  # global _PORCELAIN_PROMPT_GIT_WHERE created conditionally later
+
   local added_staged_count
   local dirty=0
   local node_version=''
   local not_default_remote=0
-  local p # used while building the prompt
+  local section_action
+  local section_context
+  local section_status
+  local section_where
   local unstaged_count
-  local w # used while building the "where" (Git commitish, tag, relation to remote)
 
   (( added_staged_count = VCS_STATUS_NUM_STAGED - VCS_STATUS_NUM_STAGED_NEW - VCS_STATUS_NUM_STAGED_DELETED ))
+  dirty=0
+  node_version=''
+  not_default_remote=0
   (( unstaged_count = VCS_STATUS_NUM_UNSTAGED - VCS_STATUS_NUM_UNSTAGED_DELETED ))
 
   if [[ $VCS_STATUS_REMOTE_NAME != $PORCELAIN_PROMPT_DEFAULT_REMOTE ]]; then
@@ -89,89 +95,89 @@ function gitstatus_prompt_update() {
   # Git status: stashes
 
   if (( VCS_STATUS_STASHES || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( VCS_STATUS_STASHES )) && p+="%F{$PORCELAIN_PROMPT_COLOR_STASH}$VCS_STATUS_STASHES"
-    p+="$PORCELAIN_PROMPT_SYMBOL_STASH "
+    section_context+="%F{PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( VCS_STATUS_STASHES )) && section_context+="%F{$PORCELAIN_PROMPT_COLOR_STASH}$VCS_STATUS_STASHES"
+    section_context+="$PORCELAIN_PROMPT_SYMBOL_STASH "
   fi
 
   # Git status: files with the assume-unchanged bit set
 
   if (( VCS_STATUS_NUM_ASSUME_UNCHANGED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( VCS_STATUS_NUM_ASSUME_UNCHANGED )) && p+="%F{$PORCELAIN_PROMPT_COLOR_ASSUME_UNCHANGED}$VCS_STATUS_NUM_ASSUME_UNCHANGED"
-    p+="$PORCELAIN_PROMPT_SYMBOL_ASSUME_UNCHANGED "
+    section_context+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( VCS_STATUS_NUM_ASSUME_UNCHANGED )) && section_context+="%F{$PORCELAIN_PROMPT_COLOR_ASSUME_UNCHANGED}$VCS_STATUS_NUM_ASSUME_UNCHANGED"
+    section_context+="$PORCELAIN_PROMPT_SYMBOL_ASSUME_UNCHANGED "
   fi
 
   # Git status: files with the skip-worktree bit set
 
   if (( VCS_STATUS_NUM_SKIP_WORKTREE || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( VCS_STATUS_NUM_SKIP_WORKTREE )) && p+="%F{$PORCELAIN_PROMPT_COLOR_SKIP_WORKTREE}$VCS_STATUS_NUM_SKIP_WORKTREE"
-    p+="$PORCELAIN_PROMPT_SYMBOL_SKIP_WORKTREE "
+    section_context+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( VCS_STATUS_NUM_SKIP_WORKTREE )) && section_context+="%F{$PORCELAIN_PROMPT_COLOR_SKIP_WORKTREE}$VCS_STATUS_NUM_SKIP_WORKTREE"
+    section_context+="$PORCELAIN_PROMPT_SYMBOL_SKIP_WORKTREE "
   fi
 
   # Git status: unstaged added (new) files
 
   if (( VCS_STATUS_NUM_UNTRACKED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( VCS_STATUS_NUM_UNTRACKED )) && p+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$VCS_STATUS_NUM_UNTRACKED" && dirty=1
-    p+="$PORCELAIN_PROMPT_SYMBOL_ADDED "
+    section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( VCS_STATUS_NUM_UNTRACKED )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$VCS_STATUS_NUM_UNTRACKED" && dirty=1
+    section_status+="$PORCELAIN_PROMPT_SYMBOL_ADDED "
   fi
 
   # Git status: conflicted files
 
   if (( VCS_STATUS_NUM_CONFLICTED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( VCS_STATUS_NUM_CONFLICTED )) && p+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$VCS_STATUS_NUM_CONFLICTED" && dirty=1
-    p+="$PORCELAIN_PROMPT_SYMBOL_CONFLICTED "
+    section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( VCS_STATUS_NUM_CONFLICTED )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$VCS_STATUS_NUM_CONFLICTED" && dirty=1
+    section_status+="$PORCELAIN_PROMPT_SYMBOL_CONFLICTED "
   fi
 
   # Git status: unstaged deleted files
 
   if (( VCS_STATUS_NUM_UNSTAGED_DELETED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( VCS_STATUS_NUM_UNSTAGED_DELETED )) && p+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$VCS_STATUS_NUM_UNSTAGED_DELETED" && dirty=1
-    p+="$PORCELAIN_PROMPT_SYMBOL_DELETED "
+    section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( VCS_STATUS_NUM_UNSTAGED_DELETED )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$VCS_STATUS_NUM_UNSTAGED_DELETED" && dirty=1
+    section_status+="$PORCELAIN_PROMPT_SYMBOL_DELETED "
   fi
 
   # Git status: unstaged modified files
 
   if (( unstaged_count || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( $unstaged_count )) && p+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$unstaged_count" && dirty=1
-    p+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED "
+    section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( $unstaged_count )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$unstaged_count" && dirty=1
+    section_status+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED "
   fi
 
   # Git status: staged added (new) files
 
   if (( VCS_STATUS_NUM_STAGED_NEW || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( VCS_STATUS_NUM_STAGED_NEW )) && p+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}$VCS_STATUS_NUM_STAGED_NEW" && dirty=1
-    p+="$PORCELAIN_PROMPT_SYMBOL_ADDED_STAGED "
+    section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( VCS_STATUS_NUM_STAGED_NEW )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}$VCS_STATUS_NUM_STAGED_NEW" && dirty=1
+    section_status+="$PORCELAIN_PROMPT_SYMBOL_ADDED_STAGED "
   fi
 
   # Git status: staged deleted files
 
   if (( VCS_STATUS_NUM_STAGED_DELETED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( VCS_STATUS_NUM_STAGED_DELETED )) && p+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}$VCS_STATUS_NUM_STAGED_DELETED" && dirty=1
-    p+="$PORCELAIN_PROMPT_SYMBOL_DELETED_STAGED "
+    section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( VCS_STATUS_NUM_STAGED_DELETED )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}$VCS_STATUS_NUM_STAGED_DELETED" && dirty=1
+    section_status+="$PORCELAIN_PROMPT_SYMBOL_DELETED_STAGED "
   fi
 
   # Git status: staged modified files
 
   if (( added_staged_count || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-    p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-    (( added_staged_count )) && p+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}$added_staged_count" && dirty=1
-    p+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED_STAGED "
+    section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    (( added_staged_count )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}$added_staged_count" && dirty=1
+    section_status+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED_STAGED "
   fi
 
   # Git "where": colorize if Git status is dirty
 
   if (( dirty )); then
-    w+="%F{$PORCELAIN_PROMPT_COLOR_WHERE}"
+    section_where+="%F{$PORCELAIN_PROMPT_COLOR_WHERE}"
   else
-    w+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    section_where+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
   fi
 
   # Git "where": committish
@@ -183,63 +189,67 @@ function gitstatus_prompt_update() {
   #   If HEAD is detached, show the commit.
 
   if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
-    w+="$PORCELAIN_PROMPT_SYMBOL_BRANCH$VCS_STATUS_LOCAL_BRANCH "
+    section_where+="$PORCELAIN_PROMPT_SYMBOL_BRANCH$VCS_STATUS_LOCAL_BRANCH "
 
-    w+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+    section_where+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     if [[ -z $VCS_STATUS_REMOTE_BRANCH ]]; then
-      w+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}local "
+      section_where+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}local "
     else
       if (( VCS_STATUS_COMMITS_BEHIND || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-        (( VCS_STATUS_COMMITS_BEHIND )) && w+="%F{$PORCELAIN_PROMPT_COLOR_WHERE}$VCS_STATUS_COMMITS_BEHIND"
-        w+="$PORCELAIN_PROMPT_SYMBOL_BEHIND "
+        (( VCS_STATUS_COMMITS_BEHIND )) && section_where+="%F{$PORCELAIN_PROMPT_COLOR_WHERE}$VCS_STATUS_COMMITS_BEHIND"
+        section_where+="$PORCELAIN_PROMPT_SYMBOL_BEHIND "
       fi
 
       if (( VCS_STATUS_COMMITS_AHEAD || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
-        (( VCS_STATUS_COMMITS_AHEAD )) && w+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}$VCS_STATUS_COMMITS_AHEAD"
-        w+="$PORCELAIN_PROMPT_SYMBOL_AHEAD "
+        (( VCS_STATUS_COMMITS_AHEAD )) && section_where+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}$VCS_STATUS_COMMITS_AHEAD"
+        section_where+="$PORCELAIN_PROMPT_SYMBOL_AHEAD "
       fi
 
       if [[ $VCS_STATUS_LOCAL_BRANCH != $VCS_STATUS_REMOTE_BRANCH ]]; then
-        w+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}${PORCELAIN_PROMPT_SYMBOL_BRANCH}${VCS_STATUS_REMOTE_BRANCH}"
+        section_where+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}${PORCELAIN_PROMPT_SYMBOL_BRANCH}${VCS_STATUS_REMOTE_BRANCH}"
 
         if (( not_default_remote )); then
-          w+="/"
+          section_where+="/"
         fi
-        w+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+        section_where+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
       fi
 
       if (( not_default_remote )); then
-        w+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}$VCS_STATUS_REMOTE_NAME "
+        section_where+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}$VCS_STATUS_REMOTE_NAME "
       fi
     fi
   else
-    w+="$PORCELAIN_PROMPT_SYMBOL_COMMIT${VCS_STATUS_COMMIT[1,8]} "
+    section_where+="$PORCELAIN_PROMPT_SYMBOL_COMMIT${VCS_STATUS_COMMIT[1,8]} "
   fi
 
   # Git "where": tag
 
-  w+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-  [[ -n $VCS_STATUS_TAG ]] && w+="%F{$PORCELAIN_PROMPT_COLOR_TAG}$PORCELAIN_PROMPT_SYMBOL_TAG$VCS_STATUS_TAG "
+  section_where+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+  [[ -n $VCS_STATUS_TAG ]] && section_where+="%F{$PORCELAIN_PROMPT_COLOR_TAG}$PORCELAIN_PROMPT_SYMBOL_TAG$VCS_STATUS_TAG "
+
+  # Git status: action (e.g. rebasing)
+
+  section_action+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
+  [[ -n $VCS_STATUS_ACTION ]] && section_action+=" %F{$PORCELAIN_PROMPT_COLOR_ACTION}$VCS_STATUS_ACTION"
+
+  # Assemble sections
 
   # Git "where": placement
   # If showing inline with directory, save for later use in prompt build;
   # otherwise add to the Git prompt
 
   if (( PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE )); then
-    WHERE="${w}%f"
+    typeset -g _PORCELAIN_PROMPT_GIT_WHERE=
+
+    _PORCELAIN_PROMPT_GIT_STATUS+="$section_context$section_status$section_action%f"
+    _PORCELAIN_PROMPT_GIT_WHERE="$section_where%f"
   else
-    p+="$w"
+    _PORCELAIN_PROMPT_GIT_STATUS+="$section_context$section_status$section_where$section_action%f"
   fi
 
-  # Git status: action (e.g. rebasing)
-
-  p+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
-  [[ -n $VCS_STATUS_ACTION ]] && p+=" %F{$PORCELAIN_PROMPT_COLOR_ACTION}$VCS_STATUS_ACTION"
-
   # Git: optionally prefix prompt
-  (( PORCELAIN_PROMPT_HIDE_TOOL_NAMES )) || GITSTATUS_PROMPT+="Git "
 
-  GITSTATUS_PROMPT+="${p}%f"
+  (( PORCELAIN_PROMPT_HIDE_TOOL_NAMES )) || _PORCELAIN_PROMPT_GIT_STATUS+="Git $_PORCELAIN_PROMPT_GIT_STATUS"
 }
 
 # Call to gitstatus external command
@@ -249,7 +259,7 @@ function gitstatus_prompt_update() {
 # enable staged, unstaged, conflicted and untracked counters.
 gitstatus_stop 'MY' && gitstatus_start -s -1 -u -1 -c -1 -d -1 'MY'
 
-# On every prompt, fetch git status and set GITSTATUS_PROMPT.
+# On every prompt, fetch git status and set _PORCELAIN_PROMPT_GIT_STATUS.
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd gitstatus_prompt_update
 
@@ -291,12 +301,12 @@ PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_CWD}$PORCELAIN_PROMPT_CWD%f'
 
 # Git "where" if on same line as CWD
 
-PROMPT+='${WHERE:+ $WHERE}'
+PROMPT+='${_PORCELAIN_PROMPT_GIT_WHERE:+ $_PORCELAIN_PROMPT_GIT_WHERE}'
 PROMPT+=$'\n'
 
 # Git status (includes "where" if not on same line as CWD)
 
-PROMPT+='${GITSTATUS_PROMPT:+$GITSTATUS_PROMPT
+PROMPT+='${_PORCELAIN_PROMPT_GIT_STATUS:+$_PORCELAIN_PROMPT_GIT_STATUS
 }'
 
 # Prompt character: % if normal, # if root (has configurable colors for status code of the previous command)
