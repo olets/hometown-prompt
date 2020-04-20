@@ -94,7 +94,7 @@ function gitstatus_prompt_update() {
 
   # Git status: stashes
 
-  if (( VCS_STATUS_STASHES || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_STASHES )); then
     section_context+="%F{PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( VCS_STATUS_STASHES )) && section_context+="%F{$PORCELAIN_PROMPT_COLOR_STASH}$VCS_STATUS_STASHES"
     section_context+="$PORCELAIN_PROMPT_SYMBOL_STASH "
@@ -102,7 +102,7 @@ function gitstatus_prompt_update() {
 
   # Git status: files with the assume-unchanged bit set
 
-  if (( VCS_STATUS_NUM_ASSUME_UNCHANGED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_NUM_ASSUME_UNCHANGED )); then
     section_context+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( VCS_STATUS_NUM_ASSUME_UNCHANGED )) && section_context+="%F{$PORCELAIN_PROMPT_COLOR_ASSUME_UNCHANGED}$VCS_STATUS_NUM_ASSUME_UNCHANGED"
     section_context+="$PORCELAIN_PROMPT_SYMBOL_ASSUME_UNCHANGED "
@@ -110,7 +110,7 @@ function gitstatus_prompt_update() {
 
   # Git status: files with the skip-worktree bit set
 
-  if (( VCS_STATUS_NUM_SKIP_WORKTREE || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_NUM_SKIP_WORKTREE )); then
     section_context+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( VCS_STATUS_NUM_SKIP_WORKTREE )) && section_context+="%F{$PORCELAIN_PROMPT_COLOR_SKIP_WORKTREE}$VCS_STATUS_NUM_SKIP_WORKTREE"
     section_context+="$PORCELAIN_PROMPT_SYMBOL_SKIP_WORKTREE "
@@ -118,7 +118,7 @@ function gitstatus_prompt_update() {
 
   # Git status: unstaged added (new) files
 
-  if (( VCS_STATUS_NUM_UNTRACKED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_NUM_UNTRACKED )); then
     section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( VCS_STATUS_NUM_UNTRACKED )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$VCS_STATUS_NUM_UNTRACKED" && dirty=1
     section_status+="$PORCELAIN_PROMPT_SYMBOL_ADDED "
@@ -126,7 +126,7 @@ function gitstatus_prompt_update() {
 
   # Git status: conflicted files
 
-  if (( VCS_STATUS_NUM_CONFLICTED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_NUM_CONFLICTED )); then
     section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( VCS_STATUS_NUM_CONFLICTED )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$VCS_STATUS_NUM_CONFLICTED" && dirty=1
     section_status+="$PORCELAIN_PROMPT_SYMBOL_CONFLICTED "
@@ -134,7 +134,7 @@ function gitstatus_prompt_update() {
 
   # Git status: unstaged deleted files
 
-  if (( VCS_STATUS_NUM_UNSTAGED_DELETED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_NUM_UNSTAGED_DELETED )); then
     section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( VCS_STATUS_NUM_UNSTAGED_DELETED )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$VCS_STATUS_NUM_UNSTAGED_DELETED" && dirty=1
     section_status+="$PORCELAIN_PROMPT_SYMBOL_DELETED "
@@ -142,7 +142,7 @@ function gitstatus_prompt_update() {
 
   # Git status: unstaged modified files
 
-  if (( unstaged_count || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || unstaged_count )); then
     section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( $unstaged_count )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_UNSTAGED}$unstaged_count" && dirty=1
     section_status+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED "
@@ -150,7 +150,7 @@ function gitstatus_prompt_update() {
 
   # Git status: staged added (new) files
 
-  if (( VCS_STATUS_NUM_STAGED_NEW || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_NUM_STAGED_NEW )); then
     section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( VCS_STATUS_NUM_STAGED_NEW )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}$VCS_STATUS_NUM_STAGED_NEW" && dirty=1
     section_status+="$PORCELAIN_PROMPT_SYMBOL_ADDED_STAGED "
@@ -158,7 +158,7 @@ function gitstatus_prompt_update() {
 
   # Git status: staged deleted files
 
-  if (( VCS_STATUS_NUM_STAGED_DELETED || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_NUM_STAGED_DELETED )); then
     section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( VCS_STATUS_NUM_STAGED_DELETED )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}$VCS_STATUS_NUM_STAGED_DELETED" && dirty=1
     section_status+="$PORCELAIN_PROMPT_SYMBOL_DELETED_STAGED "
@@ -166,7 +166,7 @@ function gitstatus_prompt_update() {
 
   # Git status: staged modified files
 
-  if (( added_staged_count || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+  if (( PORCELAIN_PROMPT_SHOW_INACTIVE || added_staged_count )); then
     section_status+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
     (( added_staged_count )) && section_status+="%F{$PORCELAIN_PROMPT_COLOR_ACTIVE_STAGED}$added_staged_count" && dirty=1
     section_status+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED_STAGED "
@@ -195,12 +195,12 @@ function gitstatus_prompt_update() {
     if [[ -z $VCS_STATUS_REMOTE_BRANCH ]]; then
       section_where+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}local "
     else
-      if (( VCS_STATUS_COMMITS_BEHIND || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+      if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_COMMITS_BEHIND )); then
         (( VCS_STATUS_COMMITS_BEHIND )) && section_where+="%F{$PORCELAIN_PROMPT_COLOR_WHERE}$VCS_STATUS_COMMITS_BEHIND"
         section_where+="$PORCELAIN_PROMPT_SYMBOL_BEHIND "
       fi
 
-      if (( VCS_STATUS_COMMITS_AHEAD || PORCELAIN_PROMPT_SHOW_INACTIVE )); then
+      if (( PORCELAIN_PROMPT_SHOW_INACTIVE || VCS_STATUS_COMMITS_AHEAD )); then
         (( VCS_STATUS_COMMITS_AHEAD )) && section_where+="%F{$PORCELAIN_PROMPT_COLOR_REMOTE}$VCS_STATUS_COMMITS_AHEAD"
         section_where+="$PORCELAIN_PROMPT_SYMBOL_AHEAD "
       fi
