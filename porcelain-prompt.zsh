@@ -62,6 +62,7 @@ function if_porcelain_prompt_not_zero() {
 
 function gitstatus_prompt_update() {
   emulate -L zsh
+  typeset -g _PORCELAIN_PROMPT_GIT_STATUS=
 
   # Call gitstatus_query synchronously. Note that gitstatus_query can also be called
   # asynchronously; see documentation in gitstatus.plugin.zsh.
@@ -70,7 +71,6 @@ function gitstatus_prompt_update() {
 
   # Set variables for later use
 
-  typeset -g _PORCELAIN_PROMPT_GIT_STATUS=
   # global _PORCELAIN_PROMPT_GIT_WHERE created conditionally later
 
   local added_staged_count
