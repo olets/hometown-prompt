@@ -282,20 +282,19 @@ function _git_prompt_kit_update_git() {
 }
 
 _git_prompt_kit_build_prompt() {
-  local prompt
+  local git_prompt_kit_not_default_user=0
+  local git_prompt_kit_not_default_host=0
+  local prompt=
+
   # Build the prompt
 
   # Blank line
 
-  prompt=
   prompt+=$'\n'
 
   # User info
   # Show user if not the default (has configurable color)
   # Show host if not the default (has configurable color and prefix)
-
-  _git_prompt_kit_not_default_user=0
-  _git_prompt_kit_not_default_host=0
 
   if [[ ${(%):-%n} != $GIT_PROMPT_KIT_DEFAULT_USER ]]; then
     _git_prompt_kit_not_default_user=1
