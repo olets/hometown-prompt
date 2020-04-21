@@ -73,13 +73,13 @@ function _git_prompt_kit_update_git() {
 
   # Set variables for later use
 
-  local action
+  local action_status
   local added_staged_count
   local dirty=0
-  local files
   local not_default_remote=0
+  local ref_status
+  local tree_status
   local unstaged_count
-  local ref
 
   typeset -g GIT_PROMPT_KIT_STASHES=
   typeset -g GIT_PROMPT_KIT_ASSUMED_UNCHANGED=
@@ -105,7 +105,7 @@ function _git_prompt_kit_update_git() {
     not_default_remote=1
   fi
 
-  # Git file status: stashes
+  # Git tree status: stashes
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT || VCS_STATUS_STASHES )); then
     GIT_PROMPT_KIT_STASHES+="%F{GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -113,7 +113,7 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_STASHES+="$GIT_PROMPT_KIT_SYMBOL_STASH"
   fi
 
-  # Git file status: files with the assume-unchanged bit set
+  # Git tree status: files with the assume-unchanged bit set
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT || VCS_STATUS_NUM_ASSUME_UNCHANGED )); then
     GIT_PROMPT_KIT_ASSUMED_UNCHANGED+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -121,7 +121,7 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_ASSUMED_UNCHANGED+="$GIT_PROMPT_KIT_SYMBOL_ASSUME_UNCHANGED"
   fi
 
-  # Git file status: files with the skip-worktree bit set
+  # Git tree status: files with the skip-worktree bit set
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT || VCS_STATUS_NUM_SKIP_WORKTREE )); then
     GIT_PROMPT_KIT_SKIP_WORKTREE+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -129,7 +129,7 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_SKIP_WORKTREE+="$GIT_PROMPT_KIT_SYMBOL_SKIP_WORKTREE"
   fi
 
-  # Git file status: unstaged added (new) files
+  # Git tree status: unstaged added (new) files
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_UNTRACKED )); then
     GIT_PROMPT_KIT_ADDED+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -137,7 +137,7 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_ADDED+="$GIT_PROMPT_KIT_SYMBOL_ADDED"
   fi
 
-  # Git file status: conflicted files
+  # Git tree status: conflicted files
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_CONFLICTED )); then
     GIT_PROMPT_KIT_CONFLICTED+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -145,7 +145,7 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_CONFLICTED+="$GIT_PROMPT_KIT_SYMBOL_CONFLICTED"
   fi
 
-  # Git file status: unstaged deleted files
+  # Git tree status: unstaged deleted files
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_UNSTAGED_DELETED )); then
     GIT_PROMPT_KIT_DELETED+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -153,7 +153,7 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_DELETED+="$GIT_PROMPT_KIT_SYMBOL_DELETED"
   fi
 
-  # Git file status: unstaged modified files
+  # Git tree status: unstaged modified files
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS || unstaged_count )); then
     GIT_PROMPT_KIT_MODIFIED+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -161,7 +161,7 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_MODIFIED+="$GIT_PROMPT_KIT_SYMBOL_MODIFIED"
   fi
 
-  # Git file status: staged added (new) files
+  # Git tree status: staged added (new) files
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_STAGED_NEW )); then
     GIT_PROMPT_KIT_ADDED_STAGED+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -169,7 +169,7 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_ADDED_STAGED+="$GIT_PROMPT_KIT_SYMBOL_ADDED_STAGED"
   fi
 
-  # Git file status: staged deleted files
+  # Git tree status: staged deleted files
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_STAGED_DELETED )); then
     GIT_PROMPT_KIT_DELETED_STAGED+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -177,7 +177,7 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_DELETED_STAGED+="$GIT_PROMPT_KIT_SYMBOL_DELETED_STAGED"
   fi
 
-  # Git file status: staged modified files
+  # Git tree status: staged modified files
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS || added_staged_count )); then
     GIT_PROMPT_KIT_MODIFIED_STAGED+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
@@ -237,40 +237,40 @@ function _git_prompt_kit_update_git() {
 
   [[ -n $VCS_STATUS_TAG ]] && GIT_PROMPT_KIT_TAG+="%F{$GIT_PROMPT_KIT_COLOR_TAG}$GIT_PROMPT_KIT_SYMBOL_TAG$VCS_STATUS_TAG%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
 
-  # Git status: action (e.g. rebasing)
+  # Git status: action_status (e.g. rebasing)
 
   [[ -n $VCS_STATUS_ACTION ]] && GIT_PROMPT_KIT_ACTION+="%F{$GIT_PROMPT_KIT_COLOR_ACTION}$VCS_STATUS_ACTION%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
 
   if (( GIT_PROMPT_KIT_SET_PROMPT )); then
     # If setting the prompt, assemble sections
 
-    action+="${GIT_PROMPT_KIT_ACTION:+$GIT_PROMPT_KIT_ACTION}"
+    action_status+="${GIT_PROMPT_KIT_ACTION:+$GIT_PROMPT_KIT_ACTION}"
 
-    files+="${GIT_PROMPT_KIT_STASHES:+$GIT_PROMPT_KIT_STASHES }"
-    files+="${GIT_PROMPT_KIT_ASSUMED_UNCHANGED:+$GIT_PROMPT_KIT_ASSUMED_UNCHANGED }"
-    files+="${GIT_PROMPT_KIT_SKIP_WORKTREE:+$GIT_PROMPT_KIT_SKIP_WORKTREE }"
-    files+="${GIT_PROMPT_KIT_ADDED:+$GIT_PROMPT_KIT_ADDED }"
-    files+="${GIT_PROMPT_KIT_CONFLICTED:+$GIT_PROMPT_KIT_CONFLICTED }"
-    files+="${GIT_PROMPT_KIT_DELETED:+$GIT_PROMPT_KIT_DELETED }"
-    files+="${GIT_PROMPT_KIT_MODIFIED:+$GIT_PROMPT_KIT_MODIFIED }"
-    files+="${GIT_PROMPT_KIT_ADDED_STAGED:+$GIT_PROMPT_KIT_ADDED_STAGED }"
-    files+="${GIT_PROMPT_KIT_DELETED_STAGED:+$GIT_PROMPT_KIT_DELETED_STAGED }"
-    files+="${GIT_PROMPT_KIT_MODIFIED_STAGED:+$GIT_PROMPT_KIT_MODIFIED_STAGED }"
+    tree_status+="${GIT_PROMPT_KIT_STASHES:+$GIT_PROMPT_KIT_STASHES }"
+    tree_status+="${GIT_PROMPT_KIT_ASSUMED_UNCHANGED:+$GIT_PROMPT_KIT_ASSUMED_UNCHANGED }"
+    tree_status+="${GIT_PROMPT_KIT_SKIP_WORKTREE:+$GIT_PROMPT_KIT_SKIP_WORKTREE }"
+    tree_status+="${GIT_PROMPT_KIT_ADDED:+$GIT_PROMPT_KIT_ADDED }"
+    tree_status+="${GIT_PROMPT_KIT_CONFLICTED:+$GIT_PROMPT_KIT_CONFLICTED }"
+    tree_status+="${GIT_PROMPT_KIT_DELETED:+$GIT_PROMPT_KIT_DELETED }"
+    tree_status+="${GIT_PROMPT_KIT_MODIFIED:+$GIT_PROMPT_KIT_MODIFIED }"
+    tree_status+="${GIT_PROMPT_KIT_ADDED_STAGED:+$GIT_PROMPT_KIT_ADDED_STAGED }"
+    tree_status+="${GIT_PROMPT_KIT_DELETED_STAGED:+$GIT_PROMPT_KIT_DELETED_STAGED }"
+    tree_status+="${GIT_PROMPT_KIT_MODIFIED_STAGED:+$GIT_PROMPT_KIT_MODIFIED_STAGED }"
 
-    ref+="${GIT_PROMPT_KIT_TAG:+$GIT_PROMPT_KIT_TAG }"
-    ref+="${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }"
-    ref+="${GIT_PROMPT_KIT_BEHIND:+$GIT_PROMPT_KIT_BEHIND }"
-    ref+="${GIT_PROMPT_KIT_AHEAD:+$GIT_PROMPT_KIT_AHEAD }"
-    ref+="${GIT_PROMPT_KIT_UPSTREAM:+$GIT_PROMPT_KIT_UPSTREAM}"
+    ref_status+="${GIT_PROMPT_KIT_TAG:+$GIT_PROMPT_KIT_TAG }"
+    ref_status+="${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }"
+    ref_status+="${GIT_PROMPT_KIT_BEHIND:+$GIT_PROMPT_KIT_BEHIND }"
+    ref_status+="${GIT_PROMPT_KIT_AHEAD:+$GIT_PROMPT_KIT_AHEAD }"
+    ref_status+="${GIT_PROMPT_KIT_UPSTREAM:+$GIT_PROMPT_KIT_UPSTREAM}"
 
     # Git ref status: placement
     # If showing inline with directory, save for later use in prompt build;
     # otherwise add to the Git prompt
     if (( GIT_PROMPT_KIT_GIT_REF_ON_DIR_LINE )); then
-      _GIT_PROMPT_KIT_GIT_STATUS+="$files$action%f"
-      _GIT_PROMPT_KIT_GIT_WHERE="$ref%f"
+      _GIT_PROMPT_KIT_GIT_STATUS+="$tree_status$action_status%f"
+      _GIT_PROMPT_KIT_GIT_WHERE="$ref_status%f"
     else
-      _GIT_PROMPT_KIT_GIT_STATUS+="$files$ref$action%f"
+      _GIT_PROMPT_KIT_GIT_STATUS+="$tree_status$ref_status$action_status%f"
     fi
 
     _GIT_PROMPT_KIT_GIT_STATUS+=$'\n'
