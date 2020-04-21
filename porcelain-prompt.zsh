@@ -12,6 +12,7 @@ PORCELAIN_PROMPT_DEFAULT_HOST=${PORCELAIN_PROMPT_DEFAULT_HOST-}
 PORCELAIN_PROMPT_DEFAULT_REMOTE=${PORCELAIN_PROMPT_DEFAULT_REMOTE:-origin}
 PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE=${PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE:-1}
 PORCELAIN_PROMPT_HIDE_TOOL_NAMES=${PORCELAIN_PROMPT_HIDE_TOOL_NAMES:-1}
+PORCELAIN_PROMPT_SET_PROMPT=${PORCELAIN_PROMPT_SET_PROMPT:-1}
 PORCELAIN_PROMPT_SHOW_INACTIVE_CONTEXT=${PORCELAIN_PROMPT_SHOW_INACTIVE_CONTEXT:-1}
 PORCELAIN_PROMPT_SHOW_INACTIVE_STATUS=${PORCELAIN_PROMPT_SHOW_INACTIVE_STATUS:-1}
 
@@ -60,7 +61,7 @@ function if_porcelain_prompt_not_zero() {
   [ "$1" = 0 ] && echo "$1"
 }
 
-function gitstatus_prompt_update() {
+function _porcelain_prompt_update_git() {
   emulate -L zsh
   typeset -g _PORCELAIN_PROMPT_GIT_STATUS=
   typeset -g _PORCELAIN_PROMPT_GIT_WHERE=
@@ -71,7 +72,6 @@ function gitstatus_prompt_update() {
   [[ $VCS_STATUS_RESULT == 'ok-sync' ]] || return 0  # not a git repo
 
   # Set variables for later use
-
   # global _PORCELAIN_PROMPT_GIT_WHERE created conditionally later
 
   local added_staged_count
@@ -247,68 +247,75 @@ function gitstatus_prompt_update() {
     _PORCELAIN_PROMPT_GIT_STATUS+="$section_context$section_status$section_where$section_action%f"
   fi
 
+  _PORCELAIN_PROMPT_GIT_STATUS+=$'\n'
+
   # Git: optionally prefix prompt
 
   (( PORCELAIN_PROMPT_HIDE_TOOL_NAMES )) || _PORCELAIN_PROMPT_GIT_STATUS+="Git $_PORCELAIN_PROMPT_GIT_STATUS"
 }
 
+_porcelain_prompt_build_prompt() {
+  local prompt
+  # Build the prompt
+
+  # Blank line
+
+  prompt=
+  prompt+=$'\n'
+
+  # User info
+  # Show user if not the default (has configurable color)
+  # Show host if not the default (has configurable color and prefix)
+
+  _porcelain_prompt_not_default_user=0
+  _porcelain_prompt_not_default_host=0
+
+  if [[ ${(%):-%n} != $PORCELAIN_PROMPT_DEFAULT_USER ]]; then
+    _porcelain_prompt_not_default_user=1
+  fi
+
+  if [[ ${(%):-%m} != $PORCELAIN_PROMPT_DEFAULT_HOST ]]; then
+    _porcelain_prompt_not_default_host=1
+  fi
+
+  if (( _porcelain_prompt_not_default_user || _porcelain_prompt_not_default_host )); then
+    (( _porcelain_prompt_not_default_user )) && prompt+='%F{$PORCELAIN_PROMPT_COLOR_USER}%n$f'
+    (( _porcelain_prompt_not_default_host )) && prompt+='%F{$PORCELAIN_PROMPT_COLOR_HOST}${PORCELAIN_PROMPT_SYMBOL_HOST}%m%f'
+    prompt+=' '
+  fi
+
+  # Time
+
+  prompt+=$'%* '
+
+  # CWD (has configurable color, relative root, and depth)
+
+  prompt+='%F{$PORCELAIN_PROMPT_COLOR_CWD}$PORCELAIN_PROMPT_CWD%f'
+
+  # Git "where" if on same line as CWD
+
+  prompt+='${_PORCELAIN_PROMPT_GIT_WHERE:+ $_PORCELAIN_PROMPT_GIT_WHERE}'
+  prompt+=$'\n'
+
+  # Git status (includes "where" if not on same line as CWD)
+
+  prompt+='${_PORCELAIN_PROMPT_GIT_STATUS:+$_PORCELAIN_PROMPT_GIT_STATUS}'
+
+  # Prompt character: % if normal, # if root (has configurable colors for status code of the previous command)
+
+  prompt+='%F{%(?.$PORCELAIN_PROMPT_COLOR_SUCCESS.$PORCELAIN_PROMPT_COLOR_FAIL)}%#%f '
+  echo $prompt
+}
+
 # Call to gitstatus external command
 
 # Start gitstatusd instance with name "MY". The same name is passed to
-# gitstatus_query in gitstatus_prompt_update. The flags with -1 as values
+# gitstatus_query in _porcelain_prompt_update_git. The flags with -1 as values
 # enable staged, unstaged, conflicted and untracked counters.
 gitstatus_stop 'MY' && gitstatus_start -s -1 -u -1 -c -1 -d -1 'MY'
 
 # On every prompt, fetch git status and set _PORCELAIN_PROMPT_GIT_STATUS.
 autoload -Uz add-zsh-hook
-add-zsh-hook precmd gitstatus_prompt_update
+add-zsh-hook precmd _porcelain_prompt_update_git
 
-# Build the prompt
-
-# Blank line
-
-PROMPT=
-PROMPT+=$'\n'
-
-# User info
-# Show user if not the default (has configurable color)
-# Show host if not the default (has configurable color and prefix)
-
-_porcelain_prompt_not_default_user=0
-_porcelain_prompt_not_default_host=0
-
-if [[ ${(%):-%n} != $PORCELAIN_PROMPT_DEFAULT_USER ]]; then
-  _porcelain_prompt_not_default_user=1
-fi
-
-if [[ ${(%):-%m} != $PORCELAIN_PROMPT_DEFAULT_HOST ]]; then
-  _porcelain_prompt_not_default_host=1
-fi
-
-if (( _porcelain_prompt_not_default_user || _porcelain_prompt_not_default_host )); then
-  (( _porcelain_prompt_not_default_user )) && PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_USER}%n$f'
-  (( _porcelain_prompt_not_default_host )) && PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_HOST}${PORCELAIN_PROMPT_SYMBOL_HOST}%m%f'
-  PROMPT+=' '
-fi
-
-# Time
-
-PROMPT+=$'%* '
-
-# CWD (has configurable color, relative root, and depth)
-
-PROMPT+='%F{$PORCELAIN_PROMPT_COLOR_CWD}$PORCELAIN_PROMPT_CWD%f'
-
-# Git "where" if on same line as CWD
-
-PROMPT+='${_PORCELAIN_PROMPT_GIT_WHERE:+ $_PORCELAIN_PROMPT_GIT_WHERE}'
-PROMPT+=$'\n'
-
-# Git status (includes "where" if not on same line as CWD)
-
-PROMPT+='${_PORCELAIN_PROMPT_GIT_STATUS:+$_PORCELAIN_PROMPT_GIT_STATUS
-}'
-
-# Prompt character: % if normal, # if root (has configurable colors for status code of the previous command)
-
-PROMPT+='%F{%(?.$PORCELAIN_PROMPT_COLOR_SUCCESS.$PORCELAIN_PROMPT_COLOR_FAIL)}%#%f '
+(( PORCELAIN_PROMPT_SET_PROMPT )) && PROMPT=$(_porcelain_prompt_build_prompt)
