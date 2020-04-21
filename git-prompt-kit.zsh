@@ -77,7 +77,6 @@ function _git_prompt_kit_update_git() {
   local added_staged_count
   local dirty=0
   local files
-  local node_version=''
   local not_default_remote=0
   local unstaged_count
   local ref
@@ -100,9 +99,6 @@ function _git_prompt_kit_update_git() {
   typeset -g GIT_PROMPT_KIT_ACTION=
 
   (( added_staged_count = VCS_STATUS_NUM_STAGED - VCS_STATUS_NUM_STAGED_NEW - VCS_STATUS_NUM_STAGED_DELETED ))
-  dirty=0
-  node_version=''
-  not_default_remote=0
   (( unstaged_count = VCS_STATUS_NUM_UNSTAGED - VCS_STATUS_NUM_UNSTAGED_DELETED ))
 
   if [[ $VCS_STATUS_REMOTE_NAME != $GIT_PROMPT_KIT_DEFAULT_REMOTE ]]; then
