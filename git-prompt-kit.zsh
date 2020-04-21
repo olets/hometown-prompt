@@ -258,11 +258,11 @@ function _git_prompt_kit_update_git() {
     tree_status+="${GIT_PROMPT_KIT_DELETED_STAGED:+$GIT_PROMPT_KIT_DELETED_STAGED }"
     tree_status+="${GIT_PROMPT_KIT_MODIFIED_STAGED:+$GIT_PROMPT_KIT_MODIFIED_STAGED }"
 
-    ref_status+="${GIT_PROMPT_KIT_TAG:+$GIT_PROMPT_KIT_TAG }"
     ref_status+="${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }"
     ref_status+="${GIT_PROMPT_KIT_BEHIND:+$GIT_PROMPT_KIT_BEHIND }"
     ref_status+="${GIT_PROMPT_KIT_AHEAD:+$GIT_PROMPT_KIT_AHEAD }"
-    ref_status+="${GIT_PROMPT_KIT_UPSTREAM:+$GIT_PROMPT_KIT_UPSTREAM}"
+    ref_status+="${GIT_PROMPT_KIT_UPSTREAM:+$GIT_PROMPT_KIT_UPSTREAM }"
+    ref_status+="${GIT_PROMPT_KIT_TAG:+$GIT_PROMPT_KIT_TAG}"
 
     # Git: optionally prefix prompt
 
