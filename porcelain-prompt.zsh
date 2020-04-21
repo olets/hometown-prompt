@@ -63,6 +63,7 @@ function if_porcelain_prompt_not_zero() {
 function gitstatus_prompt_update() {
   emulate -L zsh
   typeset -g _PORCELAIN_PROMPT_GIT_STATUS=
+  typeset -g _PORCELAIN_PROMPT_GIT_WHERE=
 
   # Call gitstatus_query synchronously. Note that gitstatus_query can also be called
   # asynchronously; see documentation in gitstatus.plugin.zsh.
@@ -240,8 +241,6 @@ function gitstatus_prompt_update() {
   # otherwise add to the Git prompt
 
   if (( PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE )); then
-    typeset -g _PORCELAIN_PROMPT_GIT_WHERE=
-
     _PORCELAIN_PROMPT_GIT_STATUS+="$section_context$section_status$section_action%f"
     _PORCELAIN_PROMPT_GIT_WHERE="$section_where%f"
   else
