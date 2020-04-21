@@ -72,15 +72,15 @@ function _porcelain_prompt_update_git() {
   [[ $VCS_STATUS_RESULT == 'ok-sync' ]] || return 0  # not a git repo
 
   # Set variables for later use
-  # global _PORCELAIN_PROMPT_GIT_WHERE created conditionally later
 
+  local action
   local added_staged_count
   local dirty=0
+  local files
   local node_version=''
   local not_default_remote=0
-  local s
   local unstaged_count
-  local where
+  local ref
 
   typeset -g PORCELAIN_PROMPT_STASHES=
   typeset -g PORCELAIN_PROMPT_ASSUMED_UNCHANGED=
@@ -109,7 +109,7 @@ function _porcelain_prompt_update_git() {
     not_default_remote=1
   fi
 
-  # Git status: stashes
+  # Git file status: stashes
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_CONTEXT || VCS_STATUS_STASHES )); then
     PORCELAIN_PROMPT_STASHES+="%F{PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -117,7 +117,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_STASHES+="$PORCELAIN_PROMPT_SYMBOL_STASH"
   fi
 
-  # Git status: files with the assume-unchanged bit set
+  # Git file status: files with the assume-unchanged bit set
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_CONTEXT || VCS_STATUS_NUM_ASSUME_UNCHANGED )); then
     PORCELAIN_PROMPT_ASSUMED_UNCHANGED+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -125,7 +125,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_ASSUMED_UNCHANGED+="$PORCELAIN_PROMPT_SYMBOL_ASSUME_UNCHANGED"
   fi
 
-  # Git status: files with the skip-worktree bit set
+  # Git file status: files with the skip-worktree bit set
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_CONTEXT || VCS_STATUS_NUM_SKIP_WORKTREE )); then
     PORCELAIN_PROMPT_SKIP_WORKTREE+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -133,7 +133,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_SKIP_WORKTREE+="$PORCELAIN_PROMPT_SYMBOL_SKIP_WORKTREE"
   fi
 
-  # Git status: unstaged added (new) files
+  # Git file status: unstaged added (new) files
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_UNTRACKED )); then
     PORCELAIN_PROMPT_ADDED+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -141,7 +141,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_ADDED+="$PORCELAIN_PROMPT_SYMBOL_ADDED"
   fi
 
-  # Git status: conflicted files
+  # Git file status: conflicted files
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_CONFLICTED )); then
     PORCELAIN_PROMPT_CONFLICTED+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -149,7 +149,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_CONFLICTED+="$PORCELAIN_PROMPT_SYMBOL_CONFLICTED"
   fi
 
-  # Git status: unstaged deleted files
+  # Git file status: unstaged deleted files
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_UNSTAGED_DELETED )); then
     PORCELAIN_PROMPT_DELETED+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -157,7 +157,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_DELETED+="$PORCELAIN_PROMPT_SYMBOL_DELETED"
   fi
 
-  # Git status: unstaged modified files
+  # Git file status: unstaged modified files
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_STATUS || unstaged_count )); then
     PORCELAIN_PROMPT_MODIFIED+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -165,7 +165,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_MODIFIED+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED"
   fi
 
-  # Git status: staged added (new) files
+  # Git file status: staged added (new) files
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_STAGED_NEW )); then
     PORCELAIN_PROMPT_ADDED_STAGED+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -173,7 +173,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_ADDED_STAGED+="$PORCELAIN_PROMPT_SYMBOL_ADDED_STAGED"
   fi
 
-  # Git status: staged deleted files
+  # Git file status: staged deleted files
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_STATUS || VCS_STATUS_NUM_STAGED_DELETED )); then
     PORCELAIN_PROMPT_DELETED_STAGED+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -181,7 +181,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_DELETED_STAGED+="$PORCELAIN_PROMPT_SYMBOL_DELETED_STAGED"
   fi
 
-  # Git status: staged modified files
+  # Git file status: staged modified files
 
   if (( PORCELAIN_PROMPT_SHOW_INACTIVE_STATUS || added_staged_count )); then
     PORCELAIN_PROMPT_MODIFIED_STAGED+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
@@ -189,7 +189,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_MODIFIED_STAGED+="$PORCELAIN_PROMPT_SYMBOL_MODIFIED_STAGED"
   fi
 
-  # Git "where": colorize if Git s is dirty
+  # Git ref status: colorize if Git s is dirty
 
   if (( dirty )); then
     PORCELAIN_PROMPT_HEAD+="%F{$PORCELAIN_PROMPT_COLOR_WHERE}"
@@ -197,7 +197,7 @@ function _porcelain_prompt_update_git() {
     PORCELAIN_PROMPT_HEAD+="%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
   fi
 
-  # Git "where": committish
+  # Git ref status:
   #   If HEAD is detached (i.e. on a branch), show the branch.
   #     If the branch has an upstream, show how many commit behind and ahead the local is.
   #     If the upstream's remote is not the default, show it.
@@ -237,7 +237,7 @@ function _porcelain_prompt_update_git() {
   PORCELAIN_PROMPT_HEAD="${PORCELAIN_PROMPT_HEAD}%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
   PORCELAIN_PROMPT_UPSTREAM="${PORCELAIN_PROMPT_UPSTREAM}%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
 
-  # Git "where": tag
+  # Git ref status: tag
 
   [[ -n $VCS_STATUS_TAG ]] && PORCELAIN_PROMPT_TAG+="%F{$PORCELAIN_PROMPT_COLOR_TAG}$PORCELAIN_PROMPT_SYMBOL_TAG$VCS_STATUS_TAG%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
 
@@ -245,35 +245,36 @@ function _porcelain_prompt_update_git() {
 
   [[ -n $VCS_STATUS_ACTION ]] && PORCELAIN_PROMPT_ACTION+="%F{$PORCELAIN_PROMPT_COLOR_ACTION}$VCS_STATUS_ACTION%F{$PORCELAIN_PROMPT_COLOR_INACTIVE}"
 
-  # Assemble sections
-
-  # Git "where": placement
-  # If showing inline with directory, save for later use in prompt build;
-  # otherwise add to the Git prompt
   if (( PORCELAIN_PROMPT_SET_PROMPT )); then
-    s+="${PORCELAIN_PROMPT_STASHES:+$PORCELAIN_PROMPT_STASHES }"
-    s+="${PORCELAIN_PROMPT_ASSUMED_UNCHANGED:+$PORCELAIN_PROMPT_ASSUMED_UNCHANGED }"
-    s+="${PORCELAIN_PROMPT_SKIP_WORKTREE:+$PORCELAIN_PROMPT_SKIP_WORKTREE }"
-    s+="${PORCELAIN_PROMPT_ADDED:+$PORCELAIN_PROMPT_ADDED }"
-    s+="${PORCELAIN_PROMPT_CONFLICTED:+$PORCELAIN_PROMPT_CONFLICTED }"
-    s+="${PORCELAIN_PROMPT_DELETED:+$PORCELAIN_PROMPT_DELETED }"
-    s+="${PORCELAIN_PROMPT_MODIFIED:+$PORCELAIN_PROMPT_MODIFIED }"
-    s+="${PORCELAIN_PROMPT_ADDED_STAGED:+$PORCELAIN_PROMPT_ADDED_STAGED }"
-    s+="${PORCELAIN_PROMPT_DELETED_STAGED:+$PORCELAIN_PROMPT_DELETED_STAGED }"
-    s+="${PORCELAIN_PROMPT_MODIFIED_STAGED:+$PORCELAIN_PROMPT_MODIFIED_STAGED }"
-    s+="${PORCELAIN_PROMPT_ACTION:+$PORCELAIN_PROMPT_ACTION}"
+    # If setting the prompt, assemble sections
 
-    where+="${PORCELAIN_PROMPT_TAG:+$PORCELAIN_PROMPT_TAG }"
-    where+="${PORCELAIN_PROMPT_HEAD:+$PORCELAIN_PROMPT_HEAD }"
-    where+="${PORCELAIN_PROMPT_BEHIND:+$PORCELAIN_PROMPT_BEHIND }"
-    where+="${PORCELAIN_PROMPT_AHEAD:+$PORCELAIN_PROMPT_AHEAD }"
-    where+="${PORCELAIN_PROMPT_UPSTREAM:+$PORCELAIN_PROMPT_UPSTREAM}"
+    action+="${PORCELAIN_PROMPT_ACTION:+$PORCELAIN_PROMPT_ACTION}"
 
+    files+="${PORCELAIN_PROMPT_STASHES:+$PORCELAIN_PROMPT_STASHES }"
+    files+="${PORCELAIN_PROMPT_ASSUMED_UNCHANGED:+$PORCELAIN_PROMPT_ASSUMED_UNCHANGED }"
+    files+="${PORCELAIN_PROMPT_SKIP_WORKTREE:+$PORCELAIN_PROMPT_SKIP_WORKTREE }"
+    files+="${PORCELAIN_PROMPT_ADDED:+$PORCELAIN_PROMPT_ADDED }"
+    files+="${PORCELAIN_PROMPT_CONFLICTED:+$PORCELAIN_PROMPT_CONFLICTED }"
+    files+="${PORCELAIN_PROMPT_DELETED:+$PORCELAIN_PROMPT_DELETED }"
+    files+="${PORCELAIN_PROMPT_MODIFIED:+$PORCELAIN_PROMPT_MODIFIED }"
+    files+="${PORCELAIN_PROMPT_ADDED_STAGED:+$PORCELAIN_PROMPT_ADDED_STAGED }"
+    files+="${PORCELAIN_PROMPT_DELETED_STAGED:+$PORCELAIN_PROMPT_DELETED_STAGED }"
+    files+="${PORCELAIN_PROMPT_MODIFIED_STAGED:+$PORCELAIN_PROMPT_MODIFIED_STAGED }"
+
+    ref+="${PORCELAIN_PROMPT_TAG:+$PORCELAIN_PROMPT_TAG }"
+    ref+="${PORCELAIN_PROMPT_HEAD:+$PORCELAIN_PROMPT_HEAD }"
+    ref+="${PORCELAIN_PROMPT_BEHIND:+$PORCELAIN_PROMPT_BEHIND }"
+    ref+="${PORCELAIN_PROMPT_AHEAD:+$PORCELAIN_PROMPT_AHEAD }"
+    ref+="${PORCELAIN_PROMPT_UPSTREAM:+$PORCELAIN_PROMPT_UPSTREAM}"
+
+    # Git ref status: placement
+    # If showing inline with directory, save for later use in prompt build;
+    # otherwise add to the Git prompt
     if (( PORCELAIN_PROMPT_GIT_REF_ON_DIR_LINE )); then
-      _PORCELAIN_PROMPT_GIT_STATUS+="$s%f"
-      _PORCELAIN_PROMPT_GIT_WHERE="$where%f"
+      _PORCELAIN_PROMPT_GIT_STATUS+="$files$action%f"
+      _PORCELAIN_PROMPT_GIT_WHERE="$ref%f"
     else
-      _PORCELAIN_PROMPT_GIT_STATUS+="$s$where%f"
+      _PORCELAIN_PROMPT_GIT_STATUS+="$files$ref$action%f"
     fi
 
     _PORCELAIN_PROMPT_GIT_STATUS+=$'\n'
