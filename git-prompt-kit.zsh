@@ -10,6 +10,7 @@ GIT_PROMPT_KIT_CWD=${GIT_PROMPT_KIT_CWD:-%2~} # see http://zsh.sourceforge.net/D
 GIT_PROMPT_KIT_DEFAULT_USER=${GIT_PROMPT_KIT_DEFAULT_USER-}
 GIT_PROMPT_KIT_DEFAULT_HOST=${GIT_PROMPT_KIT_DEFAULT_HOST-}
 GIT_PROMPT_KIT_DEFAULT_REMOTE=${GIT_PROMPT_KIT_DEFAULT_REMOTE:-origin}
+GIT_PROMPT_KIT_GIT_FILES_ON_OWN_LINE=${GIT_PROMPT_KIT_GIT_FILES_ON_OWN_LINE:-1}
 GIT_PROMPT_KIT_GIT_REF_ON_DIR_LINE=${GIT_PROMPT_KIT_GIT_REF_ON_DIR_LINE:-1}
 GIT_PROMPT_KIT_HIDE_TOOL_NAMES=${GIT_PROMPT_KIT_HIDE_TOOL_NAMES:-1}
 GIT_PROMPT_KIT_SET_PROMPT=${GIT_PROMPT_KIT_SET_PROMPT:-1}
@@ -63,8 +64,8 @@ function _git_prompt_kit_if_not_zero() {
 
 function _git_prompt_kit_update_git() {
   emulate -L zsh
-  typeset -g _GIT_PROMPT_KIT_GIT_STATUS=
-  typeset -g _GIT_PROMPT_KIT_GIT_WHERE=
+  typeset -g _GIT_PROMPT_KIT_GIT_SECOND_LINE=
+  typeset -g _GIT_PROMPT_KIT_GIT_FIRST_LINE=
 
   # Call gitstatus_query synchronously. Note that gitstatus_query can also be called
   # asynchronously; see documentation in gitstatus.plugin.zsh.
@@ -263,21 +264,24 @@ function _git_prompt_kit_update_git() {
     ref_status+="${GIT_PROMPT_KIT_AHEAD:+$GIT_PROMPT_KIT_AHEAD }"
     ref_status+="${GIT_PROMPT_KIT_UPSTREAM:+$GIT_PROMPT_KIT_UPSTREAM}"
 
-    # Git ref status: placement
-    # If showing inline with directory, save for later use in prompt build;
-    # otherwise add to the Git prompt
-    if (( GIT_PROMPT_KIT_GIT_REF_ON_DIR_LINE )); then
-      _GIT_PROMPT_KIT_GIT_STATUS+="$tree_status$action_status%f"
-      _GIT_PROMPT_KIT_GIT_WHERE="$ref_status%f"
-    else
-      _GIT_PROMPT_KIT_GIT_STATUS+="$tree_status$ref_status$action_status%f"
-    fi
-
-    _GIT_PROMPT_KIT_GIT_STATUS+=$'\n'
-
     # Git: optionally prefix prompt
 
-    (( GIT_PROMPT_KIT_HIDE_TOOL_NAMES )) || _GIT_PROMPT_KIT_GIT_STATUS+="Git $_GIT_PROMPT_KIT_GIT_STATUS"
+    (( GIT_PROMPT_KIT_HIDE_TOOL_NAMES )) || ref_status+="Git $ref_status"
+
+    if (( GIT_PROMPT_KIT_GIT_FILES_ON_OWN_LINE )); then
+      _GIT_PROMPT_KIT_GIT_SECOND_LINE="$tree_status"
+
+      if (( GIT_PROMPT_KIT_GIT_FILES_ON_OWN_LINE )); then
+        _GIT_PROMPT_KIT_GIT_FIRST_LINE="$ref_status"
+      else
+        _GIT_PROMPT_KIT_GIT_SECOND_LINE+="$ref_status"
+      fi
+
+      _GIT_PROMPT_KIT_GIT_SECOND_LINE+="$action_status%f"
+      _GIT_PROMPT_KIT_GIT_SECOND_LINE+=$'\n'
+    else
+      _GIT_PROMPT_KIT_GIT_FIRST_LINE="$ref_status$tree_status$action_status%f"
+    fi
   fi
 }
 
@@ -320,12 +324,12 @@ _git_prompt_kit_build_prompt() {
 
   # Git ref info if on same line as CWD
 
-  prompt+='${_GIT_PROMPT_KIT_GIT_WHERE:+ $_GIT_PROMPT_KIT_GIT_WHERE}'
+  prompt+='${_GIT_PROMPT_KIT_GIT_FIRST_LINE:+ $_GIT_PROMPT_KIT_GIT_FIRST_LINE}'
   prompt+=$'\n'
 
   # Git status (includes ref info if not on same line as CWD)
 
-  prompt+='${_GIT_PROMPT_KIT_GIT_STATUS:+$_GIT_PROMPT_KIT_GIT_STATUS}'
+  prompt+='${_GIT_PROMPT_KIT_GIT_SECOND_LINE:+$_GIT_PROMPT_KIT_GIT_SECOND_LINE}'
 
   # Prompt character: % if normal, # if root (has configurable colors for status code of the previous command)
 
@@ -340,7 +344,7 @@ _git_prompt_kit_build_prompt() {
 # enable staged, unstaged, conflicted and untracked counters.
 gitstatus_stop 'MY' && gitstatus_start -s -1 -u -1 -c -1 -d -1 'MY'
 
-# On every prompt, fetch git status and set _GIT_PROMPT_KIT_GIT_STATUS.
+# On every prompt, fetch git status and set _GIT_PROMPT_KIT_GIT_SECOND_LINE.
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _git_prompt_kit_update_git
 
