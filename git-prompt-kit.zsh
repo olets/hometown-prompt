@@ -66,6 +66,7 @@ function _git_prompt_kit_update_git() {
   emulate -L zsh
   typeset -g _GIT_PROMPT_KIT_GIT_SECOND_LINE=
   typeset -g _GIT_PROMPT_KIT_GIT_FIRST_LINE=
+  typeset -g _GIT_PROMPT_KIT_GIT_THIRD_LINE=
 
   # Call gitstatus_query synchronously. Note that gitstatus_query can also be called
   # asynchronously; see documentation in gitstatus.plugin.zsh.
@@ -74,13 +75,13 @@ function _git_prompt_kit_update_git() {
 
   # Set variables for later use
 
-  local action_status
-  local added_staged_count
+  local action_status=
+  local added_staged_count=
   local dirty=0
   local not_default_remote=0
-  local ref_status
-  local tree_status
-  local unstaged_count
+  local ref_status=
+  local tree_status=
+  local unstaged_count=
 
   typeset -g GIT_PROMPT_KIT_STASHES=
   typeset -g GIT_PROMPT_KIT_ASSUMED_UNCHANGED=
@@ -203,10 +204,10 @@ function _git_prompt_kit_update_git() {
   #   If HEAD is detached, show the commit.
 
   if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
-    GIT_PROMPT_KIT_HEAD="$GIT_PROMPT_KIT_SYMBOL_BRANCH$VCS_STATUS_LOCAL_BRANCH"
+    GIT_PROMPT_KIT_HEAD="$GIT_PROMPT_KIT_SYMBOL_BRANCH$VCS_STATUS_LOCAL_BRANCH%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
 
     if [[ -z $VCS_STATUS_REMOTE_BRANCH ]]; then
-      GIT_PROMPT_KIT_UPSTREAM+="%F{$GIT_PROMPT_KIT_COLOR_REMOTE}local"
+      GIT_PROMPT_KIT_UPSTREAM+="%F{$GIT_PROMPT_KIT_COLOR_REMOTE}local%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
     else
       if (( GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS || VCS_STATUS_COMMITS_BEHIND )); then
         (( VCS_STATUS_COMMITS_BEHIND )) && GIT_PROMPT_KIT_BEHIND+="%F{$GIT_PROMPT_KIT_COLOR_WHERE}$VCS_STATUS_COMMITS_BEHIND"
@@ -219,20 +220,16 @@ function _git_prompt_kit_update_git() {
       fi
 
       if (( not_default_remote )); then
-        GIT_PROMPT_KIT_UPSTREAM+="%F{$GIT_PROMPT_KIT_COLOR_REMOTE}$VCS_STATUS_REMOTE_NAME/"
+        GIT_PROMPT_KIT_UPSTREAM+="%F{$GIT_PROMPT_KIT_COLOR_REMOTE}$VCS_STATUS_REMOTE_NAME/%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
       fi
 
       if (( not_default_remote )) || [[ $VCS_STATUS_LOCAL_BRANCH != $VCS_STATUS_REMOTE_BRANCH ]]; then
-        GIT_PROMPT_KIT_UPSTREAM+="%F{$GIT_PROMPT_KIT_COLOR_REMOTE}${GIT_PROMPT_KIT_SYMBOL_BRANCH}${VCS_STATUS_REMOTE_BRANCH}"
+        GIT_PROMPT_KIT_UPSTREAM+="%F{$GIT_PROMPT_KIT_COLOR_REMOTE}${GIT_PROMPT_KIT_SYMBOL_BRANCH}${VCS_STATUS_REMOTE_BRANCH}%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
       fi
     fi
-
   else
-    GIT_PROMPT_KIT_HEAD="$GIT_PROMPT_KIT_SYMBOL_COMMIT${VCS_STATUS_COMMIT[1,8]}"
+    GIT_PROMPT_KIT_HEAD="$GIT_PROMPT_KIT_SYMBOL_COMMIT${VCS_STATUS_COMMIT[1,8]}%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
   fi
-
-  GIT_PROMPT_KIT_HEAD="${GIT_PROMPT_KIT_HEAD}%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
-  GIT_PROMPT_KIT_UPSTREAM="${GIT_PROMPT_KIT_UPSTREAM}%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
 
   # Git ref status: tag
 
@@ -266,21 +263,25 @@ function _git_prompt_kit_update_git() {
 
     # Git: optionally prefix prompt
 
-    (( GIT_PROMPT_KIT_HIDE_TOOL_NAMES )) || ref_status+="Git $ref_status"
+    (( GIT_PROMPT_KIT_HIDE_TOOL_NAMES )) || ref_status="Git $ref_status"
+
+    if ! (( GIT_PROMPT_KIT_GIT_FILES_ON_OWN_LINE )); then
+      ref_status+="$tree_status"
+      ref_status+="$action_status%f"
+    fi
+
+    if (( GIT_PROMPT_KIT_GIT_REF_ON_DIR_LINE )); then
+      _GIT_PROMPT_KIT_GIT_FIRST_LINE=$ref_status
+    else
+      _GIT_PROMPT_KIT_GIT_FIRST_LINE+=$'\n'
+      _GIT_PROMPT_KIT_GIT_SECOND_LINE=$ref_status
+    fi
+
 
     if (( GIT_PROMPT_KIT_GIT_FILES_ON_OWN_LINE )); then
-      _GIT_PROMPT_KIT_GIT_SECOND_LINE="$tree_status"
-
-      if (( GIT_PROMPT_KIT_GIT_FILES_ON_OWN_LINE )); then
-        _GIT_PROMPT_KIT_GIT_FIRST_LINE="$ref_status"
-      else
-        _GIT_PROMPT_KIT_GIT_SECOND_LINE+="$ref_status"
-      fi
-
-      _GIT_PROMPT_KIT_GIT_SECOND_LINE+="$action_status%f"
       _GIT_PROMPT_KIT_GIT_SECOND_LINE+=$'\n'
-    else
-      _GIT_PROMPT_KIT_GIT_FIRST_LINE="$ref_status$tree_status$action_status%f"
+      _GIT_PROMPT_KIT_GIT_THIRD_LINE+="$tree_status"
+      _GIT_PROMPT_KIT_GIT_THIRD_LINE+="$action_status%f"
     fi
   fi
 }
@@ -322,14 +323,13 @@ _git_prompt_kit_build_prompt() {
 
   prompt+='%F{$GIT_PROMPT_KIT_COLOR_CWD}$GIT_PROMPT_KIT_CWD%f'
 
-  # Git ref info if on same line as CWD
+  # Git
 
   prompt+='${_GIT_PROMPT_KIT_GIT_FIRST_LINE:+ $_GIT_PROMPT_KIT_GIT_FIRST_LINE}'
-  prompt+=$'\n'
-
-  # Git status (includes ref info if not on same line as CWD)
-
   prompt+='${_GIT_PROMPT_KIT_GIT_SECOND_LINE:+$_GIT_PROMPT_KIT_GIT_SECOND_LINE}'
+  prompt+='${_GIT_PROMPT_KIT_GIT_THIRD_LINE:+$_GIT_PROMPT_KIT_GIT_THIRD_LINE}'
+
+  prompt+=$'\n'
 
   # Prompt character: % if normal, # if root (has configurable colors for status code of the previous command)
 
