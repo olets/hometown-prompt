@@ -6,7 +6,7 @@
 # https://github.com/romkatv/gitstatus
 
 # Configurable options
-GIT_PROMPT_KIT_CWD=${GIT_PROMPT_KIT_CWD:-%2~} # see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Shell-state
+GIT_PROMPT_KIT_CWD_CONTENT=${GIT_PROMPT_KIT_CWD_CONTENT:-%2~} # see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Shell-state
 GIT_PROMPT_KIT_DEFAULT_USER=${GIT_PROMPT_KIT_DEFAULT_USER-}
 GIT_PROMPT_KIT_DEFAULT_HOST=${GIT_PROMPT_KIT_DEFAULT_HOST-}
 GIT_PROMPT_KIT_DEFAULT_REMOTE=${GIT_PROMPT_KIT_DEFAULT_REMOTE:-origin}
@@ -286,21 +286,19 @@ function _git_prompt_kit_update_git() {
   fi
 }
 
-_git_prompt_kit_build_prompt() {
+_git_prompt_kit_update_nongit() {
   local git_prompt_kit_not_default_user=0
   local git_prompt_kit_not_default_host=0
-  local prompt=
 
-  # Build the prompt
+  typeset -g GIT_PROMPT_KIT_CWD="%F{$GIT_PROMPT_KIT_COLOR_CWD}$GIT_PROMPT_KIT_CWD_CONTENT%f"
 
-  # Blank line
-
-  prompt+=$'\n'
+  # Prompt character: % if normal, # if root (has configurable colors for status code of the previous command)
+  typeset -g GIT_PROMPT_KIT_CHAR="%F{%(?.$GIT_PROMPT_KIT_COLOR_SUCCESS.$GIT_PROMPT_KIT_COLOR_FAIL)}%#%f"
 
   # User info
   # Show user if not the default (has configurable color)
   # Show host if not the default (has configurable color and prefix)
-
+  typeset -g GIT_PROMPT_KIT_USERHOST=
   if [[ ${(%):-%n} != $GIT_PROMPT_KIT_DEFAULT_USER ]]; then
     _git_prompt_kit_not_default_user=1
   fi
@@ -310,43 +308,47 @@ _git_prompt_kit_build_prompt() {
   fi
 
   if (( _git_prompt_kit_not_default_user || _git_prompt_kit_not_default_host )); then
-    (( _git_prompt_kit_not_default_user )) && prompt+='%F{$GIT_PROMPT_KIT_COLOR_USER}%n$f'
-    (( _git_prompt_kit_not_default_host )) && prompt+='%F{$GIT_PROMPT_KIT_COLOR_HOST}${GIT_PROMPT_KIT_SYMBOL_HOST}%m%f'
-    prompt+=' '
+    (( _git_prompt_kit_not_default_user )) && GIT_PROMPT_KIT_USERHOST+="%F{$GIT_PROMPT_KIT_COLOR_USER}%n$f"
+    (( _git_prompt_kit_not_default_host )) && GIT_PROMPT_KIT_USERHOST+="%F{$GIT_PROMPT_KIT_COLOR_HOST}${GIT_PROMPT_KIT_SYMBOL_HOST}%m%f"
   fi
+}
+
+_git_prompt_kit_build_prompt() {
+  local prompt=
+
+  # Black line after result of previous commad
+  prompt+=$'\n'
+
+  # User and host
+  prompt+='${GIT_PROMPT_KIT_USERHOST:+GIT_PROMPT_KIT_USERHOST }'
 
   # Time
-
   prompt+=$'%* '
 
-  # CWD (has configurable color, relative root, and depth)
-
-  prompt+='%F{$GIT_PROMPT_KIT_COLOR_CWD}$GIT_PROMPT_KIT_CWD%f'
+  # CWD
+  prompt+='$GIT_PROMPT_KIT_CWD'
 
   # Git
-
   prompt+='${_GIT_PROMPT_KIT_GIT_FIRST_LINE:+ $_GIT_PROMPT_KIT_GIT_FIRST_LINE}'
   prompt+='${_GIT_PROMPT_KIT_GIT_SECOND_LINE:+$_GIT_PROMPT_KIT_GIT_SECOND_LINE}'
   prompt+='${_GIT_PROMPT_KIT_GIT_THIRD_LINE:+$_GIT_PROMPT_KIT_GIT_THIRD_LINE}'
 
+  # Prompt character
   prompt+=$'\n'
+  prompt+='${GIT_PROMPT_KIT_CHAR:+$GIT_PROMPT_KIT_CHAR }'
 
-  # Prompt character: % if normal, # if root (has configurable colors for status code of the previous command)
-
-  prompt+='%F{%(?.$GIT_PROMPT_KIT_COLOR_SUCCESS.$GIT_PROMPT_KIT_COLOR_FAIL)}%#%f '
   echo $prompt
 }
-
-# Call to gitstatus external command
 
 # Start gitstatusd instance with name "MY". The same name is passed to
 # gitstatus_query in _git_prompt_kit_update_git. The flags with -1 as values
 # enable staged, unstaged, conflicted and untracked counters.
 gitstatus_stop 'MY' && gitstatus_start -s -1 -u -1 -c -1 -d -1 'MY'
 
-# On every prompt, fetch git status and set _GIT_PROMPT_KIT_GIT_SECOND_LINE.
+# On every prompt, refresh prompt content
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _git_prompt_kit_update_git
+add-zsh-hook precmd _git_prompt_kit_update_nongit
 
 # If setting the prompt, set it.
 (( GIT_PROMPT_KIT_SET_PROMPT )) && PROMPT=$(_git_prompt_kit_build_prompt)
