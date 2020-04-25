@@ -60,10 +60,6 @@ GIT_PROMPT_KIT_COLOR_TAG=${GIT_PROMPT_KIT_COLOR_TAG:-140}
 GIT_PROMPT_KIT_COLOR_USER=${GIT_PROMPT_KIT_COLOR_USER:-109}
 GIT_PROMPT_KIT_COLOR_HEAD=${GIT_PROMPT_KIT_COLOR_HEAD:-140}
 
-function _git_prompt_kit_if_not_zero() {
-  [ "$1" = 0 ] && echo "$1"
-}
-
 function _git_prompt_kit_update_git() {
   emulate -L zsh
   typeset -g _GIT_PROMPT_KIT_GIT_SECOND_LINE=
