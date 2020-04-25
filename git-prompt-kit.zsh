@@ -108,7 +108,7 @@ function _git_prompt_kit_update_git() {
   # Git tree status: stashes
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT || VCS_STATUS_STASHES )); then
-    GIT_PROMPT_KIT_STASHES+="%F{GIT_PROMPT_KIT_COLOR_INACTIVE}"
+    GIT_PROMPT_KIT_STASHES+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
     (( VCS_STATUS_STASHES )) && GIT_PROMPT_KIT_STASHES+="%F{$GIT_PROMPT_KIT_COLOR_STASH}$VCS_STATUS_STASHES"
     GIT_PROMPT_KIT_STASHES+="$GIT_PROMPT_KIT_SYMBOL_STASH"
   fi
@@ -157,7 +157,7 @@ function _git_prompt_kit_update_git() {
 
   if (( GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS || unstaged_count )); then
     GIT_PROMPT_KIT_MODIFIED+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
-    (( $unstaged_count )) && GIT_PROMPT_KIT_MODIFIED+="%F{$GIT_PROMPT_KIT_COLOR_UNSTAGED}$unstaged_count" && dirty=1
+    (( unstaged_count )) && GIT_PROMPT_KIT_MODIFIED+="%F{$GIT_PROMPT_KIT_COLOR_UNSTAGED}$unstaged_count" && dirty=1
     GIT_PROMPT_KIT_MODIFIED+="$GIT_PROMPT_KIT_SYMBOL_MODIFIED"
   fi
 
@@ -318,7 +318,7 @@ _git_prompt_kit_build_prompt() {
   prompt+=$'\n'
 
   # User and host
-  prompt+='${GIT_PROMPT_KIT_USERHOST:+GIT_PROMPT_KIT_USERHOST }'
+  prompt+='${GIT_PROMPT_KIT_USERHOST:+$GIT_PROMPT_KIT_USERHOST }'
 
   # Time
   prompt+=$'%* '
