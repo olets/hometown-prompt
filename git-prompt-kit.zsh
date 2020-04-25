@@ -285,18 +285,23 @@ function _git_prompt_kit_update_git() {
 }
 
 _git_prompt_kit_update_nongit() {
+  emulate -L zsh
+
+  typeset -g GIT_PROMPT_KIT_CUSTOM=
+  typeset -g GIT_PROMPT_KIT_CHAR=
+  typeset -g GIT_PROMPT_KIT_USERHOST=
+
   local git_prompt_kit_not_default_user=0
   local git_prompt_kit_not_default_host=0
 
-  typeset -g GIT_PROMPT_KIT_CUSTOM="%F{$GIT_PROMPT_KIT_COLOR_CUSTOM}$GIT_PROMPT_KIT_CUSTOM_CONTENT%f"
+  GIT_PROMPT_KIT_CUSTOM="%F{$GIT_PROMPT_KIT_COLOR_CUSTOM}$GIT_PROMPT_KIT_CUSTOM_CONTENT%f"
 
   # Prompt character: % if normal, # if root (has configurable colors for status code of the previous command)
-  typeset -g GIT_PROMPT_KIT_CHAR="%F{%(?.$GIT_PROMPT_KIT_COLOR_SUCCEEDED.$GIT_PROMPT_KIT_COLOR_FAILED)}$GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL$GIT_PROMPT_KIT_PROMPT_CHAR_ROOT%f"
+  GIT_PROMPT_KIT_CHAR="%F{%(?.$GIT_PROMPT_KIT_COLOR_SUCCEEDED.$GIT_PROMPT_KIT_COLOR_FAILED)}$GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL$GIT_PROMPT_KIT_PROMPT_CHAR_ROOT%f"
 
   # User info
   # Show user if not the default (has configurable color)
   # Show host if not the default (has configurable color and prefix)
-  typeset -g GIT_PROMPT_KIT_USERHOST=
   if [[ ${(%):-%n} != $GIT_PROMPT_KIT_DEFAULT_USER ]]; then
     _git_prompt_kit_not_default_user=1
   fi
