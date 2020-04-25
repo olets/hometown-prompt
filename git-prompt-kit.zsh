@@ -62,9 +62,25 @@ GIT_PROMPT_KIT_COLOR_USER=${GIT_PROMPT_KIT_COLOR_USER:-109}
 
 function _git_prompt_kit_update_git() {
   emulate -L zsh
-  typeset -g _GIT_PROMPT_KIT_GIT_SECOND_LINE=
   typeset -g _GIT_PROMPT_KIT_GIT_FIRST_LINE=
+  typeset -g _GIT_PROMPT_KIT_GIT_SECOND_LINE=
   typeset -g _GIT_PROMPT_KIT_GIT_THIRD_LINE=
+  typeset -g GIT_PROMPT_KIT_ACTION=
+  typeset -g GIT_PROMPT_KIT_AHEAD=
+  typeset -g GIT_PROMPT_KIT_ASSUMED_UNCHANGED=
+  typeset -g GIT_PROMPT_KIT_BEHIND=
+  typeset -g GIT_PROMPT_KIT_CONFLICTED=
+  typeset -g GIT_PROMPT_KIT_DELETED=
+  typeset -g GIT_PROMPT_KIT_DELETED_STAGED=
+  typeset -g GIT_PROMPT_KIT_HEAD=
+  typeset -g GIT_PROMPT_KIT_MODIFIED=
+  typeset -g GIT_PROMPT_KIT_MODIFIED_STAGED=
+  typeset -g GIT_PROMPT_KIT_NEW=
+  typeset -g GIT_PROMPT_KIT_SKIP_WORKTREE=
+  typeset -g GIT_PROMPT_KIT_STASHES=
+  typeset -g GIT_PROMPT_KIT_TAG=
+  typeset -g GIT_PROMPT_KIT_UNTRACKED=
+  typeset -g GIT_PROMPT_KIT_UPSTREAM=
 
   # Call gitstatus_query synchronously. Note that gitstatus_query can also be called
   # asynchronously; see documentation in gitstatus.plugin.zsh.
@@ -80,23 +96,6 @@ function _git_prompt_kit_update_git() {
   local ref_status=
   local tree_status=
   local unstaged_count=
-
-  typeset -g GIT_PROMPT_KIT_STASHES=
-  typeset -g GIT_PROMPT_KIT_ASSUMED_UNCHANGED=
-  typeset -g GIT_PROMPT_KIT_SKIP_WORKTREE=
-  typeset -g GIT_PROMPT_KIT_UNTRACKED=
-  typeset -g GIT_PROMPT_KIT_CONFLICTED=
-  typeset -g GIT_PROMPT_KIT_DELETED=
-  typeset -g GIT_PROMPT_KIT_MODIFIED=
-  typeset -g GIT_PROMPT_KIT_NEW=
-  typeset -g GIT_PROMPT_KIT_DELETED_STAGED=
-  typeset -g GIT_PROMPT_KIT_MODIFIED_STAGED=
-  typeset -g GIT_PROMPT_KIT_HEAD=
-  typeset -g GIT_PROMPT_KIT_UPSTREAM=
-  typeset -g GIT_PROMPT_KIT_BEHIND=
-  typeset -g GIT_PROMPT_KIT_AHEAD=
-  typeset -g GIT_PROMPT_KIT_TAG=
-  typeset -g GIT_PROMPT_KIT_ACTION=
 
   (( added_staged_count = VCS_STATUS_NUM_STAGED - VCS_STATUS_NUM_STAGED_NEW - VCS_STATUS_NUM_STAGED_DELETED ))
   (( unstaged_count = VCS_STATUS_NUM_UNSTAGED - VCS_STATUS_NUM_UNSTAGED_DELETED ))
