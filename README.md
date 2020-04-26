@@ -6,9 +6,9 @@ Have a different look in mind? Turn off Git Prompt Kit's default prompt, and ins
 
 ![](./img/git-prompt-kit-default.jpg)
 
-In the above screenshot, the default Git Prompt Kit prompt is showing that `master` is checked out and that it is dirty, not behind the upstream, and one commit ahead of the upstream; that there are two stashes, no files with the assume-unchanged bit set, no files with the skip-worktree bit set, one untracked file, no conflicted files, no unstaged deleted files, three unstaged modified files, one staged new file, no staged deleted files, and no staged modified files; that the previous command succeeded; and, implicitly, that the upstream is `origin/master` and that there is no tag at `HEAD`.
+In the above screenshot, the default Git Prompt Kit prompt shows that `master` is checked out and that it is dirty, not behind the upstream, and one commit ahead of the upstream; that there are two stashes, no files with the assume-unchanged bit set, no files with the skip-worktree bit set, one untracked file, no conflicted files, no unstaged deleted files, three unstaged modified files, one staged new file, no staged deleted files, and no staged modified files; that the previous command succeeded; and, implicitly, that the upstream is `origin/master` and that there is no tag at `HEAD`.
 
-
+&nbsp;
 
 - [Installation](#installation)
 - [Features](#features)
@@ -16,6 +16,8 @@ In the above screenshot, the default Git Prompt Kit prompt is showing that `mast
 - [Components](#components)
 - [Performance](#performance)
 - [Acknowledgments](#acknowledgments)
+- [Contributing](#contributing)
+- [License](#license)
 
 &nbsp;
 
@@ -342,3 +344,18 @@ Git Prompt Kit relies on Roman Perepelitsa's [gitstatus](https://github.com/romk
 Showing "dimmed" components was inspired by Arialdo Martini's [oh-my-git](https://github.com/arialdomartini/oh-my-git), which leaves space for inactive symbols.
 
 Using Git's short status format was inspired by Michael Allen's [git-radar](https://github.com/michaeldfallen/git-radar).
+
+## Contributing
+
+Thanks for your interest. Contributions are welcome!
+
+> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+Check the [Issues](https://github.com/olets/git-prompt-kit/issues) to see if your topic has been discussed before or if it is being worked on. You may also want to check the roadmap (see above). Discussing in an Issue before opening a Pull Request means future contributors only have to search in one place.
+
+This project loosely follows the [Angular commit message conventions](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit). This helps with searchability and with the changelog, which is generated automatically and touched up by hand only if necessary. Use the commit message format `<type>(<scope>): <subject>`, where `<type>` is **feat** for new or changed behavior, **fix** for fixes, **docs** for documentation, **style** for under the hood changes related to for example zshisms, **refactor** for other refactors, **test** for tests, or **chore** chore for general maintenance (this will be used primarily by maintainers not contributors, for example for version bumps). `<scope>` is more loosely defined. Look at the [commit history](https://github.com/olets/git-prompt-kit/commits/master) for ideas.
+
+## License
+
+This project is licensed under [MIT license](http://opensource.org/licenses/MIT).
+For the full text of the license, see the [LICENSE](LICENSE) file.
