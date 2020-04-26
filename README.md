@@ -223,6 +223,8 @@ If using _hexadecimal_ values across terminal emulators that may or may not supp
 
 before setting the colors (see http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fnearcolor-Module).
 
+For the following table but with swatches, see [Issue #1: README appendix: default colors' swatches](https://github.com/olets/git-prompt-kit/issues/1).
+
 Name | Type | Description | Default
 ---|---|---|---
 `GIT_PROMPT_KIT_COLOR_ACTION` | string | Color of the Git action | `199` (8-bit equivalent of `#ff00af`)
