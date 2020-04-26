@@ -111,6 +111,7 @@ Choose between
 Name | Type | Description | Default
 ---|---|---|---
 `GIT_PROMPT_KIT_GIT_REF_ON_NONGIT_LINE` | integer Boolean | Put the Git ref info (HEAD, behind/ahead, upsteam, tag(s)) on the same as he non-Git info? | `1`
+`GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | integer Boolean | Show the stash, assume-unchanged, and skip-worktree counts | 1
 `GIT_PROMPT_KIT_GIT_STATUS_ON_OWN_LINE` | integer Boolean | Put the Git status info on the same line as the Git ref info? | `1`
 
 Set variables in `.zshrc` before loading Git Prompt Kit. For example, to show a single-line prompt:
@@ -235,6 +236,8 @@ PROMPT='%1d ${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }%% '
 
 Several complete recipes for building a [git-radar](https://github.com/michaeldfallen/git-radar)-like prompt, a [oh-my-git](https://github.com/arialdomartini/oh-my-git)-like prompt, [Pure](https://github.com/sindresorhus/pure)-like prompt, and a [Spaceship](https://github.com/denysdovhan/spaceship-prompt)-like high performance prompt from Git Prompt Kit components are provided in [Recipes.md](Recipes.md).
 
+### Atoms
+
 Name | Type | Description
 ---|---|---
 `GIT_PROMPT_KIT_ACTION` | prompt string | Git current action (e.g. "rebase")
@@ -256,6 +259,14 @@ Name | Type | Description
 `GIT_PROMPT_KIT_UNTRACKED` | prompt string | Git untracked file count
 `GIT_PROMPT_KIT_UPSTREAM` | prompt string | Git upstream (branch or "local")
 `GIT_PROMPT_KIT_USERHOST` | prompt string | User and host
+
+### Molecules
+
+Name | Type | Description
+---|---|---
+`GIT_PROMPT_KIT_REF` | prompt string | Git HEAD, commits behind count, commits ahead count, upstream, and tag as seen in the default prompt
+`GIT_PROMPT_KIT_STATUS_EXTENDED` | prompt string | Git stash, assume-unchanged, and skip-worktree counts as seen in the default prompt
+`GIT_PROMPT_KIT_STATUS` | prompt string | Git file status counts as seen in the default prompt
 
 Additional variables that may be useful in custom prompts:
 
