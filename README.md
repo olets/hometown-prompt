@@ -2,23 +2,7 @@
 
 Out of the box, Git Prompt Kit is an accelerated, heavily configurable Git-focused zsh prompt. The prompt-setting feature can be turned off and the individual components used to assemble a fully-custom prompt.
 
-## Features
-
-- show the user if it isn't the default user
-- show the host if it isn't the default host
-- show the checked out branch, unless HEAD is detached in which case show the checked out commit
-- dim the checked out branch or commit if the working tree is clean
-- flag the checked out branch as local if it has no upstream
-- hide the behind and ahead components if HEAD is detached or has no upstream
-- dim the behind and/or ahead components if not behind or ahead
-- show the checked out branch's upstream's remote and branch name if the remote is not `origin`
-- show the checked out branch's upstream's branch name if different from the local name
-- dim the stash count if zero
-- dim the assumed-unchanged count if zero
-- dim the skip-worktree count if zero
-- show the working tree status (untracked, deleted count, modified count, untracked staged, deleted count staged, modified count staged) with `git status --porcelain` codes
-- dim any working tree status codes for which the count is zero
-- show the current action if there is one
+![](./git-prompt-kit-default.jpg)
 
 ## Installation
 
@@ -80,6 +64,26 @@ Or install zsh-abbr with your favorite plugin manager (zinit is recommended for 
   zplug "romkatv/gitstatus"
 	zplug "olets/git-prompt-kit"
 	```
+
+## Features
+
+- show the user if it isn't the default user
+- show the host if it isn't the default host
+- show the checked out branch, unless HEAD is detached in which case show the checked out commit
+- dim the checked out branch or commit if the working tree is clean
+- flag the checked out branch as local if it has no upstream
+- hide the behind and ahead components if HEAD is detached or has no upstream
+- dim the behind and/or ahead components if not behind or ahead
+- show the checked out branch's upstream's remote and branch name if the remote is not `origin`
+- show the checked out branch's upstream's branch name if different from the local name
+- dim the stash count if zero
+- dim the assumed-unchanged count if zero
+- dim the skip-worktree count if zero
+- show the working tree status (untracked, deleted count, modified count, untracked staged, deleted count staged, modified count staged) with `git status --porcelain` codes
+- dim any working tree status codes for which the count is zero
+- show the current action if there is one
+
+![](./git-prompt-kit-demo.jpg)
 
 ## Options
 
