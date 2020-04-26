@@ -1,8 +1,10 @@
 # Git Prompt Kit
 
-Out of the box, Git Prompt Kit is an accelerated, heavily configurable Git-focused zsh prompt. The prompt-setting feature can be turned off and the individual components used to assemble a fully-custom prompt.
+Out of the box, Git Prompt Kit is an accelerated, heavily configurable Git-focused zsh prompt. The prompt-setting feature can be turned off and the individual components used to assemble a fully custom prompt.
 
 ![](./git-prompt-kit-default.jpg)
+
+<sup>Git Prompt Kit's default prompt showing the time and current working directory; the checked branch and that it is dirty, the checked out branch's not being behind and being one commit ahead of the upstream; there being two stashes, no files with the assume-unchanged bit set, no files with the skip-worktree bit set, one untracked file, no conflicted files, no unstaged deleted files, three unstaged modified files, one staged new file, no staged deleted files, and no staged modified files; that the previous command succeeded; and, implicitly, that the upstream is `origin/master` and that there are no tags at `HEAD`.</sup>
 
 ## Installation
 
