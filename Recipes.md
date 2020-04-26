@@ -9,6 +9,8 @@
 
 **[git-radar](https://github.com/michaeldfallen/git-radar)-like**
 
+![](./git-prompt-kit-git-radar.jpg)
+
 ```shell
 # ~/.zshrc
 # --- snip ---
@@ -59,6 +61,8 @@ PROMPT+='${GIT_PROMPT_KIT_STATUS_EXTENDED:+$GIT_PROMPT_KIT_STATUS_EXTENDED }'
 **[oh-my-git](https://github.com/arialdomartini/oh-my-git)-like**
 
 omg's oppa-lana-style. Requires a Font Awesome-patched font, see https://github.com/gabrielelana/awesome-terminal-fonts/tree/patching-strategy/patched
+
+![](./git-prompt-git-oh-my-git.jpg)
 
 ```shell
 # ~/.zshrc
@@ -126,6 +130,8 @@ PROMPT+='$GIT_PROMPT_KIT_CHAR '
 
 **[Pure](https://github.com/sindresorhus/pure)-like**
 
+![](./git-prompt-kit-pure.jpg)
+
 ```shell
 # ~/.zshrc
 # --- snip ---
@@ -173,6 +179,8 @@ PROMPT+='$GIT_PROMPT_KIT_CHAR '
 **[Spaceship](https://github.com/denysdovhan/spaceship-prompt)-like**
 
 Git symbol requires a Powerline-patched font, see https://github.com/powerline/fonts
+
+![](./git-prompt-kit-spaceship.jpg)
 
 ```shell
 # ~/.zshrc
