@@ -1,4 +1,4 @@
-# Git Prompt Kit
+# Git Prompt Kit ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/git-prompt-kit)
 
 By default, Git Prompt Kit adds a prompt that includes the time, the current working directory, Git ref info, Git file info, and Git action info. It is very fast, thanks to gitstatus. Symbols, colors, under what conditions information is shown, and layout are configurable; the current working directory can be replaced with any content.
 
@@ -344,6 +344,10 @@ Git Prompt Kit relies on Roman Perepelitsa's [gitstatus](https://github.com/romk
 Showing "dimmed" components was inspired by Arialdo Martini's [oh-my-git](https://github.com/arialdomartini/oh-my-git), which leaves space for inactive symbols.
 
 Using Git's short status format was inspired by Michael Allen's [git-radar](https://github.com/michaeldfallen/git-radar).
+
+## Changelog
+
+See the [CHANGELOG](CHANGELOG.md) file.
 
 ## Contributing
 
