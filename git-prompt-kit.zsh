@@ -40,12 +40,6 @@ GIT_PROMPT_KIT_SYMBOL_TAG=${GIT_PROMPT_KIT_SYMBOL_TAG-@}
 GIT_PROMPT_KIT_SYMBOL_UNTRACKED=${GIT_PROMPT_KIT_SYMBOL_UNTRACKED-??}
 
 # Configurable colors
-# Use one of zsh's eight color names, or an integer 1-255 for an 8-bit color, or a #-prefixed RRGGBB value for 24-bit color.
-# If using on single configuration dotfile across terminal emulators that may or may not support 24-bit color, add
-# [[ $COLORTERM = *(24bit|truecolor)* ]] || zmodload zsh/nearcolor
-# before setting the colors.
-# See http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Character-Highlighting
-# and http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fnearcolor-Module
 GIT_PROMPT_KIT_COLOR_ACTION=${GIT_PROMPT_KIT_COLOR_ACTION:-199}
 GIT_PROMPT_KIT_COLOR_ASSUME_UNCHANGED=${GIT_PROMPT_KIT_COLOR_ASSUME_UNCHANGED:-81}
 GIT_PROMPT_KIT_COLOR_CUSTOM=${GIT_PROMPT_KIT_COLOR_CUSTOM:-39}
