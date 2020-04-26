@@ -25,8 +25,8 @@ Or install zsh-abbr with your favorite plugin manager (zinit is recommended for 
 - **[antibody](https://getantibody.github.io/)**: Add this to your plugins to your plugins file, and if you use static loading reload plugins.
   ```shell
   romkatv/gitstatus
-	olets/git-prompt-kit
-	```
+  olets/git-prompt-kit
+  ```
 
 - **[Antigen](https://github.com/zsh-users/antigen)**: Add this to your `.zshrc`:
   ```shell
@@ -58,14 +58,14 @@ Or install zsh-abbr with your favorite plugin manager (zinit is recommended for 
 - **[zinit](https://github.com/zdharma/zinit)** (formerly **zplugin**): add this to your `.zshrc`:
   ```shell
   zinit light romkatv/gitstatus
-	zinit light olets/git-prompt-kit
+  zinit light olets/git-prompt-kit
   ```
 
 - **[zplug](https://github.com/zplug/zplug)**: add this to your `.zshrc`:
   ```shell
   zplug "romkatv/gitstatus"
-	zplug "olets/git-prompt-kit"
-	```
+  zplug "olets/git-prompt-kit"
+  ```
 
 ## Features
 
