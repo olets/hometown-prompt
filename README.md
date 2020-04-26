@@ -8,19 +8,21 @@ Out of the box, Git Prompt Kit is an accelerated, heavily configurable Git-focus
 
 ## Installation
 
+Git Prompt Kit relies one one external dependency, the plugin [gitstatus](https://github.com/romkatv/gitstatus). gitstatus is not affiliated with Git Prompt Kit.
+
 ### Package
 
-zsh-abbr is available on Homebrew. Run
+Git Prompt Kit is available on Homebrew. Run
 
 ```
 brew install olets/tap/git-prompt-kit
 ```
 
-and follow the post-install instructions logged to the terminal.
+and follow the post-install instructions logged to the terminal. gitstatus will need to be installed with a plugin manager (see below).
 
 ### Plugin
 
-Or install zsh-abbr with your favorite plugin manager (zinit is recommended for its superior performance)
+Or install gitstatus and Git Prompt Kit with your favorite plugin manager (zinit is recommended for its superior performance).
 
 - **[antibody](https://getantibody.github.io/)**: Add this to your plugins to your plugins file, and if you use static loading reload plugins.
   ```shell
