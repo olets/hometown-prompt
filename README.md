@@ -4,7 +4,7 @@ By default, Git Prompt Kit adds a prompt that includes the time, the current wor
 
 Have a different look in mind? Turn off Git Prompt Kit's default prompt, and instead use its components in your own fully custom one.
 
-![](./git-prompt-kit-default.jpg)
+![](./img/git-prompt-kit-default.jpg)
 
 In the above screenshot, the default Git Prompt Kit prompt is showing that `master` is checked out and that it is dirty, not behind the upstream, and one commit ahead of the upstream; that there are two stashes, no files with the assume-unchanged bit set, no files with the skip-worktree bit set, one untracked file, no conflicted files, no unstaged deleted files, three unstaged modified files, one staged new file, no staged deleted files, and no staged modified files; that the previous command succeeded; and, implicitly, that the upstream is `origin/master` and that there is no tag at `HEAD`.
 
@@ -102,7 +102,7 @@ The following apply to the default prompt, and to the relevant components if use
 - dim any working tree status codes for which the count is zero
 - show the current action if there is one
 
-![](./git-prompt-kit-demo.jpg)
+![](./img/git-prompt-kit-demo.jpg)
 
 ## Options
 

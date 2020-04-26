@@ -15,7 +15,7 @@ The construct `${x:+y}` is 'print y if $x is not null' (`${x:-y}` is 'print y if
 
 ### [git-radar](https://github.com/michaeldfallen/git-radar)-like
 
-![](./git-prompt-kit-git-radar.jpg)
+![](./img/git-prompt-kit-git-radar.jpg)
 
 ```shell
 # ~/.zshrc
@@ -136,7 +136,7 @@ PROMPT+='$GIT_PROMPT_KIT_CHAR '
 
 ### [Pure](https://github.com/sindresorhus/pure)-like
 
-![](./git-prompt-kit-pure.jpg)
+![](./img/git-prompt-kit-pure.jpg)
 
 ```shell
 # ~/.zshrc
@@ -186,7 +186,7 @@ PROMPT+='$GIT_PROMPT_KIT_CHAR '
 
 Git symbol requires a Powerline-patched font, see https://github.com/powerline/fonts
 
-![](./git-prompt-kit-spaceship.jpg)
+![](./img/git-prompt-kit-spaceship.jpg)
 
 ```shell
 # ~/.zshrc
