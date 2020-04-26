@@ -2,7 +2,7 @@
 
 By default, Git Prompt Kit adds a prompt that includes the time, the current working directory, Git ref info, Git file info, and Git action info. It is very fast, thanks to gitstatus. Symbols, colors, under what conditions information is shown, and layout are configurable; the current working directory can be replaced with any content.
 
-Have a different look in mind? Turn off Git Prompt Kit's default prompt, and instead use its components in your own fully custom prompt.
+Have a different look in mind? Turn off Git Prompt Kit's default prompt, and instead use its components in your own fully custom one.
 
 ![](./git-prompt-kit-default.jpg)
 
@@ -129,16 +129,16 @@ Choose between
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_GIT_REF_ON_NONGIT_LINE` | integer Boolean | Put the Git ref info (HEAD, behind/ahead, upsteam, tag) on the same as he non-Git info? | `1`
+`GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES` | integer Boolean | Put the Git status info on the same line as the Git ref info? | `1`
+`GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF` | integer Boolean | Put the Git ref info (HEAD, behind/ahead, upsteam, tag) on the same as he non-Git info? | `1`
 `GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | integer Boolean | Show the stash, assume-unchanged, and skip-worktree counts | 1
-`GIT_PROMPT_KIT_GIT_STATUS_ON_OWN_LINE` | integer Boolean | Put the Git status info on the same line as the Git ref info? | `1`
 
 Set variables in `.zshrc` before loading Git Prompt Kit. For example, to show a single-line prompt:
 
 ```shell
 # ~/.zshrc
 # --- snip ---
-GIT_PROMPT_KIT_GIT_STATUS_ON_OWN_LINE=0
+GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES=0
 zinit light olets/git-prompt-kit
 ```
 
