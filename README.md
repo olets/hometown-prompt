@@ -4,7 +4,7 @@ Out of the box, Git Prompt Kit is an accelerated, heavily configurable Git-focus
 
 ![](./git-prompt-kit-default.jpg)
 
-<sup>Git Prompt Kit's default prompt showing the time and current working directory; the checked branch and that it is dirty, the checked out branch's not being behind and being one commit ahead of the upstream; there being two stashes, no files with the assume-unchanged bit set, no files with the skip-worktree bit set, one untracked file, no conflicted files, no unstaged deleted files, three unstaged modified files, one staged new file, no staged deleted files, and no staged modified files; that the previous command succeeded; and, implicitly, that the upstream is `origin/master` and that there are no tags at `HEAD`.</sup>
+<sup>Git Prompt Kit's default prompt showing the time and current working directory; the checked branch and that it is dirty, the checked out branch's not being behind and being one commit ahead of the upstream; there being two stashes, no files with the assume-unchanged bit set, no files with the skip-worktree bit set, one untracked file, no conflicted files, no unstaged deleted files, three unstaged modified files, one staged new file, no staged deleted files, and no staged modified files; that the previous command succeeded; and, implicitly, that the upstream is `origin/master` and that there is no tag at `HEAD`.</sup>
 
 ## Installation
 
@@ -106,13 +106,13 @@ Customize
 Choose between
 
 - a single-line prompt
-- a two-line prompt with non-Git info, Git ref info (HEAD, commits behind/ahead, upstream, and tag(s)) on first line and Git stashes, assume-unchanged, skip-worktree, files, and action on second (**default**)
+- a two-line prompt with non-Git info, Git ref info (HEAD, commits behind/ahead, upstream, and tag) on first line and Git stashes, assume-unchanged, skip-worktree, files, and action on second (**default**)
 - a two-line prompt all non-Git info on the first line and Git info on the second
 - a three-line prompt with Git ref on the second line
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_GIT_REF_ON_NONGIT_LINE` | integer Boolean | Put the Git ref info (HEAD, behind/ahead, upsteam, tag(s)) on the same as he non-Git info? | `1`
+`GIT_PROMPT_KIT_GIT_REF_ON_NONGIT_LINE` | integer Boolean | Put the Git ref info (HEAD, behind/ahead, upsteam, tag) on the same as he non-Git info? | `1`
 `GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | integer Boolean | Show the stash, assume-unchanged, and skip-worktree counts | 1
 `GIT_PROMPT_KIT_GIT_STATUS_ON_OWN_LINE` | integer Boolean | Put the Git status info on the same line as the Git ref info? | `1`
 
@@ -179,7 +179,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_SYMBOL_NEW` | string | Follows Git new file count | `A_`
 `GIT_PROMPT_KIT_SYMBOL_SKIP_WORKTREE` | string | Follows the Git skip-worktree file count | `⤳ `
 `GIT_PROMPT_KIT_SYMBOL_STASH` | string | Follows the Git stash count | `⇲`
-`GIT_PROMPT_KIT_SYMBOL_TAG` | string | Follows the Git tag(s) | `@`
+`GIT_PROMPT_KIT_SYMBOL_TAG` | string | Follows the Git tag | `@`
 `GIT_PROMPT_KIT_SYMBOL_UNTRACKED` | string | Follows Git untracked file count | `??`
 
 Set variables in `.zshrc` before loading Git Prompt Kit. For example, to only show the user if _not_ `me`:
@@ -218,7 +218,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_COLOR_STAGED` | string | Color of Git staged file counts  | `2` (8-bit equivalent of `#008000`)
 `GIT_PROMPT_KIT_COLOR_STASH` | string | Color of the Git stash count | `81` (8-bit equivalent of `#5fd7ff`)
 `GIT_PROMPT_KIT_COLOR_SUCCEEDED` | string | Color of the prompt character when the previous command succeeded | `76` (8-bit equivalent of `#5fd700`)
-`GIT_PROMPT_KIT_COLOR_TAG` | string | Color of Git tags | `140` (8-bit equivalent of `#af87d7`)
+`GIT_PROMPT_KIT_COLOR_TAG` | string | Color of Git tag | `140` (8-bit equivalent of `#af87d7`)
 `GIT_PROMPT_KIT_COLOR_UNSTAGED` | string | Color of Git unstaged file counts | `1` (8-bit equivalent of `#800000`)
 `GIT_PROMPT_KIT_COLOR_USER` | string | Color of the user | `109` (8-bit equivalent of `#87afaf`)
 
@@ -257,7 +257,7 @@ Name | Type | Description
 `GIT_PROMPT_KIT_NEW` | prompt string | Git staged new file count
 `GIT_PROMPT_KIT_SKIP_WORKTREE` | prompt string | Git skip-worktree file count
 `GIT_PROMPT_KIT_STASHES` | prompt string | Git stash count
-`GIT_PROMPT_KIT_TAG` | prompt string | Git tag(s) at HEAD
+`GIT_PROMPT_KIT_TAG` | prompt string | Git tag at HEAD
 `GIT_PROMPT_KIT_UNTRACKED` | prompt string | Git untracked file count
 `GIT_PROMPT_KIT_UPSTREAM` | prompt string | Git upstream (branch or "local")
 `GIT_PROMPT_KIT_USERHOST` | prompt string | User and host
