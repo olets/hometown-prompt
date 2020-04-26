@@ -128,8 +128,8 @@ Name | Type | Description | Default
 ---|---|---|---
 `GIT_PROMPT_KIT_CUSTOM_CONTENT` | string | The code for the custom component* | `%2~`**
 `GIT_PROMPT_KIT_DEFAULT_HOST` | string | The default host |
-`GIT_PROMPT_KIT_DEFAULT_USER` | string | The default user |
 `GIT_PROMPT_KIT_DEFAULT_REMOTE` | string | The default Git remote | `origin`
+`GIT_PROMPT_KIT_DEFAULT_USER` | string | The default user |
 `GIT_PROMPT_KIT_HIDE_TOOL_NAMES` | integer Boolean | Do not show the word "Git" before the Git ref info? | `1`
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
 `GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL` | string | Character show at end of prompt for normal users | `%%` ***
@@ -162,22 +162,22 @@ By default, the symbol for the Git status (i.e. new, delete)
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_SYMBOL_UNTRACKED` | string | Follows Git untracked file count | `??`
-`GIT_PROMPT_KIT_SYMBOL_NEW` | string | Follows Git new file count | `A_`
 `GIT_PROMPT_KIT_SYMBOL_AHEAD` | string | Follows the Git commits-ahead count | `↑`
 `GIT_PROMPT_KIT_SYMBOL_ASSUME_UNCHANGED` | string | Follows the Git assume-unchanged count | `⥱ `
 `GIT_PROMPT_KIT_SYMBOL_BEHIND` | string | Follows the Git commits-behind count | `↓`
 `GIT_PROMPT_KIT_SYMBOL_BRANCH` | string | Precedes the Git branch | `#`
 `GIT_PROMPT_KIT_SYMBOL_COMMIT` | string | Precedes the Git commit | `•`
 `GIT_PROMPT_KIT_SYMBOL_CONFLICTED` | string | Follows the Git both-modified count | `UU`
-`GIT_PROMPT_KIT_SYMBOL_DELETED` | string | Follows the Git unstaged deleted file count | `_D`
 `GIT_PROMPT_KIT_SYMBOL_DELETED_STAGED` | string | Follows the Git unstaged deleted file count | `D_`
+`GIT_PROMPT_KIT_SYMBOL_DELETED` | string | Follows the Git unstaged deleted file count | `_D`
 `GIT_PROMPT_KIT_SYMBOL_HOST` | string | Precedes the host | `@`
-`GIT_PROMPT_KIT_SYMBOL_MODIFIED` | string | Follows the Git unstaged modified file count | `_M`
 `GIT_PROMPT_KIT_SYMBOL_MODIFIED_STAGED` | string | Follows the Git staged modified file count | `M_`
+`GIT_PROMPT_KIT_SYMBOL_MODIFIED` | string | Follows the Git unstaged modified file count | `_M`
+`GIT_PROMPT_KIT_SYMBOL_NEW` | string | Follows Git new file count | `A_`
 `GIT_PROMPT_KIT_SYMBOL_SKIP_WORKTREE` | string | Follows the Git skip-worktree file count | `⤳ `
 `GIT_PROMPT_KIT_SYMBOL_STASH` | string | Follows the Git stash count | `⇲`
 `GIT_PROMPT_KIT_SYMBOL_TAG` | string | Follows the Git tag(s) | `@`
+`GIT_PROMPT_KIT_SYMBOL_UNTRACKED` | string | Follows Git untracked file count | `??`
 
 Set variables in `.zshrc` before loading Git Prompt Kit. For example, to only show the user if _not_ `me`:
 
