@@ -352,4 +352,3 @@ add-zsh-hook precmd _git_prompt_kit_update_nongit
 
 # If setting the prompt, set it.
 (( GIT_PROMPT_KIT_USE_DEFAULT_PROMPT )) && PROMPT=$(_git_prompt_kit_build_prompt)
-y
