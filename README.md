@@ -131,16 +131,16 @@ Choose between
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES` | integer Boolean | Put the Git status info on the same line as the Git ref info? | `1`
-`GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF` | integer Boolean | Put the Git ref info (HEAD, behind/ahead, upsteam, tag) on the same as he non-Git info? | `1`
-`GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | integer Boolean | Show the stash, assume-unchanged, and skip-worktree counts | 1
+`GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES` | null or `1` | Put the Git status info on the same line as the Git ref info? | `1`
+`GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF` | null or `1` | Put the Git ref info (HEAD, behind/ahead, upsteam, tag) on the same as he non-Git info? | `1`
+`GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | null or `1` | Show the stash, assume-unchanged, and skip-worktree counts | `1`
 
-Set variables in `.zshrc` before loading Git Prompt Kit. For example, to show a single-line prompt:
+Set variables to in `.zshrc` before loading Git Prompt Kit. For example, to show a single-line prompt:
 
 ```shell
 # ~/.zshrc
 # --- snip ---
-GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES=0
+GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES=
 zinit light olets/git-prompt-kit
 ```
 
