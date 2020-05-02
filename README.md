@@ -131,9 +131,9 @@ Choose between
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES` | null or `1` | Put the Git status info on the same line as the Git ref info? | `1`
-`GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF` | null or `1` | Put the Git ref info (HEAD, behind/ahead, upsteam, tag) on the same as he non-Git info? | `1`
-`GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | null or `1` | Show the stash, assume-unchanged, and skip-worktree counts | `1`
+`GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES` | number | Put the Git status info on the same line as the Git ref info? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF` | number | Put the Git ref info (HEAD, behind/ahead, upsteam, tag) on the same as he non-Git info? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | number | Show the stash, assume-unchanged, and skip-worktree counts (YES if non-zero, NO if zero) | `1`
 
 Set variables to in `.zshrc` before loading Git Prompt Kit. For example, to show a single-line prompt:
 
@@ -148,17 +148,18 @@ zinit light olets/git-prompt-kit
 
 Name | Type | Description | Default
 ---|---|---|---
+`GIT_PROMPT_KIT_8_BIT_FALLBACKS_FOR_24_BIT_COLORS` | number | Load `zsh/nearcolor`? (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_CUSTOM_CONTENT` | string | The code for the custom component* | `%2~`**
 `GIT_PROMPT_KIT_DEFAULT_HOST` | string | The default host |
 `GIT_PROMPT_KIT_DEFAULT_REMOTE` | string | The default Git remote | `origin`
 `GIT_PROMPT_KIT_DEFAULT_USER` | string | The default user |
-`GIT_PROMPT_KIT_HIDE_TOOL_NAMES` | integer Boolean | Do not show the word "Git" before the Git ref info? | `1`
+`GIT_PROMPT_KIT_HIDE_TOOL_NAMES` | number | Do not show the word "Git" before the Git ref info? (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
 `GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL` | string | Character show at end of prompt for normal users | `%%` ***
 `GIT_PROMPT_KIT_PROMPT_CHAR_ROOT` | string | Character show at end of prompt for root users | `#`
-`GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT` | integer Boolean | Show dimmed Git stash, assumed-unchanged, and skip-worktree symbols? | `1`
-`GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS` | integer Boolean | Show dimmed Git status symbols? | `1`
-`GIT_PROMPT_KIT_USE_DEFAULT_PROMPT` | integer Boolean | Use the default Git Prompt Kit prompt? | `1`
+`GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT` | number | Show dimmed Git stash, assumed-unchanged, and skip-worktree symbols? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS` | number | Show dimmed Git status symbols? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_USE_DEFAULT_PROMPT` | number | Use the default Git Prompt Kit prompt? (YES if non-zero, NO if zero) | `1`
 
 Set variables in `.zshrc` before loading Git Prompt Kit. For example, to only show the user if _not_ `me`, only show the host if _not_ `my-computer`, and use symbols to distinguish between branches and commits:
 
