@@ -336,7 +336,7 @@ _git_prompt_kit_update_nongit() {
   fi
 
   if (( _git_prompt_kit_not_default_user || _git_prompt_kit_not_default_host )); then
-    (( _git_prompt_kit_not_default_user )) && GIT_PROMPT_KIT_USERHOST+="%F{$GIT_PROMPT_KIT_COLOR_USER}%n$f"
+    (( _git_prompt_kit_not_default_user )) && GIT_PROMPT_KIT_USERHOST+="%F{$GIT_PROMPT_KIT_COLOR_USER}%n%f"
     (( _git_prompt_kit_not_default_host )) && GIT_PROMPT_KIT_USERHOST+="%F{$GIT_PROMPT_KIT_COLOR_HOST}${GIT_PROMPT_KIT_SYMBOL_HOST}%m%f"
   fi
 }
