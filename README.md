@@ -215,33 +215,27 @@ zinit light olets/git-prompt-kit
 
 Colors can be one of zsh's eight color names (`black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan` and `white`; see http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Character-Highlighting), an integer 1-255 for an 8-bit color (e.g. `199`; see https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit), or a #-prefixed 3- or 6-character hexadecimal value for 24-bit color (e.g. `#fff`, `#34d5eb`).
 
-If using _hexadecimal_ values across terminal emulators that may or may not support 24-bit color, add
-
-```shell
-[[ $COLORTERM = *(24bit|truecolor)* ]] || zmodload zsh/nearcolor
-```
-
-before setting the colors (see http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fnearcolor-Module).
+zsh ships with a module which replaces 24-bit color values with nearby 8-bit ones (see the [zsh/nearmodule docs](http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fnearcolor-Module) for more information). Because the default Git Prompt Kit colors are 24-bit, it by checks for 24-bit support and loads that module if support is not found. To disable the replacement, set `GIT_PROMPT_KIT_8_BIT_FALLBACKS_FOR_24_BIT_COLORS=0` in `~/.zshrc` above the point where Git Prompt Kit is loaded.
 
 For the following table but with swatches, see [Issue #1: README appendix: default colors' swatches](https://github.com/olets/git-prompt-kit/issues/1).
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_COLOR_ACTION` | string | Color of the Git action | `199` (8-bit equivalent of `#ff00af`)
-`GIT_PROMPT_KIT_COLOR_ASSUME_UNCHANGED` | string | Color of the Git assumed unchaged count | `81` (8-bit equivalent of `#5fd7ff`)
-`GIT_PROMPT_KIT_COLOR_CUSTOM` | string | Color of the custom section (CWD in the default prompt) | `39` (8-bit equivalent of `#00afff`)
-`GIT_PROMPT_KIT_COLOR_FAILED` | string | Color of the prompt character when the previous command failed | `196` (8-bit equivalent of `#ff0000`)
-`GIT_PROMPT_KIT_COLOR_HEAD` | string | Color of the Git HEAD and the commits-behind count | `140` (8-bit equivalent of `#af87d7`)
-`GIT_PROMPT_KIT_COLOR_HOST` | string | Color of the host | `109` (8-bit equivalent of `#87afaf`)
-`GIT_PROMPT_KIT_COLOR_INACTIVE` | string | Color of inactive sections | `248` (8-bit equivalent of `#a8a8a8`)
-`GIT_PROMPT_KIT_COLOR_REMOTE` | string | Color of the Git remote and the commits-ahead count | `216` (8-bit equivalent of `#ffaf87`)
-`GIT_PROMPT_KIT_COLOR_SKIP_WORKTREE` | string | Color of the Git skip-worktree count | `81` (8-bit equivalent of `#5fd7ff`)
-`GIT_PROMPT_KIT_COLOR_STAGED` | string | Color of Git staged file counts  | `2` (8-bit equivalent of `#008000`)
-`GIT_PROMPT_KIT_COLOR_STASH` | string | Color of the Git stash count | `81` (8-bit equivalent of `#5fd7ff`)
-`GIT_PROMPT_KIT_COLOR_SUCCEEDED` | string | Color of the prompt character when the previous command succeeded | `76` (8-bit equivalent of `#5fd700`)
-`GIT_PROMPT_KIT_COLOR_TAG` | string | Color of Git tag | `140` (8-bit equivalent of `#af87d7`)
-`GIT_PROMPT_KIT_COLOR_UNSTAGED` | string | Color of Git unstaged file counts | `1` (8-bit equivalent of `#800000`)
-`GIT_PROMPT_KIT_COLOR_USER` | string | Color of the user | `109` (8-bit equivalent of `#87afaf`)
+`GIT_PROMPT_KIT_COLOR_ACTION` | string | Color of the Git action | `#fc3bae`
+`GIT_PROMPT_KIT_COLOR_ASSUME_UNCHANGED` | string | Color of the Git assumed unchaged count | `#65d7fd`
+`GIT_PROMPT_KIT_COLOR_CUSTOM` | string | Color of the custom section (CWD in the default prompt) | `#1eb0fc`
+`GIT_PROMPT_KIT_COLOR_FAILED` | string | Color of the prompt character when the previous command failed | `#fc291c`
+`GIT_PROMPT_KIT_COLOR_HEAD` | string | Color of the Git HEAD and the commits-behind count | `#ae89d5`
+`GIT_PROMPT_KIT_COLOR_HOST` | string | Color of the host | `#88afaf`
+`GIT_PROMPT_KIT_COLOR_INACTIVE` | string | Color of inactive sections | `#a8a8a8`
+`GIT_PROMPT_KIT_COLOR_REMOTE` | string | Color of the Git remote and the commits-ahead count | `#fdaf8a`
+`GIT_PROMPT_KIT_COLOR_SKIP_WORKTREE` | string | Color of the Git skip-worktree count | `#65d7fd`
+`GIT_PROMPT_KIT_COLOR_STAGED` | string | Color of Git staged file counts  | `#b6f97a`
+`GIT_PROMPT_KIT_COLOR_STASH` | string | Color of the Git stash count | `#65d7fd`
+`GIT_PROMPT_KIT_COLOR_SUCCEEDED` | string | Color of the prompt character when the previous command succeeded | `#64d527`
+`GIT_PROMPT_KIT_COLOR_TAG` | string | Color of Git tag | `#ae89d5`
+`GIT_PROMPT_KIT_COLOR_UNSTAGED` | string | Color of Git unstaged file counts | `#fd8476`
+`GIT_PROMPT_KIT_COLOR_USER` | string | Color of the user | `#88afaf`
 
 ## Components
 
