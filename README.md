@@ -178,6 +178,16 @@ zinit light olets/git-prompt-kit
 
 \*** `%%` expands as `%` in the zsh prompt
 
+Set variables in `.zshrc` before loading Git Prompt Kit. For example, to only show the user if _not_ `me`:
+
+```shell
+# ~/.zshrc
+# --- snip ---
+GIT_PROMPT_KIT_DEFAULT_HOST="my-computer"
+GIT_PROMPT_KIT_DEFAULT_USER="me"
+zinit light olets/git-prompt-kit
+```
+
 #### Symbols
 
 By default, the symbol for the Git status (i.e. new, delete)
@@ -200,16 +210,6 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_SYMBOL_STASH` | string | Follows the Git stash count | `⇲`
 `GIT_PROMPT_KIT_SYMBOL_TAG` | string | Follows the Git tag | `@`
 `GIT_PROMPT_KIT_SYMBOL_UNTRACKED` | string | Follows Git untracked file count | `??`
-
-Set variables in `.zshrc` before loading Git Prompt Kit. For example, to only show the user if _not_ `me`:
-
-```shell
-# ~/.zshrc
-# --- snip ---
-GIT_PROMPT_KIT_DEFAULT_HOST="my-computer"
-GIT_PROMPT_KIT_DEFAULT_USER="me"
-zinit light olets/git-prompt-kit
-```
 
 #### Colors
 
