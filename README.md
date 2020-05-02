@@ -93,8 +93,7 @@ The following apply to the default prompt, and to the relevant components if use
 - show the checked out branch, unless HEAD is detached in which case show the checked out commit
 - dim the checked out branch or commit if the working tree is clean
 - flag the checked out branch as local if it has no upstream
-- hide the behind and ahead components if HEAD is detached or has no upstream
-- dim the behind and/or ahead components if not behind or ahead
+- show the number of commits behind and/or ahead of the upstream branch the local branch is
 - show the checked out branch's upstream's remote and branch name if the remote is not `origin`
 - show the checked out branch's upstream's branch name if different from the local name
 - dim the stash count if zero
@@ -117,8 +116,9 @@ Customize
 - the Git symbols (for branch, commit, commits behind, commits ahead, stash, assumed-unchanged count, skip-worktree count, and file)
 - the default Git remote
 - the "custom" component's content
-- whether to display zero-count stash, assumed-unchanged, and skip-worktree components (independent of the option below)
-- whether to display zero-count working tree components (independent of the option above)
+- whether to display zero-count commits-ahead and commits-behind components
+- whether to display zero-count stash, assumed-unchanged, and skip-worktree components
+- whether to display zero-count working tree components
 
 ### Options specific to the default prompt
 
@@ -157,6 +157,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
 `GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL` | string | Character show at end of prompt for normal users | `%%` ***
 `GIT_PROMPT_KIT_PROMPT_CHAR_ROOT` | string | Character show at end of prompt for root users | `#`
+`GIT_PROMPT_KIT_SHOW_INACTIVE_AHEAD_BEHIND` | number | Show dimmed symbols for the commits behind/ahead of the upstream branch when there are none (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT` | number | Show dimmed Git stash, assumed-unchanged, and skip-worktree symbols? (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS` | number | Show dimmed Git status symbols? (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_USE_DEFAULT_PROMPT` | number | Use the default Git Prompt Kit prompt? (YES if non-zero, NO if zero) | `1`
