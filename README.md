@@ -157,9 +157,9 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
 `GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL` | string | Character show at end of prompt for normal users | `%%` ***
 `GIT_PROMPT_KIT_PROMPT_CHAR_ROOT` | string | Character show at end of prompt for root users | `#`
-`GIT_PROMPT_KIT_SHOW_INACTIVE_AHEAD_BEHIND` | number | Show dimmed symbols for the commits behind/ahead of the upstream branch when there are none (YES if non-zero, NO if zero) | `1`
-`GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT` | number | Show dimmed Git stash, assumed-unchanged, and skip-worktree symbols? (YES if non-zero, NO if zero) | `1`
-`GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS` | number | Show dimmed Git status symbols? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_SHOW_INACTIVE_AHEAD_BEHIND` | number | Show symbols for the commits behind/ahead of the upstream branch (dimmed) when the count is zero? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_SHOW_INACTIVE_EXTENDED_STATUS` | number | Show Git stash, assumed-unchanged, and skip-worktree symbols (dimmed) when the count is zero? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS` | number | Show Git status symbols (dimmed) when the count is zero? (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_USE_DEFAULT_PROMPT` | number | Use the default Git Prompt Kit prompt? (YES if non-zero, NO if zero) | `1`
 
 Set variables in `.zshrc` before loading Git Prompt Kit. For example, to only show the user if _not_ `me`, only show the host if _not_ `my-computer`, and use symbols to distinguish between branches and commits:
