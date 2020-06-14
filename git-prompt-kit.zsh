@@ -391,7 +391,7 @@ autoload -Uz add-zsh-hook
 add-zsh-hook precmd _git_prompt_kit_update_git
 add-zsh-hook precmd _git_prompt_kit_update_nongit
 
-(( GIT_PROMPT_KIT_SUPPORT_8_BIT_COLOR )) && [[ $COLORTERM = *(24bit|truecolor)* ]] || zmodload zsh/nearcolor
+(( GIT_PROMPT_KIT_SUPPORT_8_BIT_COLOR )) && [[ $COLORTERM = *(24bit|truecolor)* ]] || zmodload zsh/nearcolor 2>/dev/null
 
 # If setting the prompt, set it.
 (( GIT_PROMPT_KIT_USE_DEFAULT_PROMPT )) && PROMPT=$(_git_prompt_kit_build_prompt)
