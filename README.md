@@ -150,10 +150,10 @@ Name | Type | Description | Default
 ---|---|---|---
 `GIT_PROMPT_KIT_8_BIT_FALLBACKS_FOR_24_BIT_COLORS` | number | Load `zsh/nearcolor`? (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_CUSTOM_CONTENT` | string | The code for the custom component* | `%2~`**
-`GIT_PROMPT_KIT_DEFAULT_HOSTS` | array | The default host | `()`
 `GIT_PROMPT_KIT_DEFAULT_REMOTE` | string | The default Git remote | `origin`
-`GIT_PROMPT_KIT_DEFAULT_USERS` | array | The default user | `()`
 `GIT_PROMPT_KIT_HIDE_TOOL_NAMES` | number | Do not show the word "Git" before the Git ref info? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_HIDDEN_HOSTS` | array | The default host | `()`
+`GIT_PROMPT_KIT_HIDDEN_USERS` | array | The default user | `()`
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
 `GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL` | string | Character show at end of prompt for normal users | `%%` ***
 `GIT_PROMPT_KIT_PROMPT_CHAR_ROOT` | string | Character show at end of prompt for root users | `#`
@@ -162,13 +162,13 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS` | number | Show Git status symbols (dimmed) when the count is zero? (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_USE_DEFAULT_PROMPT` | number | Use the default Git Prompt Kit prompt? (YES if non-zero, NO if zero) | `1`
 
-Set variables in `.zshrc` before loading Git Prompt Kit. For example, to only show the user if _not_ `me`, only show the host if _not_ `my-computer`, and use symbols to distinguish between branches and commits:
+Set variables in `.zshrc` before loading Git Prompt Kit. For example, to only show the user if _not_ `me`, only show the host if _not_ `my-computer` or `my-other-computer`, and use symbols to distinguish between branches and commits:
 
 ```shell
 # ~/.zshrc
 # --- snip ---
-typeset -a GIT_PROMPT_KIT_DEFAULT_HOSTS=(my-computer my-other-computer)
-typeset -a GIT_PROMPT_KIT_DEFAULT_USER=(me)
+typeset -a GIT_PROMPT_KIT_HIDDEN_HOSTS=(my-computer my-other-computer)
+typeset -a GIT_PROMPT_KIT_HIDDEN_USERS=(me)
 GIT_PROMPT_KIT_SYMBOL_BRANCH="#"
 GIT_PROMPT_KIT_SYMBOL_COMMIT="•"
 zinit light olets/git-prompt-kit
@@ -178,17 +178,7 @@ zinit light olets/git-prompt-kit
 
 \** Current working directory and its parent, with `~` for initial `$HOME` (and with custom zsh "named directories" respected; see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Shell-state).
 
-\*** `%%` expands as `%` in the zsh prompt
-
-Set variables in `.zshrc` before loading Git Prompt Kit. For example, to only show the user if _not_ `me`:
-
-```shell
-# ~/.zshrc
-# --- snip ---
-GIT_PROMPT_KIT_DEFAULT_HOST="my-computer"
-GIT_PROMPT_KIT_DEFAULT_USER="me"
-zinit light olets/git-prompt-kit
-```
+\*** `%%` expands as `%` in the zsh prompt.
 
 #### Symbols
 

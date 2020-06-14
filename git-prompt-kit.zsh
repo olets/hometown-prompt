@@ -8,9 +8,7 @@
 # Configurable options
 GIT_PROMPT_KIT_8_BIT_FALLBACKS_FOR_24_BIT_COLORS=${GIT_PROMPT_KIT_8_BIT_FALLBACKS_FOR_24_BIT_COLORS:-1}
 GIT_PROMPT_KIT_CUSTOM_CONTENT=${GIT_PROMPT_KIT_CUSTOM_CONTENT-%2~} # see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Shell-state
-! [[ -v GIT_PROMPT_KIT_DEFAULT_HOSTS ]] && typeset -a GIT_PROMPT_KIT_DEFAULT_HOSTS=()
 GIT_PROMPT_KIT_DEFAULT_REMOTE=${GIT_PROMPT_KIT_DEFAULT_REMOTE-origin}
-! [[ -v GIT_PROMPT_KIT_DEFAULT_USERS ]] && typeset -a GIT_PROMPT_KIT_DEFAULT_USERS=()
 GIT_PROMPT_KIT_HIDE_TOOL_NAMES=${GIT_PROMPT_KIT_HIDE_TOOL_NAMES:-1}
 GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES=${GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES:-1}
 GIT_PROMPT_KIT_LOCAL=${GIT_PROMPT_KIT_LOCAL-local}
@@ -18,6 +16,8 @@ GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF=${GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_
 GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL=${GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL-%%}
 GIT_PROMPT_KIT_PROMPT_CHAR_ROOT=${GIT_PROMPT_KIT_PROMPT_CHAR_ROOT-#}
 GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS=${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:-1}
+! [[ -v GIT_PROMPT_KIT_HIDDEN_HOSTS ]] && typeset -a GIT_PROMPT_KIT_HIDDEN_HOSTS=()
+! [[ -v GIT_PROMPT_KIT_HIDDEN_USERS ]] && typeset -a GIT_PROMPT_KIT_HIDDEN_USERS=()
 GIT_PROMPT_KIT_SHOW_INACTIVE_AHEAD_BEHIND=${GIT_PROMPT_KIT_SHOW_INACTIVE_AHEAD_BEHIND:-1}
 GIT_PROMPT_KIT_SHOW_INACTIVE_EXTENDED_STATUS=${GIT_PROMPT_KIT_SHOW_INACTIVE_EXTENDED_STATUS:-1}
 GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=${GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS:-1}
@@ -318,10 +318,10 @@ _git_prompt_kit_update_nongit() {
   typeset -g GIT_PROMPT_KIT_CHAR=
   typeset -g GIT_PROMPT_KIT_USERHOST=
 
-  local git_prompt_kit_not_default_user=0
-  local git_prompt_kit_not_default_host=0
   local host=${(%):-%m}
   local user=${(%):-%n}
+  local show_host=0
+  local show_user=0
 
   GIT_PROMPT_KIT_CUSTOM="%F{$GIT_PROMPT_KIT_COLOR_CUSTOM}$GIT_PROMPT_KIT_CUSTOM_CONTENT%f"
 
@@ -330,18 +330,18 @@ _git_prompt_kit_update_nongit() {
 
   # User info
   # Show user if not a default (has configurable color)
-  if ! (( $GIT_PROMPT_KIT_DEFAULT_USERS[(I)$user] )); then
-    _git_prompt_kit_not_default_user=1
+  if ! (( $GIT_PROMPT_KIT_HIDDEN_USERS[(I)$user] )); then
+    show_user=1
   fi
 
   # Show host if not a default (has configurable color and prefix)
-  if ! (( $GIT_PROMPT_KIT_DEFAULT_HOSTS[(I)$host] )); then
-    _git_prompt_kit_not_default_host=1
+  if ! (( $GIT_PROMPT_KIT_HIDDEN_HOSTS[(I)$host] )); then
+    show_host=1
   fi
 
-  if (( _git_prompt_kit_not_default_user || _git_prompt_kit_not_default_host )); then
-    (( _git_prompt_kit_not_default_user )) && GIT_PROMPT_KIT_USERHOST+="%F{$GIT_PROMPT_KIT_COLOR_USER}%n%f"
-    (( _git_prompt_kit_not_default_host )) && GIT_PROMPT_KIT_USERHOST+="%F{$GIT_PROMPT_KIT_COLOR_HOST}${GIT_PROMPT_KIT_SYMBOL_HOST}%m%f"
+  if (( show_user || show_host )); then
+    (( show_user )) && GIT_PROMPT_KIT_USERHOST+="%F{$GIT_PROMPT_KIT_COLOR_USER}%n%f"
+    (( show_host )) && GIT_PROMPT_KIT_USERHOST+="%F{$GIT_PROMPT_KIT_COLOR_HOST}${GIT_PROMPT_KIT_SYMBOL_HOST}%m%f"
   fi
 }
 
