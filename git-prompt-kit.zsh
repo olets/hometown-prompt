@@ -8,9 +8,9 @@
 # Configurable options
 GIT_PROMPT_KIT_8_BIT_FALLBACKS_FOR_24_BIT_COLORS=${GIT_PROMPT_KIT_8_BIT_FALLBACKS_FOR_24_BIT_COLORS:-1}
 GIT_PROMPT_KIT_CUSTOM_CONTENT=${GIT_PROMPT_KIT_CUSTOM_CONTENT-%2~} # see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Shell-state
-GIT_PROMPT_KIT_DEFAULT_HOST=${GIT_PROMPT_KIT_DEFAULT_HOST-}
+! [[ -v GIT_PROMPT_KIT_DEFAULT_HOSTS ]] && typeset -a GIT_PROMPT_KIT_DEFAULT_HOSTS=()
 GIT_PROMPT_KIT_DEFAULT_REMOTE=${GIT_PROMPT_KIT_DEFAULT_REMOTE-origin}
-GIT_PROMPT_KIT_DEFAULT_USER=${GIT_PROMPT_KIT_DEFAULT_USER-}
+! [[ -v GIT_PROMPT_KIT_DEFAULT_USERS ]] && typeset -a GIT_PROMPT_KIT_DEFAULT_USERS=()
 GIT_PROMPT_KIT_HIDE_TOOL_NAMES=${GIT_PROMPT_KIT_HIDE_TOOL_NAMES:-1}
 GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES=${GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES:-1}
 GIT_PROMPT_KIT_LOCAL=${GIT_PROMPT_KIT_LOCAL-local}
@@ -320,6 +320,8 @@ _git_prompt_kit_update_nongit() {
 
   local git_prompt_kit_not_default_user=0
   local git_prompt_kit_not_default_host=0
+  local host=${(%):-%m}
+  local user=${(%):-%n}
 
   GIT_PROMPT_KIT_CUSTOM="%F{$GIT_PROMPT_KIT_COLOR_CUSTOM}$GIT_PROMPT_KIT_CUSTOM_CONTENT%f"
 
@@ -327,13 +329,13 @@ _git_prompt_kit_update_nongit() {
   GIT_PROMPT_KIT_CHAR="%F{%(?.$GIT_PROMPT_KIT_COLOR_SUCCEEDED.$GIT_PROMPT_KIT_COLOR_FAILED)}%(!.$GIT_PROMPT_KIT_PROMPT_CHAR_ROOT.$GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL)%f"
 
   # User info
-  # Show user if not the default (has configurable color)
-  # Show host if not the default (has configurable color and prefix)
-  if [[ ${(%):-%n} != $GIT_PROMPT_KIT_DEFAULT_USER ]]; then
+  # Show user if not a default (has configurable color)
+  if ! (( $GIT_PROMPT_KIT_DEFAULT_USERS[(I)$user] )); then
     _git_prompt_kit_not_default_user=1
   fi
 
-  if [[ ${(%):-%m} != $GIT_PROMPT_KIT_DEFAULT_HOST ]]; then
+  # Show host if not a default (has configurable color and prefix)
+  if ! (( $GIT_PROMPT_KIT_DEFAULT_HOSTS[(I)$host] )); then
     _git_prompt_kit_not_default_host=1
   fi
 
