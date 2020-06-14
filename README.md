@@ -225,7 +225,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_COLOR_STAGED` | string | Color of Git staged file counts  | `#b6f97a`
 `GIT_PROMPT_KIT_COLOR_STASH` | string | Color of the Git stash count | `#65d7fd`
 `GIT_PROMPT_KIT_COLOR_SUCCEEDED` | string | Color of the prompt character when the previous command succeeded | `#64d527`
-`GIT_PROMPT_KIT_COLOR_TAG` | string | Color of Git tag | `#ae89d5`
+`GIT_PROMPT_KIT_COLOR_TAG` | string | Color of Git tag | `#95dbc4`
 `GIT_PROMPT_KIT_COLOR_UNSTAGED` | string | Color of Git unstaged file counts | `#fd8476`
 `GIT_PROMPT_KIT_COLOR_USER` | string | Color of the user | `#88afaf`
 
