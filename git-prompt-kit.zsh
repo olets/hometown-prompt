@@ -390,5 +390,9 @@ autoload -Uz add-zsh-hook
 add-zsh-hook precmd _git_prompt_kit_update_git
 add-zsh-hook precmd _git_prompt_kit_update_nongit
 
+# Perform parameter expansion, command substitution and arithmetic expansion in the prompt,
+# and treat `%` specially
+setopt prompt_subst prompt_percent
+
 # If setting the prompt, set it.
 (( GIT_PROMPT_KIT_USE_DEFAULT_PROMPT )) && PROMPT=$(_git_prompt_kit_build_prompt)
