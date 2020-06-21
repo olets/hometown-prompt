@@ -1,5 +1,40 @@
 # Recipes
 
+- [Prompt Managers](#prompt-managers)
+- [Customization examples](#customization-examples)
+
+## Prompt Managers
+
+### Spaceship
+
+Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section. The Git Prompt Kit Spaceship section loads about in about 1/2 the time Spaceship's built in Git section takes. Add Git Prompt Kit to your zshrc as above (Homebrew, plugin, or manual). Also add `git-prompt-kit.spaceship.zsh`. Then add `git_prompt_kit` to `SPACESHIP_PROMPT_ORDER`.
+
+The Git Prompt Kit Spaceship section uses the default Git Prompt Kit's Git components; that is, it does not include Git Prompt Kit's user, host, the custom section, or prompt character components.
+
+For example, with zinit
+
+```shell
+# shell rc file
+
+zinit ice src"git-prompt-kit.spaceship.zsh"
+zinit load /Users/home/Sites/olets/git-prompt-kit
+GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
+
+# any git-prompt-kit config options
+
+SPACESHIP_PROMPT_ORDER=(
+  # any other sections
+  git_prompt_kit
+  # any other sections
+)
+
+zinit light "denysdovhan/spaceship-prompt"
+```
+
+See <https://github.com/denysdovhan/spaceship-prompt/blob/master/docs/Options.md#order> for Spaceship's default order.
+
+## Customization examples
+
 Here are some examples of how the Git Prompt Kit components can be used.
 
 They have not been thoroughly battle tested — they are not "Git Prompt Kit themes" but rather starting points for those new to customizing the zsh prompt.

@@ -84,6 +84,12 @@ Or install gitstatus and Git Prompt Kit with your favorite plugin manager (zinit
   zplug "olets/git-prompt-kit"
   ```
 
+### Prompt Manager
+
+Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section definition. Instructions are in [Recipes.md](Recipes.md).
+
+The Git Prompt Kit Spaceship section loads about in about 1/2 the time Spaceship's built in Git section takes.
+
 ## Features
 
 The following apply to the default prompt, and to the relevant components if used in a custom prompt.
