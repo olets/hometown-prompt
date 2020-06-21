@@ -80,6 +80,9 @@ function _git_prompt_kit_update_git() {
   typeset -g GIT_PROMPT_KIT_UNTRACKED=
   typeset -g GIT_PROMPT_KIT_UPSTREAM=
 
+  (( GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES )) || typeset -g GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES=
+  (( GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF )) || typeset -g GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF=
+
   # Call gitstatus_query synchronously. Note that gitstatus_query can also be called
   # asynchronously; see documentation in gitstatus.plugin.zsh.
   gitstatus_query 'MY'                  || return 1  # error
@@ -344,6 +347,23 @@ _git_prompt_kit_update_nongit() {
   fi
 }
 
+_git_prompt_kit_git_prompt() {
+  local git_prompt=
+
+  git_prompt+='$GIT_PROMPT_KIT_REF'
+  # add a line break if GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES, otherwise add a space
+  git_prompt+='${GIT_PROMPT_KIT_HEAD:+${${GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES:+\n}:- }}'
+  git_prompt+='${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}'
+  # add a space if GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS and GIT_PROMPT_KIT_STATUS_EXTENDED and either GIT_PROMPT_KIT_STATUS or GIT_PROMPT_KIT_ACTION
+  git_prompt+='${${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}:+${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }}'
+  git_prompt+='$GIT_PROMPT_KIT_STATUS'
+  # add a space if GIT_PROMPT_KIT_STATUS and GIT_PROMPT_KIT_ACTION
+  git_prompt+='${GIT_PROMPT_KIT_STATUS:+${GIT_PROMPT_KIT_ACTION:+ }}'
+  git_prompt+='$GIT_PROMPT_KIT_ACTION'
+
+  echo $git_prompt
+}
+
 _git_prompt_kit_build_prompt() {
   local prompt=
 
@@ -362,16 +382,7 @@ _git_prompt_kit_build_prompt() {
   # Git
   # add a space if GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF, otherwise add a linebreak
   prompt+='${GIT_PROMPT_KIT_HEAD:+${${GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF:+ }:-\n}}'
-  prompt+='$GIT_PROMPT_KIT_REF'
-  # add a line break if GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES, otherwise add a space
-  prompt+='${GIT_PROMPT_KIT_HEAD:+${${GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES:+\n}:- }}'
-  prompt+='${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}'
-  # add a space if GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS and GIT_PROMPT_KIT_STATUS_EXTENDED and either GIT_PROMPT_KIT_STATUS or GIT_PROMPT_KIT_ACTION
-  prompt+='${${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}:+${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }}'
-  prompt+='$GIT_PROMPT_KIT_STATUS'
-  # add a space if GIT_PROMPT_KIT_STATUS and GIT_PROMPT_KIT_ACTION
-  prompt+='${GIT_PROMPT_KIT_STATUS:+${GIT_PROMPT_KIT_ACTION:+ }}'
-  prompt+='$GIT_PROMPT_KIT_ACTION'
+  prompt+=$(_git_prompt_kit_git_prompt)
 
   # Prompt character
   prompt+=$'\n'
