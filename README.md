@@ -86,9 +86,9 @@ Or install gitstatus and Git Prompt Kit with your favorite plugin manager (zinit
 
 ### Prompt Manager
 
-Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section definition. Instructions are in [Recipes.md](Recipes.md).
+Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section definition, and it is easy to create a [Starship](https://starship.rs/) custom Git Prompt Kit-powered Git module. Instructions for both are in [Recipes.md](Recipes.md).
 
-The Git Prompt Kit Spaceship section loads about in about 1/2 the time Spaceship's built in Git section takes.
+The Git Prompt Kit Spaceship section loads about in about 1/2 the time Spaceship's built in Git section takes. The Git Prompt Kit Starship module loads in about 9/10 the time Starship's built in Git module takes.
 
 ## Features
 

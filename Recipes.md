@@ -33,6 +33,42 @@ zinit light "denysdovhan/spaceship-prompt"
 
 See <https://github.com/denysdovhan/spaceship-prompt/blob/master/docs/Options.md#order> for Spaceship's default order.
 
+### Starship
+
+You can use Git Prompt Kit with [Starship](https://starship.rs/). The Git Prompt Kit Starship module loads in about 9/10 the time Starship's built in Git module takes.
+
+```shell
+# shell rc file
+
+GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
+```
+
+```toml
+# starship.toml
+
+prompt_order = [
+    # other sections
+    "custom.git_prompt_kit",
+    # other sections
+    "custom",
+    # other sections
+]
+
+[custom.git_prompt_kit]
+command = "print -P '<components here>'" # for example, "print -P '$GIT_PROMPT_KIT_REF'"
+shell = ["zsh"]
+when = "true"
+prefix = ""
+```
+
+See <https://starship.rs/config/#prompt> for Starship's default order.
+
+To show the Git Prompt Kit default prompt's Git prompt (as with the Spaceship section above), use
+
+```toml
+command = "print -P '$GIT_PROMPT_KIT_REF${GIT_PROMPT_KIT_HEAD:+${${GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES:+\n}:- }}${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}${${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}:+${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }}$GIT_PROMPT_KIT_STATUS${GIT_PROMPT_KIT_STATUS:+${GIT_PROMPT_KIT_ACTION:+ }}$GIT_PROMPT_KIT_ACTION'"
+```
+
 ## Customization examples
 
 Here are some examples of how the Git Prompt Kit components can be used.
