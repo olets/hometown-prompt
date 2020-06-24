@@ -212,17 +212,17 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_COLOR_ACTION` | string | Color of the Git action | `199`
 `GIT_PROMPT_KIT_COLOR_ASSUME_UNCHANGED` | string | Color of the Git assumed unchaged count | `81`
 `GIT_PROMPT_KIT_COLOR_CUSTOM` | string | Color of the custom section (CWD in the default prompt) | `39`
-`GIT_PROMPT_KIT_COLOR_FAILED` | string | Color of the prompt character when the previous command failed | `160`
+`GIT_PROMPT_KIT_COLOR_FAILED` | string | Color of the prompt character when the previous command failed | `88`
 `GIT_PROMPT_KIT_COLOR_HEAD` | string | Color of the Git HEAD and the commits-behind count | `140`
 `GIT_PROMPT_KIT_COLOR_HOST` | string | Color of the host | `109`
-`GIT_PROMPT_KIT_COLOR_INACTIVE` | string | Color of inactive sections | `248`
+`GIT_PROMPT_KIT_COLOR_INACTIVE` | string | Color of inactive sections | `247`
 `GIT_PROMPT_KIT_COLOR_REMOTE` | string | Color of the Git remote and the commits-ahead count | `216`
 `GIT_PROMPT_KIT_COLOR_SKIP_WORKTREE` | string | Color of the Git skip-worktree count | `81`
-`GIT_PROMPT_KIT_COLOR_STAGED` | string | Color of Git staged file counts  | `156`
+`GIT_PROMPT_KIT_COLOR_STAGED` | string | Color of Git staged file counts  | `120`
 `GIT_PROMPT_KIT_COLOR_STASH` | string | Color of the Git stash count | `81`
 `GIT_PROMPT_KIT_COLOR_SUCCEEDED` | string | Color of the prompt character when the previous command succeeded | `76`
 `GIT_PROMPT_KIT_COLOR_TAG` | string | Color of Git tag | `86`
-`GIT_PROMPT_KIT_COLOR_UNSTAGED` | string | Color of Git unstaged file counts | `210`
+`GIT_PROMPT_KIT_COLOR_UNSTAGED` | string | Color of Git unstaged file counts | `162`
 `GIT_PROMPT_KIT_COLOR_USER` | string | Color of the user | `109`
 
 ## Components
