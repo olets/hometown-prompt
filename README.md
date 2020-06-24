@@ -23,8 +23,6 @@ In the above screenshot, the default Git Prompt Kit prompt shows that `master` i
 
 ## Installation
 
-Git Prompt Kit relies one one external dependency, the plugin [gitstatus](https://github.com/romkatv/gitstatus). gitstatus is not affiliated with Git Prompt Kit.
-
 ### Package
 
 Git Prompt Kit is available on Homebrew. Run
@@ -33,21 +31,19 @@ Git Prompt Kit is available on Homebrew. Run
 brew install olets/tap/git-prompt-kit
 ```
 
-and follow the post-install instructions logged to the terminal. gitstatus will need to be installed with a plugin manager (see below).
+and follow the post-install instructions logged to the terminal.
 
 ### Plugin
 
-Or install gitstatus and Git Prompt Kit with your favorite plugin manager (zinit is recommended for its superior performance).
+Or install Git Prompt Kit with your favorite plugin manager (zinit is recommended for its superior performance).
 
 - **[antibody](https://getantibody.github.io/)**: Add this to your plugins to your plugins file, and if you use static loading reload plugins.
   ```shell
-  romkatv/gitstatus
   olets/git-prompt-kit
   ```
 
 - **[Antigen](https://github.com/zsh-users/antigen)**: Add this to your `.zshrc`:
   ```shell
-  antigen bundle romkatv/gitstatus
   antigen bundle olets/git-prompt-kit
   ```
 
@@ -56,31 +52,27 @@ Or install gitstatus and Git Prompt Kit with your favorite plugin manager (zinit
   - Clone to OMZ's plugins' directory:
 
     ```shell
-    git clone https://github.com/romkatv/gitstatus.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/gitstatus
     git clone https://github.com/olets/git-prompt-kit.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-prompt-kit
     ```
 
   - Add to the OMZ plugins array in your `.zshrc`:
 
     ```shell
-    plugins=( [plugins...] gitstatus git-prompt-kit)
+    plugins=( [plugins...] git-prompt-kit)
     ```
 
 - **[zgen](https://github.com/tarjoilija/zgen)**: add this to your `.zshrc`:
   ```shell
-  zgen load romkatv/gitstatus
   zgen load olets/git-prompt-kit
   ```
 
 - **[zinit](https://github.com/zdharma/zinit)** (formerly **zplugin**): add this to your `.zshrc`:
   ```shell
-  zinit light romkatv/gitstatus
   zinit light olets/git-prompt-kit
   ```
 
 - **[zplug](https://github.com/zplug/zplug)**: add this to your `.zshrc`:
   ```shell
-  zplug "romkatv/gitstatus"
   zplug "olets/git-prompt-kit"
   ```
 
@@ -289,7 +281,7 @@ Name | Description
 
 ## Performance
 
-See [gitstatus's documentation](https://github.com/romkatv/gitstatus) for details on its performance and how it works.
+Git Prompt Kit is built on gitstatus. See [gitstatus's documentation](https://github.com/romkatv/gitstatus) for details on its performance and how it works.
 
 Snapshot with macOS 10.14 on early-2015 MacBook Pro (2.9 GHz Intel Core i5, 16 GB 1867 MHz DDR3), zsh 5.3, zinit 3.1, iTerm2 3.3.9.
 
@@ -301,7 +293,6 @@ autoload -U add-zsh-hook
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
-zinit light romkatv/gitstatus
 zinit light olets/git-prompt-kit
 ```
 
@@ -325,13 +316,12 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 zinit light romkatv/zsh-prompt-benchmark
-zinit light romkatv/gitstatus
 zinit light olets/git-prompt-kit
 ```
 
 ## Acknowledgments
 
-Git Prompt Kit relies on Roman Perepelitsa's [gitstatus](https://github.com/romkatv/gitstatus).
+Git Prompt Kit is built on Roman Perepelitsa's [gitstatus](https://github.com/romkatv/gitstatus).
 
 Showing "dimmed" components was inspired by Arialdo Martini's [oh-my-git](https://github.com/arialdomartini/oh-my-git), which leaves space for inactive symbols.
 
@@ -348,6 +338,8 @@ Thanks for your interest. Contributions are welcome!
 > Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 Check the [Issues](https://github.com/olets/git-prompt-kit/issues) to see if your topic has been discussed before or if it is being worked on. You may also want to check the roadmap (see above). Discussing in an Issue before opening a Pull Request means future contributors only have to search in one place.
+
+This project includes a Git [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules). Passing `--recurse-submodules` when `git clone`ing is recommended.
 
 This project loosely follows the [Angular commit message conventions](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit). This helps with searchability and with the changelog, which is generated automatically and touched up by hand only if necessary. Use the commit message format `<type>(<scope>): <subject>`, where `<type>` is **feat** for new or changed behavior, **fix** for fixes, **docs** for documentation, **style** for under the hood changes related to for example zshisms, **refactor** for other refactors, **test** for tests, or **chore** chore for general maintenance (this will be used primarily by maintainers not contributors, for example for version bumps). `<scope>` is more loosely defined. Look at the [commit history](https://github.com/olets/git-prompt-kit/commits/master) for ideas.
 

@@ -85,7 +85,7 @@ function _git_prompt_kit_update_git() {
 
   # Call gitstatus_query synchronously. Note that gitstatus_query can also be called
   # asynchronously; see documentation in gitstatus.plugin.zsh.
-  gitstatus_query 'MY'                  || return 1  # error
+  gitstatus_query__git_prompt_kit 'MY'                  || return 1  # error
   [[ $VCS_STATUS_RESULT == 'ok-sync' ]] || return 0  # not a git repo
 
   # Set variables for later use
@@ -395,10 +395,14 @@ _git_prompt_kit_build_prompt() {
   echo $prompt
 }
 
+# Source local gitstatus
+# Second param is added to gitstatus function names as a suffix
+source ${0:A:h}/gitstatus/gitstatus.plugin.zsh __git_prompt_kit
+
 # Start gitstatusd instance with name "MY". The same name is passed to
 # gitstatus_query in _git_prompt_kit_update_git. The flags with -1 as values
 # enable staged, unstaged, conflicted and untracked counters.
-gitstatus_stop 'MY' && gitstatus_start -s -1 -u -1 -c -1 -d -1 'MY'
+gitstatus_stop__git_prompt_kit 'MY' && gitstatus_start__git_prompt_kit -s -1 -u -1 -c -1 -d -1 'MY'
 
 # On every prompt, refresh prompt content
 autoload -Uz add-zsh-hook
@@ -408,6 +412,5 @@ add-zsh-hook precmd _git_prompt_kit_update_nongit
 # Perform parameter expansion, command substitution and arithmetic expansion in the prompt,
 # and treat `%` specially
 setopt prompt_subst prompt_percent
-
 # If setting the prompt, set it.
 (( GIT_PROMPT_KIT_USE_DEFAULT_PROMPT )) && PROMPT=$(_git_prompt_kit_build_prompt)
