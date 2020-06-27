@@ -64,16 +64,22 @@ eval "$(starship init zsh)"
 ```toml
 # starship.toml
 
-prompt_order = [
-    # other sections
-    "custom.git_prompt_kit",
-    # other sections
-    "custom",
-    # other sections
-]
+[git_branch]
+disabled = true
+
+[git_commit]
+disabled = true
+
+[git_state]
+disabled = true
+
+[git_status]
+disabled = true
 
 [custom.git_prompt_kit]
-command = "print -P '<components here>'" # for example, "print -P '$GIT_PROMPT_KIT_REF'"
+# Customize to your liking. For example, here is
+# ref, extended status, status, and action, space-separated
+command = "print -P '$GIT_PROMPT_KIT_REF$GIT_PROMPT_KIT_STATUS_EXTENDED${GIT_PROMPT_KIT_STATUS_EXTENDED:+${${GIT_PROMPT_KIT_STATUS:+ }:-${GIT_PROMPT_KIT_ACTION:+ }}}$GIT_PROMPT_KIT_STATUS${GIT_PROMPT_KIT_ACTION:+${GIT_PROMPT_KIT_STATUS:+ }}$GIT_PROMPT_KIT_ACTION'"
 shell = ["zsh"]
 when = "true"
 prefix = ""
