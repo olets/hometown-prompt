@@ -86,8 +86,8 @@ The Git Prompt Kit Spaceship section loads about in about 1/2 the time Spaceship
 
 The following apply to the default prompt, and to the relevant components if used in a custom prompt.
 
-- show the user if it isn't the default user
-- show the host if it isn't the default host
+- show the user if it isn't one of the hidden users
+- show the host if it isn't one of the hidden hosts
 - show the checked out branch, unless HEAD is detached in which case show the checked out commit
 - dim the checked out branch or commit if the working tree is clean
 - flag the checked out branch as local if it has no upstream
@@ -109,8 +109,8 @@ Customize
 
 - the colors
 - the host symbol
-- the default user
-- the default host
+- the default users
+- the default hosts
 - the Git symbols (for branch, commit, commits behind, commits ahead, stash, assumed-unchanged count, skip-worktree count, and file)
 - the default Git remote
 - the "custom" component's content
@@ -150,8 +150,8 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_CUSTOM_CONTENT` | string | The code for the custom component* | `%2~`**
 `GIT_PROMPT_KIT_DEFAULT_REMOTE` | string | The default Git remote | `origin`
 `GIT_PROMPT_KIT_HIDE_TOOL_NAMES` | number | Do not show the word "Git" before the Git ref info? (YES if non-zero, NO if zero) | `1`
-`GIT_PROMPT_KIT_HIDDEN_HOSTS` | array | The default host | `()`
-`GIT_PROMPT_KIT_HIDDEN_USERS` | array | The default user | `()`
+`GIT_PROMPT_KIT_HIDDEN_HOSTS` | array | The hosts that will not be included in the prompt | `()`
+`GIT_PROMPT_KIT_HIDDEN_USERS` | array | The users that will not be included in the prompt | `()`
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
 `GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL` | string | Character show at end of prompt for normal users | `%%` ***
 `GIT_PROMPT_KIT_PROMPT_CHAR_ROOT` | string | Character show at end of prompt for root users | `#`
