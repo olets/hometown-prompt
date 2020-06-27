@@ -314,7 +314,7 @@ function _git_prompt_kit_update_git() {
 
   # Git: optionally prefix prompt
 
-  (( GIT_PROMPT_KIT_HIDE_TOOL_NAMES )) || ref_status="Git $GIT_PROMPT_KIT_REF"
+  (( GIT_PROMPT_KIT_HIDE_TOOL_NAMES )) || GIT_PROMPT_KIT_REF="Git $GIT_PROMPT_KIT_REF"
 }
 
 _git_prompt_kit_update_nongit() {
