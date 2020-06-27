@@ -312,9 +312,27 @@ function _git_prompt_kit_update_git() {
     GIT_PROMPT_KIT_REF+=$GIT_PROMPT_KIT_TAG
   fi
 
-  # Git: optionally prefix prompt
+  if (( GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES )); then
+    GIT_PROMPT_KIT_REF+=${GIT_PROMPT_KIT_REF:+$'\n'}
+  else
+    GIT_PROMPT_KIT_REF+=${GIT_PROMPT_KIT_REF:+ }
+  fi
+
+  # Git ref: optionally prefix prompt
 
   (( GIT_PROMPT_KIT_HIDE_TOOL_NAMES )) || GIT_PROMPT_KIT_REF="Git $GIT_PROMPT_KIT_REF"
+
+  # Order-dependent whitespace
+
+  if (( GIT_PROMPT_KIT_USE_DEFAULT_PROMPT )); then
+    if [[ -n $GIT_PROMPT_KIT_STATUS || -n $GIT_PROMPT_KIT_ACTION ]]; then
+      GIT_PROMPT_KIT_STATUS_EXTENDED+=${GIT_PROMPT_KIT_STATUS_EXTENDED:+ }
+    fi
+
+    if [[ -n $GIT_PROMPT_KIT_ACTION ]]; then
+      GIT_PROMPT_KIT_STATUS+=${GIT_PROMPT_KIT_STATUS:+ }
+    fi
+  fi
 }
 
 _git_prompt_kit_update_nongit() {
@@ -355,14 +373,8 @@ _git_prompt_kit_git_prompt() {
   local git_prompt=
 
   git_prompt+='$GIT_PROMPT_KIT_REF'
-  # add a line break if GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES, otherwise add a space
-  git_prompt+='${GIT_PROMPT_KIT_HEAD:+${${GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES:+\n}:- }}'
   git_prompt+='${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}'
-  # add a space if GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS and GIT_PROMPT_KIT_STATUS_EXTENDED and either GIT_PROMPT_KIT_STATUS or GIT_PROMPT_KIT_ACTION
-  git_prompt+='${${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}:+${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }}'
   git_prompt+='$GIT_PROMPT_KIT_STATUS'
-  # add a space if GIT_PROMPT_KIT_STATUS and GIT_PROMPT_KIT_ACTION
-  git_prompt+='${GIT_PROMPT_KIT_STATUS:+${GIT_PROMPT_KIT_ACTION:+ }}'
   git_prompt+='$GIT_PROMPT_KIT_ACTION'
 
   echo $git_prompt
