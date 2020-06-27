@@ -11,23 +11,29 @@ Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship
 
 The Git Prompt Kit Spaceship section uses the default Git Prompt Kit's Git components; that is, it does not include Git Prompt Kit's user, host, the custom section, or prompt character components.
 
-For example, with zinit
-
 ```shell
-# shell rc file
+# .zshrc
 
-zinit ice src"git-prompt-kit.spaceship.zsh"
-zinit load /Users/home/Sites/olets/git-prompt-kit
-GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
-
-# any git-prompt-kit config options
-
+# Configure Spaceship
 SPACESHIP_PROMPT_ORDER=(
   # any other sections
   git_prompt_kit
   # any other sections
 )
 
+# Configure Git Prompt Kit
+GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
+# and any git-prompt-kit config options
+# For example, a compact prompt to fit nicely with other sections:
+GIT_PROMPT_KIT_SHOW_INACTIVE_AHEAD_BEHIND=0
+GIT_PROMPT_KIT_SHOW_INACTIVE_EXTENDED_STATUS=0
+GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=0
+GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
+
+# Use Git Prompt Kit and Spaceship
+# Will vary by your installation method. For example with zinit:
+zinit ice src"git-prompt-kit.spaceship.zsh"
+zinit light /Users/home/Sites/olets/git-prompt-kit
 zinit light "denysdovhan/spaceship-prompt"
 ```
 
@@ -40,7 +46,19 @@ You can use Git Prompt Kit with [Starship](https://starship.rs/). The Git Prompt
 ```shell
 # shell rc file
 
+# Configure Git Prompt Kit
+GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES=0
+# and any git-prompt-kit config options.
+# For example, a compact prompt to fit nicely with other modules:
+GIT_PROMPT_KIT_SHOW_INACTIVE_AHEAD_BEHIND=0
+GIT_PROMPT_KIT_SHOW_INACTIVE_EXTENDED_STATUS=0
+GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=0
 GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
+
+# Use Git Prompt Kit and Spaceship
+# Will vary by your installation method. For example on zsh with zinit:
+zinit light /Users/home/Sites/olets/git-prompt-kit
+eval "$(starship init zsh)"
 ```
 
 ```toml
