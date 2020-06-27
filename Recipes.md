@@ -7,7 +7,7 @@
 
 ### Spaceship
 
-Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section. The Git Prompt Kit Spaceship section loads about in about 1/2 the time Spaceship's built in Git section takes. Add Git Prompt Kit to your zshrc as above (Homebrew, plugin, or manual). Also add `git-prompt-kit.spaceship.zsh`. Then add `git_prompt_kit` to `SPACESHIP_PROMPT_ORDER`.
+Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section. The Git Prompt Kit Spaceship section has been clocked at 50% faster than Spaceship's built in Git section.
 
 The Git Prompt Kit Spaceship section uses the default Git Prompt Kit's Git components; that is, it does not include Git Prompt Kit's user, host, the custom section, or prompt character components.
 
@@ -41,7 +41,7 @@ See <https://github.com/denysdovhan/spaceship-prompt/blob/master/docs/Options.md
 
 ### Starship
 
-You can use Git Prompt Kit with [Starship](https://starship.rs/). The Git Prompt Kit Starship module loads in about 9/10 the time Starship's built in Git module takes.
+You can use Git Prompt Kit with [Starship](https://starship.rs/) (tested with zsh). The Git Prompt Kit Starship module has been clocked at about 10% to 30% faster than Starship's built in Git module.
 
 ```shell
 # shell rc file
