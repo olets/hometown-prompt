@@ -377,7 +377,7 @@ _git_prompt_kit_git_prompt() {
   git_prompt+='$GIT_PROMPT_KIT_STATUS'
   git_prompt+='$GIT_PROMPT_KIT_ACTION'
 
-  echo $git_prompt
+  'builtin' 'echo' $git_prompt
 }
 
 _git_prompt_kit_build_prompt() {
@@ -404,12 +404,12 @@ _git_prompt_kit_build_prompt() {
   prompt+=$'\n'
   prompt+='${GIT_PROMPT_KIT_CHAR:+$GIT_PROMPT_KIT_CHAR }'
 
-  echo $prompt
+  'builtin' 'echo' $prompt
 }
 
 # Source local gitstatus
 # Second param is added to gitstatus function names as a suffix
-source ${0:A:h}/gitstatus/gitstatus.plugin.zsh __git_prompt_kit
+'builtin' 'source' ${0:A:h}/gitstatus/gitstatus.plugin.zsh __git_prompt_kit
 
 # Start gitstatusd instance with name "MY". The same name is passed to
 # gitstatus_query in _git_prompt_kit_update_git. The flags with -1 as values
@@ -417,12 +417,12 @@ source ${0:A:h}/gitstatus/gitstatus.plugin.zsh __git_prompt_kit
 gitstatus_stop__git_prompt_kit 'MY' && gitstatus_start__git_prompt_kit -s -1 -u -1 -c -1 -d -1 'MY'
 
 # On every prompt, refresh prompt content
-autoload -Uz add-zsh-hook
+'builtin' 'autoload' -Uz add-zsh-hook
 add-zsh-hook precmd _git_prompt_kit_update_git
 add-zsh-hook precmd _git_prompt_kit_update_nongit
 
 # Perform parameter expansion, command substitution and arithmetic expansion in the prompt,
 # and treat `%` specially
-setopt prompt_subst prompt_percent
+'builtin' 'setopt' prompt_subst prompt_percent
 # If setting the prompt, set it.
 (( GIT_PROMPT_KIT_USE_DEFAULT_PROMPT )) && PROMPT=$(_git_prompt_kit_build_prompt)
