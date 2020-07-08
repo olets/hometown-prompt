@@ -97,7 +97,7 @@ The following apply to the default prompt, and to the relevant components if use
 - dim the stash count if zero
 - dim the assumed-unchanged count if zero
 - dim the skip-worktree count if zero
-- show the working tree status (untracked, deleted count, modified count, untracked staged, deleted count staged, modified count staged) with `git status --porcelain` codes
+- show the working tree status (untracked, deleted count, modified count, untracked staged, deleted count staged, modified count staged) with [`git status --short` codes](https://git-scm.com/docs/git-status#_short_format)
 - dim any working tree status codes for which the count is zero
 - show the current action if there is one
 
