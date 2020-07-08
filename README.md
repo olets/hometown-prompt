@@ -1,10 +1,10 @@
 # Git Prompt Kit ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/git-prompt-kit)
 
-By default, Git Prompt Kit adds a prompt that includes the time, the current working directory, Git ref info, Git file info, and Git action info. It is very fast, thanks to gitstatus. Symbols, colors, under what conditions information is shown, and layout are configurable; the current working directory can be replaced with any content.
-
-Have a different look in mind? Turn off Git Prompt Kit's default prompt, and instead use its components in your own fully custom one.
+Git Prompt Kit is moderately opinionated fast Git-focused prompt for zsh built on **gitstatus**, the same accelerated `git status` alternative used by **Powerlevel10k**. It is also a component kit to make it easy for anyone to bring gitstatus-accelerated Git info to a custom prompt without getting deep into zsh prompt scripting — recreate or fork a popular prompts but with fast Git info, replace your favorite prompt manager's Git section, or create something of your own.
 
 ![](./img/git-prompt-kit-default.jpg)
+
+The default Git Prompt Kit prompt includes the time; the current working directory and its parent, relative to the `~` home directory; Git ref info, Git file info, and Git action info. Symbols, colors, under what conditions information is shown, and layout are configurable; the current working directory can be replaced with any arbitrary content.
 
 In the above screenshot, the default Git Prompt Kit prompt shows that `master` is checked out and that it is dirty, not behind the upstream, and one commit ahead of the upstream; that there are two stashes, no files with the assume-unchanged bit set, no files with the skip-worktree bit set, one untracked file, no conflicted files, no unstaged deleted files, three unstaged modified files, one staged new file, no staged deleted files, and no staged modified files; that the previous command succeeded; and, implicitly, that the upstream is `origin/master` and that there is no tag at `HEAD`.
 
