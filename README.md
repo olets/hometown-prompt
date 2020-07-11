@@ -103,6 +103,12 @@ GIT_PROMPT_KIT_SYMBOL_COMMIT="•"
 zinit light olets/git-prompt-kit
 ```
 
+To output your configuration, for example for sharing, run
+
+```shell
+git-prompt-kit-config
+```
+
 ### Behavior options
 
 Name | Type | Description | Default
