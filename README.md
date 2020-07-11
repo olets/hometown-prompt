@@ -242,7 +242,7 @@ Name | Type | Description
 `GIT_PROMPT_KIT_STASHES` | prompt string | Git: stash
 `GIT_PROMPT_KIT_TAG` | prompt string | Git: tag at HEAD
 `GIT_PROMPT_KIT_UNTRACKED` | prompt string | Git: untracked (not staged) files
-`GIT_PROMPT_KIT_UPSTREAM` | prompt string | Git: upstream (branch or "local")
+`GIT_PROMPT_KIT_UPSTREAM` | prompt string | Git: "local" if no upstream; upstream branch if the name differs from the local branch; upstream remote and branch if the remote is not the default
 `GIT_PROMPT_KIT_USERHOST` | prompt string | User and host
 
 ### Molecule components
