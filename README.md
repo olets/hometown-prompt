@@ -6,7 +6,7 @@ Git Prompt Kit comes with a **default prompt** with segments for the user, host,
 
 ![](./img/git-prompt-kit-default.jpg)
 
-Get a feel for how the components respond to context and how the options work by playing with the default prompt at https://codepen.io/henry/pen/oNjGxKP
+Get a feel for how the components respond to context and how the options work by playing with the default prompt at https://git-prompt-kit.netlify.app/
 
 &nbsp;
 
@@ -85,7 +85,7 @@ The Git Prompt Kit Spaceship section has been clocked at 50% faster than Spacesh
 
 ## Default prompt
 
-Try out the default prompt at https://codepen.io/henry/pen/oNjGxKP.
+Try out the default prompt at https://git-prompt-kit.netlify.app/.
 
 Conceptually it is
 
