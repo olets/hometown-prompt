@@ -84,7 +84,7 @@ The Git Prompt Kit Spaceship section has been clocked at 50% faster than Spacesh
 Conceptually the default prompt is
 
 ```
-<time> <CWD and parent> <branch or commit> <commits ahead> <commits behind> <upstream ("local" if none)> <tag>
+<time> <CWD and parent> <branch or commit> <commits ahead> <commits behind> <upstream (branch if different name, remote and branch if not default remote, "local" if none)> <tag>
 <stashes> <assumed-unchanged files> <skip-worktree files> <untracked files> <conflicted files> <deleted files> <modified files> <new files> <staged deleted files> <staged modified files> <action>
 ```
 
