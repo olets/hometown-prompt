@@ -2,7 +2,11 @@
 
 **Git Prompt Kit** is a configurable set of components for creating feature rich, high performance Git-aware zsh prompts (aka themes) with minimal coding. It is built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k.
 
-Git Prompt Kit comes with a **default prompt** with segments for the user, host, time, the current working directory and its parent, and detailed full Git status with in a Git repo.
+Git Prompt Kit comes with a **default prompt** with segments for the user, host, time, the current working directory and its parent, and detailed full Git status with in a Git repo. With the default configuration it looks like
+
+![](./img/git-prompt-kit-default.jpg)
+
+Get a feel for how the components respond to context and how the options work by playing with the default prompt at https://codepen.io/henry/pen/oNjGxKP
 
 &nbsp;
 
@@ -81,7 +85,9 @@ The Git Prompt Kit Spaceship section has been clocked at 50% faster than Spacesh
 
 ## Default prompt
 
-Conceptually the default prompt is
+Try out the default prompt at https://codepen.io/henry/pen/oNjGxKP.
+
+Conceptually it is
 
 ```
 <time> <CWD and parent> <branch or commit> <commits ahead> <commits behind> <upstream (branch if different name, remote and branch if not default remote, "local" if none)> <tag>
@@ -89,8 +95,6 @@ Conceptually the default prompt is
 ```
 
 The current working directory can be replaced with any arbitrary content.
-
-![](./img/git-prompt-kit-default.jpg)
 
 In the above screenshot, the default Git Prompt Kit prompt shows that `main` is checked out and dirty; that it is one commit ahead of the remote tracking branch; that there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file; that the previous command succeeded, and that the user is not root; and, implicitly, that neither the user or host is unexpected, that the remote tracking branch is `origin/main`, that the local branch is not behind it, that there is no tag at `HEAD`, no file with the assume-unchanged bit set, no file with the skip-worktree bit set, and no action (e.g. merge, rebase, cherry-pick) underway.
 
