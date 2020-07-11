@@ -113,6 +113,8 @@ To output your configuration, for example for sharing, run
 git-prompt-kit-config
 ```
 
+(The exporter makes an effort to get quoting right, but if `GIT_PROMPT_KIT_CUSTOM_CONTENT` has been customized and includes quotations it's worth double checking that the exported value is correct.)
+
 ### Behavior options
 
 Name | Type | Description | Default
