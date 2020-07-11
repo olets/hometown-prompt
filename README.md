@@ -12,6 +12,7 @@ Git Prompt Kit comes with a **default prompt** with segments for the user, host,
 - [Components](#components)
 - [Performance](#performance)
 - [Acknowledgments](#acknowledgments)
+- [Changelog](#changelog)
 - [Contributing](#contributing)
 - [License](#license)
 
