@@ -141,7 +141,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_COLOR_ASSUME_UNCHANGED` | string | Color of the Git assumed unchaged files segment | `81`
 `GIT_PROMPT_KIT_COLOR_CUSTOM` | string | Color of the custom segment (CWD in the default prompt) | `39`
 `GIT_PROMPT_KIT_COLOR_FAILED` | string | Color of the prompt character when the previous command failed | `88`
-`GIT_PROMPT_KIT_COLOR_HEAD` | string | Color of the Git HEAD and the commits-behind files segment | `140`
+`GIT_PROMPT_KIT_COLOR_HEAD` | string | Color of the Git HEAD segment when the working tree is dirty | `140`
 `GIT_PROMPT_KIT_COLOR_HOST` | string | Color of the host segment | `109`
 `GIT_PROMPT_KIT_COLOR_INACTIVE` | string | Color of inactive segments | `247`
 `GIT_PROMPT_KIT_COLOR_REMOTE` | string | Color of the Git remote and the commits-ahead files segment | `216`
