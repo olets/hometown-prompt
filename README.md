@@ -1,24 +1,13 @@
 # Git Prompt Kit ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/git-prompt-kit)
 
-**Git Prompt Kit is a lightly opinionated fast Git-focused zsh prompt** built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k. Its default prompt includes the user, host, time, the current working directory and its parent; and, if in a Git repo, Git ref info, Git file info, and Git action info. Symbols, colors and layout are configurable as are which users and hosts don't need to be shown and whether or not the various Git segments are visible when inactive, and the current working directory can be replaced with any arbitrary content.
+**Git Prompt Kit** is a configurable set of components for creating feature rich, high performance Git-aware zsh prompts (aka themes) with minimal coding. It is built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k.
 
-**Git Prompt Kit is also a zsh prompt component kit**. Opt out of displaying the default prompt and instead use its components to recreate or modify your favorite prompt (but with faster Git info, unless you're remixing a gitstatus-powered prompt), speed up your favorite prompt manager, shuffle the Git Prompt Kit default prompt, or create something of your own.
-
-![](./img/git-prompt-kit-default.jpg)
-
-In the above screenshot, the default Git Prompt Kit prompt shows that `main` is checked out and dirty, that it is one commit ahead of the remote tracking branch; that there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file; that the previous command succeeded, and that the user is not root; and, implicitly, that neither the user or host is unexpected, that the remote tracking branch is `origin/main`, that the local branch is not behind it, that there is no tag at `HEAD`, no file with the assume-unchanged bit set, no file with the skip-worktree bit set, and no action (e.g. merge, rebase, cherry-pick) underway.
-
-Conceptually the default prompt is
-
-```
-<time> <CWD and parent> <branch or commit> <commits ahead> <commits behind> <upstream ("local" if none)> <tag>
-<stashes> <assumed-unchanged files> <skip-worktree files> <untracked files> <conflicted files> <deleted files> <modified files> <new files> <staged deleted files> <staged modified files> <action>
-```
+Git Prompt Kit comes with a **default prompt** with segments for the user, host, time, the current working directory and its parent, and detailed full Git status with in a Git repo.
 
 &nbsp;
 
 - [Installation](#installation)
-- [Features](#features)
+- [Default prompt](#default-prompt)
 - [Options](#options)
 - [Components](#components)
 - [Performance](#performance)
@@ -88,6 +77,21 @@ Or install Git Prompt Kit with your favorite plugin manager (zinit is recommende
 Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section definition, and it is easy to create a [Starship](https://starship.rs/) custom Git Prompt Kit-powered Git module. Instructions for both are in [Recipes.md](Recipes.md).
 
 The Git Prompt Kit Spaceship section has been clocked at 50% faster than Spaceship's own Git section. The Git Prompt Kit Starship module has been clocked at about 10% to 30% faster than Starship's own Git module.
+
+## Default prompt
+
+Conceptually the default prompt is
+
+```
+<time> <CWD and parent> <branch or commit> <commits ahead> <commits behind> <upstream ("local" if none)> <tag>
+<stashes> <assumed-unchanged files> <skip-worktree files> <untracked files> <conflicted files> <deleted files> <modified files> <new files> <staged deleted files> <staged modified files> <action>
+```
+
+The current working directory can be replaced with any arbitrary content.
+
+![](./img/git-prompt-kit-default.jpg)
+
+In the above screenshot, the default Git Prompt Kit prompt shows that `main` is checked out and dirty; that it is one commit ahead of the remote tracking branch; that there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file; that the previous command succeeded, and that the user is not root; and, implicitly, that neither the user or host is unexpected, that the remote tracking branch is `origin/main`, that the local branch is not behind it, that there is no tag at `HEAD`, no file with the assume-unchanged bit set, no file with the skip-worktree bit set, and no action (e.g. merge, rebase, cherry-pick) underway.
 
 ## Options
 
