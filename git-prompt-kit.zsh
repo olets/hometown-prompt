@@ -483,7 +483,7 @@ _git_prompt_kit_git_prompt() {
 _git_prompt_kit_build_prompt() {
   local prompt=
 
-  # Black line after result of previous commad
+  # Blank line after result of previous command
   prompt+=$'\n'
 
   # User and host
