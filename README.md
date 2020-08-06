@@ -24,7 +24,7 @@ Get a feel for how the components respond to context and how the options work by
 
 ## Installation
 
-### Installing with a package manager
+### Package
 
 Git Prompt Kit is available on Homebrew. Run
 
@@ -34,50 +34,25 @@ brew install olets/tap/git-prompt-kit
 
 and follow the post-install instructions logged to the terminal.
 
-### Installing with a plugin manager
+### Plugin
 
-Or install Git Prompt Kit with your favorite plugin manager (zinit is recommended for its superior performance).
+You can install zsh-abbr with a zsh plugin manager. Each has their own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a). If you're new to zsh plugin management, at this writing zinit is a good choice for its popularity, frequent updates, and great performance.
 
-- **[antibody](https://getantibody.github.io/)**: Add this to your plugins to your plugins file, and if you use static loading reload plugins.
-  ```shell
-  olets/git-prompt-kit
-  ```
+After adding the plugin to the manager, restart zsh:
 
-- **[Antigen](https://github.com/zsh-users/antigen)**: Add this to your `.zshrc`:
-  ```shell
-  antigen bundle olets/git-prompt-kit
-  ```
+```shell
+exec zsh
+```
 
-- **[Oh-My-Zsh](https://github.com/robbyrussell/oh-my-zsh)**:
+### Manual
 
-  - Clone to OMZ's plugins' directory:
+Clone this repo and add `source path/to/zsh-abbr.zsh` to your `.zshrc`. Then restart zsh:
 
-    ```shell
-    git clone https://github.com/olets/git-prompt-kit.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-prompt-kit
-    ```
+```shell
+exec zsh
+```
 
-  - Add to the OMZ plugins array in your `.zshrc`:
-
-    ```shell
-    plugins=( [plugins...] git-prompt-kit)
-    ```
-
-- **[zgen](https://github.com/tarjoilija/zgen)**: add this to your `.zshrc`:
-  ```shell
-  zgen load olets/git-prompt-kit
-  ```
-
-- **[zinit](https://github.com/zdharma/zinit)** (formerly **zplugin**): add this to your `.zshrc`:
-  ```shell
-  zinit light olets/git-prompt-kit
-  ```
-
-- **[zplug](https://github.com/zplug/zplug)**: add this to your `.zshrc`:
-  ```shell
-  zplug "olets/git-prompt-kit"
-  ```
-
-### Installing with a prompt manager
+### Prompt manager
 
 Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section definition, and it is easy to create a [Starship](https://starship.rs/) custom Git Prompt Kit-powered Git module. Instructions for both are in [Recipes.md](Recipes.md).
 
