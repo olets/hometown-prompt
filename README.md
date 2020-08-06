@@ -4,7 +4,17 @@
 
 Git Prompt Kit comes with a **default prompt** with segments for the user, host, time, the current working directory and its parent, and detailed full Git status with in a Git repo. With the default configuration it looks like
 
-![](./img/git-prompt-kit-default.jpg)
+<figure>
+<img src="./img/git-prompt-kit-default.jpg">
+<figcaption>
+<pre>
+19:29:25 olets/git-prompt-kit main +1
+3⇲ ?? UU _D 1_M A_ D_ 1M_
+% # time, directory, branch, one commit ahead of remote
+  # three stashes, one unstaged modified file, one staged modified file
+</pre>
+</figcaption>
+</figure>
 
 Get a feel for how the components respond to context and how the options work by playing with the default prompt at https://git-prompt-kit.netlify.app/
 
