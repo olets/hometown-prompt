@@ -2,7 +2,7 @@
 
 **Git Prompt Kit** is a configurable set of components for creating feature rich, high performance Git-aware zsh prompts (aka themes) with minimal coding. It is built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k.
 
-Git Prompt Kit comes with a **default prompt** with segments for the user, host, time, the current working directory and its parent, and detailed full Git status with in a Git repo. With the default configuration it looks like
+Git Prompt Kit comes with a **default prompt** with segments for the user, host, time, the current working directory and its parent, and detailed full Git status with in a Git repo. Get a feel for how the components respond to context and how the options work by playing with the default prompt at https://git-prompt-kit.netlify.app/ With the default configuration it looks like
 
 <figure>
 <img src="./img/git-prompt-kit-default.jpg">
@@ -15,8 +15,6 @@ Git Prompt Kit comes with a **default prompt** with segments for the user, host,
 </pre>
 </figcaption>
 </figure>
-
-Get a feel for how the components respond to context and how the options work by playing with the default prompt at https://git-prompt-kit.netlify.app/
 
 &nbsp;
 
