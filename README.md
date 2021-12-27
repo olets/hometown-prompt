@@ -59,7 +59,7 @@ The Git Prompt Kit Spaceship section has been clocked at 50% faster than Spacesh
 
 ## Examples
 
-See [Hometown Prompt](https://github.com/olets/hometown-prompt)'s online playground to get a feel for the Git Prompt Kit components.
+To get a feel for the components try the interactive demo for [Hometown Prompt](https://github.com/olets/hometown-prompt), my Git Prompt Kit-based theme.
 
 Code samples that use Git Prompt Kit components to build high-performance prompts styled after [git-radar](https://github.com/michaeldfallen/git-radar), [oh-my-git](https://github.com/arialdomartini/oh-my-git), [Pure](https://github.com/sindresorhus/pure), and [Spaceship](https://github.com/denysdovhan/spaceship-prompt) are provided in [Recipes.md](Recipes.md).
 
@@ -235,43 +235,7 @@ Name | Description
 
 ## Performance
 
-Git Prompt Kit is built on gitstatus. See [gitstatus's documentation](https://github.com/romkatv/gitstatus) for details on its performance and how it works.
-
-Snapshot with macOS 10.14 on early-2015 MacBook Pro (2.9 GHz Intel Core i5, 16 GB 1867 MHz DDR3), zsh 5.8, zinit 3.1, iTerm2 3.3.9.
-
-Adds about 50ms to the initial interactive session load time (time to first prompt after opening a new iTerm2 window), as measured by `zinit times` given
-
-```shell
-# zshrc
-autoload -U add-zsh-hook
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-zinit light olets/git-prompt-kit
-```
-
-Git Prompt Kit has a roughly sub-10ms impact on time per prompt (time to draw new prompt after finishing previous command) in a non-Git directory _or_ a Git directory, regardless of `GIT_PROMPT_KIT_SET_PROMPT` value, as measured by comparing `zsh-prompt-benchmark` given
-
-```shell
-# zshrc
-autoload -U add-zsh-hook
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-zinit light romkatv/zsh-prompt-benchmark
-```
-
-to `zsh-prompt-benchmark` given
-
-```shell
-# zshrc
-autoload -U add-zsh-hook
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-zinit light romkatv/zsh-prompt-benchmark
-zinit light olets/git-prompt-kit
-```
+Git Prompt Kit has a sub-10ms the time between prompts, as measured by [`zsh-prompt-benchmark`](https://github.com/romkatv/zsh-prompt-benchmark). It is built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k. See [gitstatus](https://github.com/romkatv/gitstatus) for details.
 
 ## Acknowledgments
 
