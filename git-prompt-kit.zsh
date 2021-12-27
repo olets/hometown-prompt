@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # Git Prompt Kit
 # https://github.com/olets/git-prompt-kit
 # Copyright (©) 2020 Henry Bley-Vroman
