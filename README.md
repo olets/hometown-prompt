@@ -18,29 +18,34 @@
 
 ## Installation
 
-### Package
+Homebrew is the recommended installation method.
 
-Git Prompt Kit is available on Homebrew. Run
+### Homebrew
 
-```
+```shell
 brew install olets/tap/git-prompt-kit
 ```
 
 and follow the post-install instructions logged to the terminal.
 
-### Plugin
+### With a shell plugin manager
 
-You can install zsh-abbr with a zsh plugin manager. Each has their own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a). If you're new to zsh plugin management, at this writing zinit is a good choice for its popularity, frequent updates, and great performance.
+1. Install git-prompt-kit with a zsh plugin manager. Each has their own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a).
 
-After adding the plugin to the manager, restart zsh:
+    After adding the plugin to the manager, restart zsh:
 
-```shell
-exec zsh
-```
+    ```shell
+    exec zsh
+    ```
 
 ### Manual
 
-Clone this repo and add `source path/to/zsh-abbr.zsh` to your `.zshrc`. Then restart zsh:
+Either clone this repo and add `source path/to/git-prompt-kit.zsh` to your `.zshrc`, or
+
+1. Download [the latest `git-prompt-kit` binary](https://github.com/olets/git-prompt-kit/releases/latest)
+1. Put the file `git-prompt-kit` in a directory in your `PATH`
+
+Then restart zsh:
 
 ```shell
 exec zsh
@@ -286,11 +291,9 @@ Thanks for your interest. Contributions are welcome!
 
 > Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-Check the [Issues](https://github.com/olets/git-prompt-kit/issues) to see if your topic has been discussed before or if it is being worked on. You may also want to check the roadmap (see above). Discussing in an Issue before opening a Pull Request means future contributors only have to search in one place.
+Check the [Issues](https://github.com/olets/git-prompt-kit/issues) to see if your topic has been discussed before or if it is being worked on.
 
-This project includes a Git [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules). Passing `--recurse-submodules` when `git clone`ing is recommended.
-
-This project loosely follows the [Angular commit message conventions](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit). This helps with searchability and with the changelog, which is generated automatically and touched up by hand only if necessary. Use the commit message format `<type>(<scope>): <subject>`, where `<type>` is **feat** for new or changed behavior, **fix** for fixes, **docs** for documentation, **style** for under the hood changes related to for example zshisms, **refactor** for other refactors, **test** for tests, or **chore** chore for general maintenance (this will be used primarily by maintainers not contributors, for example for version bumps). `<scope>` is more loosely defined. Look at the [commit history](https://github.com/olets/git-prompt-kit/commits/main) for ideas.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## License
 
