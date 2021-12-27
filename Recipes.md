@@ -85,7 +85,7 @@ Here are some examples of how the Git Prompt Kit components can be used.
 
 They have not been thoroughly battle tested — they are not "Git Prompt Kit themes" but rather starting points for those new to customizing the zsh prompt.
 
-The construct `${x:+y}` is 'print y if $x is not null' (`${x:-y}` is 'print y if $x is null'). In the context of prompt building, it is useful to conditionally add spaces: `${x:+$x }` is 'print "$x " if $x is not null'.
+The construct `${x:+y}` is "print `$y` if `$x` is not null". In the context of prompt building, this is useful for conditionally adding spaces: `${x:+$x }` is "print `$x ` if `$x` is not null".
 
 - [git-radar-like](#git-radar-like)
 - [oh-my-git-like](#oh-my-git-like)
@@ -151,6 +151,7 @@ omg's oppa-lana-style. Requires a Font Awesome-patched font, see https://github.
 # ~/.zshrc
 # --- snip ---
 # Configure Git Prompt Kit
+# support hexadecimal colors
 [[ $COLORTERM = *(24bit|truecolor)* ]] || zmodload zsh/nearcolor
 
 GIT_PROMPT_KIT_COLOR_ASSUME_UNCHANGED="#03343f"
@@ -216,6 +217,7 @@ PROMPT+='$GIT_PROMPT_KIT_CHAR '
 # ~/.zshrc
 # --- snip ---
 # Configure Git Prompt Kit
+# support hexadecimal colors
 [[ $COLORTERM = *(24bit|truecolor)* ]] || zmodload zsh/nearcolor
 
 GIT_PROMPT_KIT_COLOR_ACTION=242

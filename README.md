@@ -178,7 +178,9 @@ Name | Type | Description | Default
 
 To use Git Prompt Kit's components in a custom prompt, load Git Prompt Kit and then refer to any of its components.
 
-For example, for the prompt `<current working directory> [<Git HEAD> ]% `:
+For example, to create the minimal prompt `<current working directory> [<Git HEAD> ]% `:
+
+Minimal configuration, using Git Prompt Kit for the Git part only:
 
 ```shell
 # ~/.zshrc
@@ -187,15 +189,17 @@ For example, for the prompt `<current working directory> [<Git HEAD> ]% `:
 PROMPT='%1d ${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }%% '
 ```
 
-Code samples that use Git Prompt Kit components to build high-performance prompts styled after [git-radar](https://github.com/michaeldfallen/git-radar), [oh-my-git](https://github.com/arialdomartini/oh-my-git), [Pure](https://github.com/sindresorhus/pure), and [Spaceship](https://github.com/denysdovhan/spaceship-prompt) are provided in [Recipes.md](Recipes.md).
-
-The Git Prompt Kit default prompt is equivalent to
+Using Git Prompt Kit for everything
 
 ```shell
-$GIT_PROMPT_KIT_REF${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}${${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}:+${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }}$GIT_PROMPT_KIT_STATUS${GIT_PROMPT_KIT_STATUS:+${GIT_PROMPT_KIT_ACTION:+ }}$GIT_PROMPT_KIT_ACTION
+# ~/.zshrc
+# --- snip ---
+# Load Git Prompt Kit (will differ depending on installation method)
+GIT_PROMPT_KIT_CUSTOM_CONTENT='%1d'
+PROMPT='$GIT_PROMPT_KIT_CUSTOM_CONTENT ${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }$GIT_PROMPT_KIT_CHAR '
 ```
 
-### Atom components
+### Atoms
 
 Name | Type | Description
 ---|---|---
@@ -205,7 +209,7 @@ Name | Type | Description
 `GIT_PROMPT_KIT_BEHIND` | prompt string | Git: commits behind the upstream
 `GIT_PROMPT_KIT_CHAR` | prompt string | Prompt character
 `GIT_PROMPT_KIT_CONFLICTED` | prompt string | Git: conflicted files
-`GIT_PROMPT_KIT_CUSTOM` | prompt string | Custom (current working directory by default, see Content Options)
+`GIT_PROMPT_KIT_CUSTOM` | prompt string | Custom (current working directory by default, see [Content Options](#content-options))
 `GIT_PROMPT_KIT_DELETED_STAGED` | prompt string | Git: staged deleted files
 `GIT_PROMPT_KIT_DELETED` | prompt string | Git: unstaged deleted files
 `GIT_PROMPT_KIT_HEAD` | prompt string | Git: HEAD (branch or commit)
@@ -219,13 +223,13 @@ Name | Type | Description
 `GIT_PROMPT_KIT_UPSTREAM` | prompt string | Git: "local" if no upstream; upstream branch if the name differs from the local branch; upstream remote and branch if the remote is not the default
 `GIT_PROMPT_KIT_USERHOST` | prompt string | User and host
 
-### Molecule components
+### Molecules
 
 Name | Type | Description
 ---|---|---
-`GIT_PROMPT_KIT_REF` | prompt string | `GIT_PROMPT_KIT_HEAD`, `GIT_PROMPT_KIT_AHEAD`, `GIT_PROMPT_KIT_BEHIND`, `GIT_PROMPT_KIT_UPSTREAM`, `GIT_PROMPT_KIT_TAG`
-`GIT_PROMPT_KIT_STATUS_EXTENDED` | prompt string | `GIT_PROMPT_KIT_STASHES`, `GIT_PROMPT_KIT_ASSUMED_UNCHANGED`, `GIT_PROMPT_KIT_SKIP_WORKTREE`
-`GIT_PROMPT_KIT_STATUS` | prompt string | `GIT_PROMPT_KIT_UNTRACKED`, `GIT_PROMPT_KIT_CONFLICTED`, `GIT_PROMPT_KIT_DELETED`, `GIT_PROMPT_KIT_MODIFIED`, `GIT_PROMPT_KIT_NEW`, `GIT_PROMPT_KIT_DELETED_STAGED`, `GIT_PROMPT_KIT_MODIFIED_STAGED`
+`GIT_PROMPT_KIT_REF` | prompt string | `GIT_PROMPT_KIT_HEAD`, `GIT_PROMPT_KIT_AHEAD`, `GIT_PROMPT_KIT_BEHIND`, `GIT_PROMPT_KIT_UPSTREAM`, and `GIT_PROMPT_KIT_TAG`
+`GIT_PROMPT_KIT_STATUS_EXTENDED` | prompt string | `GIT_PROMPT_KIT_STASHES`, `GIT_PROMPT_KIT_ASSUMED_UNCHANGED`, and `GIT_PROMPT_KIT_SKIP_WORKTREE`
+`GIT_PROMPT_KIT_STATUS` | prompt string | `GIT_PROMPT_KIT_UNTRACKED`, `GIT_PROMPT_KIT_CONFLICTED`, `GIT_PROMPT_KIT_DELETED`, `GIT_PROMPT_KIT_MODIFIED`, `GIT_PROMPT_KIT_NEW`, `GIT_PROMPT_KIT_DELETED_STAGED`, and `GIT_PROMPT_KIT_MODIFIED_STAGED`
 
 ### Other
 
