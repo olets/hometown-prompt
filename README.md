@@ -74,7 +74,7 @@ typeset -a GIT_PROMPT_KIT_HIDDEN_HOSTS=(my-computer my-other-computer)
 typeset -a GIT_PROMPT_KIT_HIDDEN_USERS=(me)
 GIT_PROMPT_KIT_SYMBOL_BRANCH="#"
 GIT_PROMPT_KIT_SYMBOL_COMMIT="•"
-zinit light olets/git-prompt-kit
+# Load Git Prompt Kit (will differ depending on installation method)
 ```
 
 To output your configuration, for example for sharing, run
@@ -183,7 +183,7 @@ For example, for the prompt `<current working directory> [<Git HEAD> ]% `:
 ```shell
 # ~/.zshrc
 # --- snip ---
-zinit light olets/git-prompt-kit
+# Load Git Prompt Kit (will differ depending on installation method)
 PROMPT='%1d ${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }%% '
 ```
 

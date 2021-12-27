@@ -26,13 +26,11 @@ GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
 # and any git-prompt-kit config options
 # For example, a compact prompt to fit nicely with other sections:
 GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=0
-GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
 
 # Use Git Prompt Kit and Spaceship
-# Will vary by your installation method. For example with zinit:
-zinit ice src"git-prompt-kit.spaceship.zsh"
-zinit light /Users/home/Sites/olets/git-prompt-kit
-zinit light "denysdovhan/spaceship-prompt"
+# Load olets/git-prompt-kit/git-prompt-kit.spaceship.zsh
+# Load olets/git-prompt-kit
+# Load denysdovhan/spaceship-prompt
 ```
 
 See <https://github.com/denysdovhan/spaceship-prompt/blob/master/docs/Options.md#order> for Spaceship's default order.
@@ -50,10 +48,8 @@ GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES=0
 # For example, a compact prompt to fit nicely with other modules:
 GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=0
 GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
+# Load Git Prompt Kit (will differ depending on installation method)
 
-# Use Git Prompt Kit and Spaceship
-# Will vary by your installation method. For example on zsh with zinit:
-zinit light /Users/home/Sites/olets/git-prompt-kit
 eval "$(starship init zsh)"
 ```
 
@@ -122,10 +118,7 @@ GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT=0
 GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=0
 GIT_PROMPT_KIT_SYMBOL_STASH=≡
 
-# Load gitstatus and Git Prompt Kit (will differ depending on installation method)
-
-zinit light romkatv/gitstatus
-zinit light olets/git-prompt-kit
+# Load Git Prompt Kit (will differ depending on installation method)
 
 # Build prompt
 PROMPT=
@@ -184,9 +177,7 @@ GIT_PROMPT_KIT_SYMBOL_NEW="  "
 GIT_PROMPT_KIT_SYMBOL_TAG="  "
 GIT_PROMPT_KIT_SYMBOL_UNTRACKED="  "
 
-# Load gitstatus and Git Prompt Kit (will differ depending on installation method)
-zinit light romkatv/gitstatus
-zinit light olets/git-prompt-kit
+# Load Git Prompt Kit (will differ depending on installation method)
 
 # Build prompt
 PROMPT=
@@ -246,9 +237,7 @@ GIT_PROMPT_KIT_SYMBOL_AHEAD=⇡
 GIT_PROMPT_KIT_SYMBOL_BEHIND=⇣
 GIT_PROMPT_KIT_SYMBOL_STASH=≡
 
-# Load gitstatus and Git Prompt Kit (will differ depending on installation method)
-zinit light romkatv/gitstatus
-zinit light olets/git-prompt-kit
+# Load Git Prompt Kit (will differ depending on installation method)
 
 # Build prompt
 PROMPT=
@@ -292,9 +281,7 @@ GIT_PROMPT_KIT_SYMBOL_MODIFIED_STAGED=+
 GIT_PROMPT_KIT_SYMBOL_STASH="$"
 GIT_PROMPT_KIT_SYMBOL_UNTRACKED="?"
 
-# Load gitstatus and Git Prompt Kit (will differ depending on installation method)
-zinit light romkatv/gitstatus
-zinit light olets/git-prompt-kit
+# Load Git Prompt Kit (will differ depending on installation method)
 
 # Build prompt
 PROMPT=
