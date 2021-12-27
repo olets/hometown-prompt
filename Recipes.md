@@ -83,12 +83,6 @@ prefix = ""
 
 See <https://starship.rs/config/#prompt> for Starship's default order.
 
-To show the Git Prompt Kit default prompt's Git prompt (as with the Spaceship section above), use
-
-```toml
-command = "print -P '$GIT_PROMPT_KIT_REF${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}${${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}:+${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }}$GIT_PROMPT_KIT_STATUS${GIT_PROMPT_KIT_STATUS:+${GIT_PROMPT_KIT_ACTION:+ }}$GIT_PROMPT_KIT_ACTION'"
-```
-
 ## Customization examples
 
 Here are some examples of how the Git Prompt Kit components can be used.
@@ -127,7 +121,6 @@ GIT_PROMPT_KIT_PROMPT_CHAR_NORMAL=⮕
 GIT_PROMPT_KIT_SHOW_INACTIVE_CONTEXT=0
 GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=0
 GIT_PROMPT_KIT_SYMBOL_STASH=≡
-GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
 
 # Load gitstatus and Git Prompt Kit (will differ depending on installation method)
 
@@ -190,7 +183,6 @@ GIT_PROMPT_KIT_SYMBOL_MODIFIED_STAGED="  "
 GIT_PROMPT_KIT_SYMBOL_NEW="  "
 GIT_PROMPT_KIT_SYMBOL_TAG="  "
 GIT_PROMPT_KIT_SYMBOL_UNTRACKED="  "
-GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
 
 # Load gitstatus and Git Prompt Kit (will differ depending on installation method)
 zinit light romkatv/gitstatus
@@ -253,7 +245,6 @@ GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=0
 GIT_PROMPT_KIT_SYMBOL_AHEAD=⇡
 GIT_PROMPT_KIT_SYMBOL_BEHIND=⇣
 GIT_PROMPT_KIT_SYMBOL_STASH=≡
-GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
 
 # Load gitstatus and Git Prompt Kit (will differ depending on installation method)
 zinit light romkatv/gitstatus
@@ -300,7 +291,6 @@ GIT_PROMPT_KIT_SYMBOL_MODIFIED=!
 GIT_PROMPT_KIT_SYMBOL_MODIFIED_STAGED=+
 GIT_PROMPT_KIT_SYMBOL_STASH="$"
 GIT_PROMPT_KIT_SYMBOL_UNTRACKED="?"
-GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
 
 # Load gitstatus and Git Prompt Kit (will differ depending on installation method)
 zinit light romkatv/gitstatus

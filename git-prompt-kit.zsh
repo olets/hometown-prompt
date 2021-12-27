@@ -10,7 +10,6 @@ typeset -gi GIT_PROMPT_KIT_HIDE_INACTIVE_AHEAD_BEHIND=${GIT_PROMPT_KIT_HIDE_INAC
 typeset -gi GIT_PROMPT_KIT_HIDE_INACTIVE_EXTENDED_STATUS=${GIT_PROMPT_KIT_HIDE_INACTIVE_EXTENDED_STATUS:-1}
 typeset -gi GIT_PROMPT_KIT_HIDE_TOOL_NAMES=${GIT_PROMPT_KIT_HIDE_TOOL_NAMES:-1}
 typeset -gi GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=${GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS:-1}
-typeset -gi GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=${GIT_PROMPT_KIT_USE_DEFAULT_PROMPT:-1}
 
 # Colors options
 GIT_PROMPT_KIT_COLOR_ACTION=${GIT_PROMPT_KIT_COLOR_ACTION-199}
@@ -28,6 +27,10 @@ GIT_PROMPT_KIT_COLOR_SUCCEEDED=${GIT_PROMPT_KIT_COLOR_SUCCEEDED-76}
 GIT_PROMPT_KIT_COLOR_TAG=${GIT_PROMPT_KIT_COLOR_TAG-86}
 GIT_PROMPT_KIT_COLOR_UNSTAGED=${GIT_PROMPT_KIT_COLOR_UNSTAGED-162}
 GIT_PROMPT_KIT_COLOR_USER=${GIT_PROMPT_KIT_COLOR_USER-109}
+
+# Configuration options
+typeset -g GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX=${GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX:-__git_prompt_kit}
+typeset -g GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME=${GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME:-GIT_PROMPT_KIT}
 
 # Content options
 GIT_PROMPT_KIT_CUSTOM_CONTENT=${GIT_PROMPT_KIT_CUSTOM_CONTENT-%2~} # see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Shell-state
@@ -70,7 +73,6 @@ _git_prompt_kit_configs=(
   GIT_PROMPT_KIT_HIDE_INACTIVE_EXTENDED_STATUS
   GIT_PROMPT_KIT_HIDE_TOOL_NAMES
   GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS
-  GIT_PROMPT_KIT_USE_DEFAULT_PROMPT
   GIT_PROMPT_KIT_COLOR_ACTION
   GIT_PROMPT_KIT_COLOR_ASSUME_UNCHANGED
   GIT_PROMPT_KIT_COLOR_CUSTOM
@@ -161,6 +163,7 @@ git-prompt-kit-config() {
 
 _git_prompt_kit_update_git() {
   emulate -L zsh
+
   typeset -g GIT_PROMPT_KIT_ACTION=
   typeset -g GIT_PROMPT_KIT_AHEAD=
   typeset -g GIT_PROMPT_KIT_ASSUMED_UNCHANGED=
@@ -185,7 +188,7 @@ _git_prompt_kit_update_git() {
   (( GIT_PROMPT_KIT_LINEBREAK_AFTER_GIT_REF )) || typeset -g GIT_PROMPT_KIT_LINEBREAK_AFTER_GIT_REF=
   (( GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF )) || typeset -g GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF=
 
-  gitstatus_query__git_prompt_kit 'MY' || return 1  # error
+  gitstatus_query$GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX $GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME || return 1  # error
   [[ $VCS_STATUS_RESULT == 'ok-sync' ]] || return 0  # not a git repo
 
   # Set variables for later use
@@ -421,18 +424,6 @@ _git_prompt_kit_update_git() {
   # Git ref: optionally prefix prompt
 
   (( GIT_PROMPT_KIT_HIDE_TOOL_NAMES )) || GIT_PROMPT_KIT_REF="Git $GIT_PROMPT_KIT_REF"
-
-  # Order-dependent whitespace
-
-  if (( GIT_PROMPT_KIT_USE_DEFAULT_PROMPT )); then
-    if [[ -n $GIT_PROMPT_KIT_STATUS || -n $GIT_PROMPT_KIT_ACTION ]]; then
-      GIT_PROMPT_KIT_STATUS_EXTENDED+=${GIT_PROMPT_KIT_STATUS_EXTENDED:+ }
-    fi
-
-    if [[ -n $GIT_PROMPT_KIT_ACTION ]]; then
-      GIT_PROMPT_KIT_STATUS+=${GIT_PROMPT_KIT_STATUS:+ }
-    fi
-  fi
 }
 
 _git_prompt_kit_update_nongit() {
@@ -507,14 +498,25 @@ _git_prompt_kit_build_prompt() {
   'builtin' 'echo' $prompt
 }
 
+_git_prompt_kit_no_color() {
+  local -a shell_vars
+  local -i found
+
+  shell_vars=( ${(k)parameters} )
+
+  found=$(( ! $shell_vars[(Ie)NO_COLOR] ))
+
+  return $found
+}
+
 # Source local gitstatus
 # Second param is added to gitstatus function names as a suffix
-'builtin' 'source' ${0:A:h}/gitstatus/gitstatus.plugin.zsh __git_prompt_kit
+'builtin' 'source' ${0:A:h}/gitstatus/gitstatus.plugin.zsh $GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX
 
-# Start gitstatusd instance with name "MY". The same name is passed to
+# Start gitstatusd instance with name $GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME. The same name is passed to
 # gitstatus_query in _git_prompt_kit_update_git. The flags with -1 as values
 # enable staged, unstaged, conflicted and untracked counters.
-gitstatus_stop__git_prompt_kit 'MY' && gitstatus_start__git_prompt_kit -s -1 -u -1 -c -1 -d -1 'MY'
+gitstatus_stop$GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX $GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME && gitstatus_start$GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX -s -1 -u -1 -c -1 -d -1 $GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME
 
 # On every prompt, refresh prompt content
 'builtin' 'autoload' -Uz add-zsh-hook
@@ -524,5 +526,3 @@ add-zsh-hook precmd _git_prompt_kit_update_nongit
 # Perform parameter expansion, command substitution and arithmetic expansion in the prompt,
 # and treat `%` specially
 'builtin' 'setopt' prompt_subst prompt_percent
-# If setting the prompt, set it.
-(( GIT_PROMPT_KIT_USE_DEFAULT_PROMPT )) && PROMPT=$(_git_prompt_kit_build_prompt)

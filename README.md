@@ -2,20 +2,6 @@
 
 **Git Prompt Kit** is a configurable set of components for creating feature rich, high performance Git-aware zsh prompts (aka themes) with minimal coding. It is built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k.
 
-Git Prompt Kit comes with a **default prompt** with segments for the user, host, time, the current working directory and its parent, and detailed full Git status with in a Git repo. Get a feel for how the components respond to context and how the options work by playing with the default prompt at https://git-prompt-kit.netlify.app/ With the default configuration it looks like
-
-<figure>
-<img src="./img/git-prompt-kit-default.jpg">
-<figcaption>
-<pre>
-19:29:25 olets/git-prompt-kit main +1
-3⇲ ?? UU _D 1_M A_ D_ 1M_
-% # time, directory, branch, one commit ahead of remote
-  # three stashes, one unstaged modified file, one staged modified file
-</pre>
-</figcaption>
-</figure>
-
 &nbsp;
 
 - [Installation](#installation)
@@ -66,20 +52,11 @@ Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship
 
 The Git Prompt Kit Spaceship section has been clocked at 50% faster than Spaceship's own Git section. The Git Prompt Kit Starship module has been clocked at about 10% to 30% faster than Starship's own Git module.
 
-## Default prompt
+## Examples
 
-Try out the default prompt at https://git-prompt-kit.netlify.app/.
+See [Hometown Prompt](https://github.com/olets/hometown-prompt)'s online playground to get a feel for the Git Prompt Kit components.
 
-Conceptually it is
-
-```
-<time> <CWD and parent> <branch or commit> <commits ahead> <commits behind> <upstream (branch if different name, remote and branch if not default remote, "local" if none)> <tag>
-<stashes> <assumed-unchanged files> <skip-worktree files> <untracked files> <conflicted files> <deleted files> <modified files> <new files> <staged deleted files> <staged modified files> <action>
-```
-
-The current working directory can be replaced with any arbitrary content.
-
-In the above screenshot, the default Git Prompt Kit prompt shows that `main` is checked out and dirty; that it is one commit ahead of the remote tracking branch; that there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file; that the previous command succeeded, and that the user is not root; and, implicitly, that neither the user or host is unexpected, that the remote tracking branch is `origin/main`, that the local branch is not behind it, that there is no tag at `HEAD`, no file with the assume-unchanged bit set, no file with the skip-worktree bit set, and no action (e.g. merge, rebase, cherry-pick) underway.
+Code samples that use Git Prompt Kit components to build high-performance prompts styled after [git-radar](https://github.com/michaeldfallen/git-radar), [oh-my-git](https://github.com/arialdomartini/oh-my-git), [Pure](https://github.com/sindresorhus/pure), and [Spaceship](https://github.com/denysdovhan/spaceship-prompt) are provided in [Recipes.md](Recipes.md).
 
 ## Options
 
@@ -111,7 +88,6 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_HIDE_INACTIVE_EXTENDED_STATUS` | number | Hide dimmed Git stash, assumed-unchanged, and skip-worktree symbols when the count is zero? (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_HIDE_TOOL_NAMES` | number | Do not show the word "Git" before the Git ref info? (YES if non-zero, NO if zero) | `1`
 `GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS` | number | Show Git status symbols (dimmed) when the count is zero? (YES if non-zero, NO if zero) | `1`
-`GIT_PROMPT_KIT_USE_DEFAULT_PROMPT` | number | Use the default Git Prompt Kit prompt? (YES if non-zero, NO if zero) | `1`
 
 ### Color options
 
@@ -195,14 +171,13 @@ Name | Type | Description | Default
 
 ## Components
 
-To use Git Prompt Kit's components in a custom prompt, set `GIT_PROMPT_KIT_USE_DEFAULT_PROMPT` to `0` before loading Git Prompt Kit, load Git Prompt Kit, and then refer to any of its components.
+To use Git Prompt Kit's components in a custom prompt, load Git Prompt Kit and then refer to any of its components.
 
 For example, for the prompt `<current working directory> [<Git HEAD> ]% `:
 
 ```shell
 # ~/.zshrc
 # --- snip ---
-GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
 zinit light olets/git-prompt-kit
 PROMPT='%1d ${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }%% '
 ```
