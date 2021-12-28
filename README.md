@@ -36,12 +36,6 @@
 
 Shell plugin manager is the recommended installation method.
 
-### Homebrew
-
-```shell
-brew install olets/tap/hometown-prompt
-```
-
 ### With a shell plugin manager
 
 1. Install hometown-prompt with a zsh plugin manager. Each has their own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a).
