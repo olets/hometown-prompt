@@ -34,7 +34,7 @@
 
 ## Installation
 
-Homebrew is the recommended installation method.
+Shell plugin manager is the recommended installation method.
 
 ### Homebrew
 
