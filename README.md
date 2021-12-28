@@ -1,3 +1,5 @@
+<img src="./img/git-prompt-kit.png" alt="">
+
 # Git Prompt Kit ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/git-prompt-kit)
 
 **Git Prompt Kit** is a configurable set of components for creating feature rich, high performance Git-aware zsh prompts (aka themes) with minimal coding. It is built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k.
@@ -248,6 +250,8 @@ Git Prompt Kit is built on Roman Perepelitsa's [gitstatus](https://github.com/ro
 Showing "dimmed" components was inspired by Arialdo Martini's [oh-my-git](https://github.com/arialdomartini/oh-my-git), which leaves space for inactive symbols.
 
 Using Git status's short format was inspired by Michael Allen's [git-radar](https://github.com/michaeldfallen/git-radar).
+
+Splash card font is Beon by [Bastien Sozeau](http://sozoo.fr/).
 
 ## Changelog
 
