@@ -5,6 +5,8 @@
 
 ## Prompt Managers
 
+> These are proof of concept. They were working when first written, but I do not use Spaceship or Starship and these are not regularly tested. Contributions are welcome.
+
 ### Spaceship
 
 Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section. The Git Prompt Kit Spaceship section has been clocked at 50% faster than Spaceship's built in Git section.
@@ -21,11 +23,10 @@ SPACESHIP_PROMPT_ORDER=(
   # any other sections
 )
 
-# Configure Git Prompt Kit
-GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
-# and any git-prompt-kit config options
-# For example, a compact prompt to fit nicely with other sections:
+# Configure Git Prompt Kit and any Git-Prompt-Kit config options
+# For example
 GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=0
+GIT_PROMPT_KIT_LINEBREAK_AFTER_GIT_REF=0
 
 # Use Git Prompt Kit and Spaceship
 # Load olets/git-prompt-kit/git-prompt-kit.spaceship.zsh
@@ -42,12 +43,12 @@ You can use Git Prompt Kit with [Starship](https://starship.rs/) (tested with zs
 ```shell
 # shell rc file
 
-# Configure Git Prompt Kit
-GIT_PROMPT_KIT_LINEBREAK_BEFORE_GIT_FILES=0
-# and any git-prompt-kit config options.
-# For example, a compact prompt to fit nicely with other modules:
+# Configure Git Prompt Kit and any Git-Prompt-Kit config options
+# For example
 GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS=0
 GIT_PROMPT_KIT_USE_DEFAULT_PROMPT=0
+GIT_PROMPT_KIT_LINEBREAK_AFTER_GIT_REF=0
+
 # Load Git Prompt Kit (will differ depending on installation method)
 
 eval "$(starship init zsh)"
@@ -83,7 +84,7 @@ See <https://starship.rs/config/#prompt> for Starship's default order.
 
 Here are some examples of how the Git Prompt Kit components can be used.
 
-They have not been thoroughly battle tested — they are not "Git Prompt Kit themes" but rather starting points for those new to customizing the zsh prompt.
+> They have not been thoroughly battle tested — they are not "Git Prompt Kit themes" but rather starting points for those new to customizing the zsh prompt.
 
 The construct `${x:+y}` is "print `$y` if `$x` is not null". In the context of prompt building, this is useful for conditionally adding spaces: `${x:+$x }` is "print `$x ` if `$x` is not null".
 
