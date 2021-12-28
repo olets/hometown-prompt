@@ -104,7 +104,7 @@ Hometown uses Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/
 
 ## Performance
 
-Hometown has a sub-10ms the time between prompts, as measured by [`zsh-prompt-benchmark`](https://github.com/romkatv/zsh-prompt-benchmark).
+Hometown adds less than sub-10ms to the time between prompts, as measured by [`zsh-prompt-benchmark`](https://github.com/romkatv/zsh-prompt-benchmark).
 
 Hometown uses Git Prompt Kit. See [Git Prompt Kit](https://github.com/olets/git-prompt-kit) for performance details.
 
