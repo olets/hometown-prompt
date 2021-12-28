@@ -4,7 +4,7 @@
 # https://github.com/olets/hometown-prompt
 # Copyright (©) 2021 Henry  Bley-Vroman
 
-_hometown-prompt_prompt_git_prompt() {
+_hometown_prompt_git_prompt() {
   emulate -L zsh
 
   local git_prompt=
@@ -21,7 +21,7 @@ _hometown-prompt_prompt_git_prompt() {
   'builtin' 'echo' $git_prompt
 }
 
-_hometown-prompt_prompt_build_prompt() {
+_hometown_prompt_build_prompt() {
   emulate -L zsh
 
   local prompt=
@@ -41,7 +41,7 @@ _hometown-prompt_prompt_build_prompt() {
   # Git
   # add a space if GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF, otherwise add a linebreak
   prompt+='${GIT_PROMPT_KIT_HEAD:+${${GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF:+ }:-\n}}'
-  prompt+=$(_hometown-prompt_prompt_git_prompt)
+  prompt+=$(_hometown_prompt_git_prompt)
 
   # Prompt character
   prompt+=$'\n'
@@ -50,7 +50,7 @@ _hometown-prompt_prompt_build_prompt() {
   'builtin' 'echo' $prompt
 }
 
-_hometown-prompt_prompt_init() {
+_hometown_prompt_init() {
   emulate -L zsh
 
   local dir
@@ -61,12 +61,12 @@ _hometown-prompt_prompt_init() {
 
   dir=$1
 
-  GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX=__hometown-prompt_prompt
+  GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX=__hometown_prompt
   GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME=HOMETOWN_PROMPT
 
   'builtin' 'source' $dir/git-prompt-kit/git-prompt-kit.zsh
 
-  PROMPT=$(_hometown-prompt_prompt_build_prompt)
+  PROMPT=$(_hometown_prompt_build_prompt)
 }
 
-_hometown-prompt_prompt_init ${0:A:h}
+_hometown_prompt_init ${0:A:h}
