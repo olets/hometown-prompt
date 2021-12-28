@@ -4,6 +4,8 @@
 
 **Git Prompt Kit** is a configurable set of components for creating feature rich, high performance Git-aware zsh prompts (aka themes) with minimal coding. It is built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k.
 
+Try the interactive demo! https://git-prompt-kit.netlify.app/
+
 &nbsp;
 
 - [Installation](#installation)
