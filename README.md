@@ -4,21 +4,7 @@
 
 **Hometown is a feature rich, high performance Git-aware zsh theme** with segments for the user, host, time, the current working directory and its parent, and detailed full Git status with in a Git repo.
 
-Get a feel for how the components respond to context and how the options work by playing with interactive demo at <a href="https://git-prompt-kit.netlify.app/">https://git-prompt-kit.netlify.app/</a>.
-
-With the default configuration it looks like
-
-<figure>
-<img src="./img/hometown-default.jpg">
-<figcaption>
-<pre>
-19:29:25 olets/git-prompt-kit main +1
-3⇲ ?? UU _D 1_M A_ D_ 1M_
-% # time, directory, branch, one commit ahead of remote
-  # three stashes, one unstaged modified file, one staged modified file
-</pre>
-</figcaption>
-</figure>
+Get a feel for how the components respond to context and how the options work by playing with the online simulator: <a href="https://hometown-prompt.netlify.app/">https://hometown-prompt.netlify.app/</a>.
 
 &nbsp;
 
@@ -67,44 +53,63 @@ exec zsh
 
 ## Usage
 
-Once installed, open a new terminal. The theme will be Hometown!
+Hometown shows
+
+- The current user, if not one you've configured as hidden
+- The current host, if not one you've configured as hidden
+- The time the prompt was drawn
+- The current working directory, or other custom content
+- The checked out branch or, if HEAD is detached, the checked out commit
+  - color is determined by whether or not the index is dirty
+- How many commits ahead of the upstream 
+- If a branch is checked out:
+  - Its name, colored by whether or not the index is dirty
+  - Whether or not it has an upstream. If it has an upstream,
+    - How many commits ahead of the upstream it is
+    - How many commits behind the upstream it is
+    - The upstream's name if different from the local's
+    - The upstream's remote if different from your default
+- Up to one tag which points to the current commit
+- The stash count
+- The assume-unchanged files count
+- The skip-worktree files count
+- The untracked ("new") files count
+- The conflicted files count
+- The unstaged deleted files count
+- The unstaged modified files count
+- The staged new files count
+- The staged deleted files count
+- The staged modified files count
+- The name of the ongoing action, if any
 
 ### Examples
 
-Try out Hometown at https://git-prompt-kit.netlify.app/.
+Try out Hometown at https://hometown-prompt.netlify.app/.
 
-Conceptually it is
+In the below screenshot, the user configuration specifies that dimmed symbols should be shown for Git status counts equal to zero (see [Options](#options)). The prompt shows that `main` is checked out and dirty; it is one commit ahead of the remote tracking branch; there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file; the previous command succeeded, and that the user is not root; and, implicitly, that neither the user or host is unexpected, the upstream branch is `origin/main`, the local branch is not behind it, there is no tag at `HEAD`, there are no files with the assume-unchanged bit set, there are no files with the skip-worktree bit set, and there is no action (e.g. merge, rebase, cherry-pick) underway.
 
-```
-<time> <CWD and parent> <branch or commit> <commits ahead> <commits behind> <upstream (branch if different name, remote and branch if not default remote, "local" if none)> <tag>
-<stashes> <assumed-unchanged files> <skip-worktree files> <untracked files> <conflicted files> <deleted files> <modified files> <new files> <staged deleted files> <staged modified files> <action>
-```
-
-The `<CWD and parent>` segment can be replaced with any arbitrary content (see [Options](#options)).
-
-In the above screenshot, the theme shows that
-
-- `main` is checked out and dirty
-- it is one commit ahead of the remote tracking branch
-- there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file
-- the previous command succeeded, and that the user is not root
-- and, implicitly, that
-    - neither the user or host is unexpected,
-    - the remote tracking branch is `origin/main`
-    - the local branch is not behind it
-    - there is no tag at `HEAD`
-    - there are no files with the assume-unchanged bit set
-    - there are no files with the skip-worktree bit set
-    - and there is no action (e.g. merge, rebase, cherry-pick) underway.
+<figure>
+<img src="./img/hometown-default.jpg">
+<figcaption>
+As text:
+<pre>
+19:29:25 olets/git-prompt-kit main +1
+3⇲ ?? UU _D 1_M A_ D_ 1M_
+% # time, directory, branch, one commit ahead of remote
+  # three stashes, one unstaged modified file, one staged modified file
+</pre>
+</figcaption>
+</figure>
 
 ### Options
 
-Hometown uses Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/olets/git-prompt-kit#options) for the many customizations available.
+Hometown is highly customizable. Change the colors and symbols, add and remove line breaks, modify the current working directory segment, show inactive elements (for example, show the Git status symbols, dimmed, when the local branch is up to date with its upstream, as seen in the above screenshot), and more.
 
+Configuration is done through Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/olets/git-prompt-kit#options).
 
 ## Performance
 
-Hometown adds less than sub-10ms to the time between prompts, as measured by [`zsh-prompt-benchmark`](https://github.com/romkatv/zsh-prompt-benchmark).
+Hometown adds less than 10ms to the time between prompts, as measured by [`zsh-prompt-benchmark`](https://github.com/romkatv/zsh-prompt-benchmark).
 
 Hometown uses Git Prompt Kit. See [Git Prompt Kit](https://github.com/olets/git-prompt-kit) for performance details.
 
