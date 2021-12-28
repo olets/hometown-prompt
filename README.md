@@ -22,14 +22,6 @@
 
 Shell plugin manager is the recommended installation method.
 
-### Homebrew
-
-```shell
-brew install olets/tap/git-prompt-kit
-```
-
-and follow the post-install instructions logged to the terminal.
-
 ### With a shell plugin manager
 
 1. Install git-prompt-kit with a zsh plugin manager. Each has their own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a).
