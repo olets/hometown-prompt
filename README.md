@@ -20,6 +20,8 @@ With the default configuration it looks like
 </figcaption>
 </figure>
 
+&nbsp;
+
 <!-- TOC -->
 - [Requirements](#requirements)
 - [Installation](#installation)
