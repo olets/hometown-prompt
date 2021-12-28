@@ -47,25 +47,27 @@ exec zsh
 
 ### Prompt manager
 
-Git Prompt Kit comes with a [Spaceship](https://github.com/denysdovhan/spaceship-prompt) section definition, and it is easy to create a [Starship](https://starship.rs/) custom Git Prompt Kit-powered Git module. Instructions for both are in [Recipes.md](Recipes.md).
+You can use Git Prompt Kit to create a custom, high-performance Spaceship Git section or Starship Git module. Starting points for both are in [Recipes.md](Recipes.md).
 
 The Git Prompt Kit Spaceship section has been clocked at 50% faster than Spaceship's own Git section. The Git Prompt Kit Starship module has been clocked at about 10% to 30% faster than Starship's own Git module.
 
 ## Examples
 
-To get a feel for the components try the interactive demo for [Hometown Prompt](https://github.com/olets/hometown-prompt), my Git Prompt Kit-based theme.
+To get a feel for the components try the interactive demo: <a href="https://git-prompt-kit.netlify.app/">https://git-prompt-kit.netlify.app/</a>.
 
-Code samples that use Git Prompt Kit components to build high-performance prompts styled after [git-radar](https://github.com/michaeldfallen/git-radar), [oh-my-git](https://github.com/arialdomartini/oh-my-git), [Pure](https://github.com/sindresorhus/pure), and [Spaceship](https://github.com/denysdovhan/spaceship-prompt) are provided in [Recipes.md](Recipes.md).
+See [Recipes.md](Recipes.md) for code how to use Git Prompt Kit components to build a high-performance prompt styled after [git-radar](https://github.com/michaeldfallen/git-radar), [oh-my-git](https://github.com/arialdomartini/oh-my-git), [Pure](https://github.com/sindresorhus/pure), or [Spaceship](https://github.com/denysdovhan/spaceship-prompt).
+
+[Hometown](https://github.com/olets/hometown-prompt) is a theme built entirely of Git Prompt Kit components.
 
 ## Options
 
-Set variables in `.zshrc` above the point where Git Prompt Kit is loaded. For example, to only show the user if _not_ `me`, only show the host if _not_ `my-computer` or `my-other-computer`, and use symbols to distinguish between branches and commits:
+Set variables in `.zshrc`. For example, to only show the user if _not_ `me`, only show the host if _not_ `my-computer` or `my-other-computer`, and use symbols to distinguish between branches and commits:
 
 ```shell
 # ~/.zshrc
 # --- snip ---
-typeset -a GIT_PROMPT_KIT_HIDDEN_HOSTS=(my-computer my-other-computer)
-typeset -a GIT_PROMPT_KIT_HIDDEN_USERS=(me)
+GIT_PROMPT_KIT_HIDDEN_HOSTS=( my-computer my-other-computer )
+GIT_PROMPT_KIT_HIDDEN_USERS=( me )
 GIT_PROMPT_KIT_SYMBOL_BRANCH="#"
 GIT_PROMPT_KIT_SYMBOL_COMMIT="•"
 # Load Git Prompt Kit (will differ depending on installation method)
@@ -77,28 +79,34 @@ To output your configuration, for example for sharing, run
 git-prompt-kit-config
 ```
 
-(The exporter makes an effort to get quoting right, but if `GIT_PROMPT_KIT_CUSTOM_CONTENT` has been customized and includes quotations it's worth double checking that the exported value is correct.)
+(The exporter makes an effort to get quoting right, but if you use a custom configuration with quotation marks it's worth double checking that the exported value is correct.)
 
 ### Behavior options
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_HIDE_INACTIVE_AHEAD_BEHIND` | number | Hide dimmed symbols for the commits ahead of and commits behind the upstream branch when the count is zero? (YES if non-zero, NO if zero) | `1`
-`GIT_PROMPT_KIT_HIDE_INACTIVE_EXTENDED_STATUS` | number | Hide dimmed Git stash, assumed-unchanged, and skip-worktree symbols when the count is zero? (YES if non-zero, NO if zero) | `1`
-`GIT_PROMPT_KIT_HIDE_TOOL_NAMES` | number | Do not show the word "Git" before the Git ref info? (YES if non-zero, NO if zero) | `1`
-`GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS` | number | Show Git status symbols (dimmed) when the count is zero? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_HIDE_INACTIVE_AHEAD_BEHIND` | number | Hide dimmed symbols for the commits ahead of and commits behind the upstream branch when the count is zero? (HIDE if non-zero, SHOW if zero) | `1`
+`GIT_PROMPT_KIT_HIDE_INACTIVE_EXTENDED_STATUS` | number | Hide dimmed Git stash, assumed-unchanged, and skip-worktree symbols when the count is zero? (HIDE if non-zero, SHOW if zero) | `1`
+`GIT_PROMPT_KIT_HIDE_TOOL_NAMES` | number | Do not show the word "Git" before the Git ref info? (HIDE if non-zero, SHOW if zero) | `1`
+`GIT_PROMPT_KIT_SHOW_INACTIVE_STATUS` | number | Show Git status symbols (dimmed) when the count is zero? (SHOW if non-zero, HIDE if zero) | `1`
 
 ### Color options
 
-Colors can be one of zsh's eight color names (`black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan` and `white`; see http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Character-Highlighting), an integer 1-255 for an 8-bit color (see https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit), or a #-prefixed 3- or 6-character hexadecimal value for 24-bit color (e.g. `#fff`, `#34d5eb`). Support varies by terminal emulator.
+Colors can be
 
-For the default colors' table but with swatches, see [Issue #1: README appendix: default colors' swatches](https://github.com/olets/git-prompt-kit/issues/1). Note that the may appear differently in your terminal. To see visualize the configured colors in your terminal, run
+- one of zsh's eight color names (`black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan` and `white`; see http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Character-Highlighting)
+- an integer 1-255 for an 8-bit color (see https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit)
+- or a #-prefixed 3- or 6-character hexadecimal value for 24-bit color (e.g. `#fff`, `#34d5eb`)
+
+Support varies by terminal emulator.
+
+> Tip: To check a color it can be useful to run `print -P %F{<color>}<text>%f`, for example `print -P %F{199}●%f`.
+
+See [Issue #1: README appendix: default colors' swatches](https://github.com/olets/git-prompt-kit/issues/1) for the following table but with swatches. They may appear differently in your terminal. To visualize the configured colors in your terminal, run
 
 ```shell
 git-prompt-kit-colors
 ```
-
-To check a color it can be useful to run `print -P %F{<color>}<text>%f`, for example `print -P %F{199}●%f`.
 
 Name | Type | Description | Default
 ---|---|---|---
@@ -130,6 +138,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | number | Show the stash, assume-unchanged, and skip-worktree counts (YES if non-zero, NO if zero) | `1`
 
 \* For the special sequences supported in zsh prompts see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+
 \** Current working directory and its parent, with `~` for initial `$HOME` (and with custom zsh "named directories" respected; see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Shell-state) (use `print -P <string>` to check a prompt string, e.g. `print -P "%2~"`).
 
 ### Layout options
@@ -138,8 +147,8 @@ Name | Type | Description | Default
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_LINEBREAK_AFTER_GIT_REF` | number | _Do_ add a line break after the Git ref segment? (YES if non-zero, NO if zero) | `1`
-`GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF` | number | Do _not_ add a line break before the Git ref segment? (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_LINEBREAK_AFTER_GIT_REF` | number | _Do_ add a line break after the Git ref segment? (LINEBREAK if non-zero, NO LINEBREAK if zero) | `1`
+`GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF` | number | Do _not_ add a line break before the Git ref segment? (NO LINEBREAK if non-zero, LINEBREAK if zero) | `1`
 
 ### Symbol options
 
@@ -193,31 +202,31 @@ GIT_PROMPT_KIT_CUSTOM_CONTENT='%1d'
 PROMPT='$GIT_PROMPT_KIT_CUSTOM_CONTENT ${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }$GIT_PROMPT_KIT_CHAR '
 ```
 
-### Atoms
+### Atom components
 
 Name | Type | Description
 ---|---|---
 `GIT_PROMPT_KIT_ACTION` | prompt string | Git: current action (e.g. "rebase")
 `GIT_PROMPT_KIT_AHEAD` | prompt string | Git: commits ahead of the upstream
-`GIT_PROMPT_KIT_ASSUMED_UNCHANGED` | prompt string | Git: assume-unchanged files
+`GIT_PROMPT_KIT_ASSUMED_UNCHANGED` | prompt string | Git: assume-unchanged files count
 `GIT_PROMPT_KIT_BEHIND` | prompt string | Git: commits behind the upstream
 `GIT_PROMPT_KIT_CHAR` | prompt string | Prompt character
-`GIT_PROMPT_KIT_CONFLICTED` | prompt string | Git: conflicted files
+`GIT_PROMPT_KIT_CONFLICTED` | prompt string | Git: conflicted files count
 `GIT_PROMPT_KIT_CUSTOM` | prompt string | Custom (current working directory by default, see [Content Options](#content-options))
-`GIT_PROMPT_KIT_DELETED_STAGED` | prompt string | Git: staged deleted files
-`GIT_PROMPT_KIT_DELETED` | prompt string | Git: unstaged deleted files
+`GIT_PROMPT_KIT_DELETED_STAGED` | prompt string | Git: staged deleted files count
+`GIT_PROMPT_KIT_DELETED` | prompt string | Git: unstaged deleted files count
 `GIT_PROMPT_KIT_HEAD` | prompt string | Git: HEAD (branch or commit)
-`GIT_PROMPT_KIT_MODIFIED_STAGED` | prompt string | Git: staged modified files
-`GIT_PROMPT_KIT_MODIFIED` | prompt string | Git: unstaged modified files
-`GIT_PROMPT_KIT_NEW` | prompt string | Git: (staged) new files
-`GIT_PROMPT_KIT_SKIP_WORKTREE` | prompt string | Git: skip-worktree files
-`GIT_PROMPT_KIT_STASHES` | prompt string | Git: stash
-`GIT_PROMPT_KIT_TAG` | prompt string | Git: tag at HEAD
-`GIT_PROMPT_KIT_UNTRACKED` | prompt string | Git: untracked (not staged) files
+`GIT_PROMPT_KIT_MODIFIED_STAGED` | prompt string | Git: staged modified files count
+`GIT_PROMPT_KIT_MODIFIED` | prompt string | Git: unstaged modified files count
+`GIT_PROMPT_KIT_NEW` | prompt string | Git: (staged) new files count
+`GIT_PROMPT_KIT_SKIP_WORKTREE` | prompt string | Git: skip-worktree files count
+`GIT_PROMPT_KIT_STASHES` | prompt string | Git: stash count
+`GIT_PROMPT_KIT_TAG` | prompt string | Git: up to one tag at HEAD
+`GIT_PROMPT_KIT_UNTRACKED` | prompt string | Git: untracked (not staged) files count
 `GIT_PROMPT_KIT_UPSTREAM` | prompt string | Git: "local" if no upstream; upstream branch if the name differs from the local branch; upstream remote and branch if the remote is not the default
-`GIT_PROMPT_KIT_USERHOST` | prompt string | User and host
+`GIT_PROMPT_KIT_USERHOST` | prompt string | User (if not configured as hidden) and host (if not configured as hidden)
 
-### Molecules
+### Molecule components
 
 Name | Type | Description
 ---|---|---
@@ -225,15 +234,15 @@ Name | Type | Description
 `GIT_PROMPT_KIT_STATUS_EXTENDED` | prompt string | `GIT_PROMPT_KIT_STASHES`, `GIT_PROMPT_KIT_ASSUMED_UNCHANGED`, and `GIT_PROMPT_KIT_SKIP_WORKTREE`
 `GIT_PROMPT_KIT_STATUS` | prompt string | `GIT_PROMPT_KIT_UNTRACKED`, `GIT_PROMPT_KIT_CONFLICTED`, `GIT_PROMPT_KIT_DELETED`, `GIT_PROMPT_KIT_MODIFIED`, `GIT_PROMPT_KIT_NEW`, `GIT_PROMPT_KIT_DELETED_STAGED`, and `GIT_PROMPT_KIT_MODIFIED_STAGED`
 
-### Other
+### Other components
 
-Name | Description
----|---
-`GIT_PROMPT_KIT_DIRTY` | Equal to `1` if the Git worktree is dirty
+Name | Type | Description
+---|---|---
+`GIT_PROMPT_KIT_DIRTY` | number | Equal to `1` if the Git worktree is dirty
 
 ## Performance
 
-Git Prompt Kit adds less than sub-10ms to the time between prompts, as measured by [`zsh-prompt-benchmark`](https://github.com/romkatv/zsh-prompt-benchmark). It is built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k. See [gitstatus](https://github.com/romkatv/gitstatus) for details.
+Git Prompt Kit adds less than 10ms to the time between prompts, as measured by [`zsh-prompt-benchmark`](https://github.com/romkatv/zsh-prompt-benchmark). It is built on gitstatus, the same accelerated `git status` alternative used by Powerlevel10k. See [gitstatus](https://github.com/romkatv/gitstatus) for details.
 
 ## Acknowledgments
 
