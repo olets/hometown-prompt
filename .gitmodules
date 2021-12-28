@@ -1,0 +1,3 @@
+[submodule "git-prompt-kit"]
+	path = git-prompt-kit
+	url = https://github.com/olets/git-prompt-kit
