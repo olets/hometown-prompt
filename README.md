@@ -11,7 +11,6 @@ Get a feel for how the components respond to context and how the options work by
 <!-- TOC -->
 - [Requirements](#requirements)
 - [Installation](#installation)
-    - [Homebrew](#homebrew)
     - [With a shell plugin manager](#with-a-shell-plugin-manager)
     - [Manual](#manual)
 - [Usage](#usage)
