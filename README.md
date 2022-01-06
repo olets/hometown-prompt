@@ -133,6 +133,7 @@ Name | Type | Description | Default
 Name | Type | Description | Default
 ---|---|---|---
 `GIT_PROMPT_KIT_CUSTOM_CONTENT` | string | The code for the custom component* | `%2~`**
+`GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME` | string | The default Git push remote | `upstream`
 `GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME` | string | The default Git remote | `origin`
 `GIT_PROMPT_KIT_HIDDEN_HOSTS` | array | The hosts that will not be included in the prompt | `()`
 `GIT_PROMPT_KIT_HIDDEN_USERS` | array | The users that will not be included in the prompt | `()`
@@ -172,6 +173,8 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_SYMBOL_MODIFIED_STAGED` | string | Follows the Git staged modified file segment | `M_`
 `GIT_PROMPT_KIT_SYMBOL_MODIFIED` | string | Follows the Git unstaged modified file segment | `_M`
 `GIT_PROMPT_KIT_SYMBOL_NEW` | string | Follows Git new file segment | `A_`
+`GIT_PROMPT_KIT_SYMBOL_PUSH` | string | Precedes the Git push remote | `@{push}`
+`GIT_PROMPT_KIT_SYMBOL_REMOTE` | string | Precedes the Git remote | `@{u}`
 `GIT_PROMPT_KIT_SYMBOL_SKIP_WORKTREE` | string | Follows the Git skip-worktree file segment | `⤳ `
 `GIT_PROMPT_KIT_SYMBOL_STASH` | string | Follows the Git stash segment | `⇲`
 `GIT_PROMPT_KIT_SYMBOL_TAG` | string | Precedes the Git tag | `@`
@@ -210,8 +213,10 @@ Name | Type | Description
 ---|---|---
 `GIT_PROMPT_KIT_ACTION` | prompt string | Git: current action (e.g. "rebase")
 `GIT_PROMPT_KIT_AHEAD` | prompt string | Git: commits ahead of the upstream
+`GIT_PROMPT_KIT_PUSH_AHEAD` | prompt string | Git: commits ahead of the push remote
 `GIT_PROMPT_KIT_ASSUMED_UNCHANGED` | prompt string | Git: assume-unchanged files count
 `GIT_PROMPT_KIT_BEHIND` | prompt string | Git: commits behind the upstream
+`GIT_PROMPT_KIT_PUSH_BEHIND` | prompt string | Git: commits behind the push remote
 `GIT_PROMPT_KIT_CHAR` | prompt string | Prompt character
 `GIT_PROMPT_KIT_CONFLICTED` | prompt string | Git: conflicted files count
 `GIT_PROMPT_KIT_CUSTOM` | prompt string | Custom (current working directory by default, see [Content Options](#content-options))
@@ -221,18 +226,19 @@ Name | Type | Description
 `GIT_PROMPT_KIT_MODIFIED_STAGED` | prompt string | Git: staged modified files count
 `GIT_PROMPT_KIT_MODIFIED` | prompt string | Git: unstaged modified files count
 `GIT_PROMPT_KIT_NEW` | prompt string | Git: (staged) new files count
+`GIT_PROMPT_KIT_PUSH` | prompt string | Git: push remote if not the default
 `GIT_PROMPT_KIT_SKIP_WORKTREE` | prompt string | Git: skip-worktree files count
 `GIT_PROMPT_KIT_STASHES` | prompt string | Git: stash count
 `GIT_PROMPT_KIT_TAG` | prompt string | Git: up to one tag at HEAD
 `GIT_PROMPT_KIT_UNTRACKED` | prompt string | Git: untracked (not staged) files count
-`GIT_PROMPT_KIT_UPSTREAM` | prompt string | Git: "local" if no upstream; upstream branch if the name differs from the local branch; upstream remote and branch if the remote is not the default
+`GIT_PROMPT_KIT_REMOTE` | prompt string | Git: "local" if no upstream; upstream branch if the name differs from the local branch; upstream remote and branch if the remote is not the default
 `GIT_PROMPT_KIT_USERHOST` | prompt string | User (if not configured as hidden) and host (if not configured as hidden)
 
 ### Molecule components
 
 Name | Type | Description
 ---|---|---
-`GIT_PROMPT_KIT_REF` | prompt string | `GIT_PROMPT_KIT_HEAD`, `GIT_PROMPT_KIT_AHEAD`, `GIT_PROMPT_KIT_BEHIND`, `GIT_PROMPT_KIT_UPSTREAM`, and `GIT_PROMPT_KIT_TAG`
+`GIT_PROMPT_KIT_REF` | prompt string | `GIT_PROMPT_KIT_HEAD`, `GIT_PROMPT_KIT_AHEAD`, `GIT_PROMPT_KIT_BEHIND`, `GIT_PROMPT_KIT_REMOTE`, `GIT_PROMPT_KIT_PUSH`, and `GIT_PROMPT_KIT_TAG`
 `GIT_PROMPT_KIT_STATUS_EXTENDED` | prompt string | `GIT_PROMPT_KIT_STASHES`, `GIT_PROMPT_KIT_ASSUMED_UNCHANGED`, and `GIT_PROMPT_KIT_SKIP_WORKTREE`
 `GIT_PROMPT_KIT_STATUS` | prompt string | `GIT_PROMPT_KIT_UNTRACKED`, `GIT_PROMPT_KIT_CONFLICTED`, `GIT_PROMPT_KIT_DELETED`, `GIT_PROMPT_KIT_MODIFIED`, `GIT_PROMPT_KIT_NEW`, `GIT_PROMPT_KIT_DELETED_STAGED`, and `GIT_PROMPT_KIT_MODIFIED_STAGED`
 
