@@ -133,7 +133,7 @@ Name | Type | Description | Default
 Name | Type | Description | Default
 ---|---|---|---
 `GIT_PROMPT_KIT_CUSTOM_CONTENT` | string | The code for the custom component* | `%2~`**
-`GIT_PROMPT_KIT_DEFAULT_REMOTE` | string | The default Git remote | `origin`
+`GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME` | string | The default Git remote | `origin`
 `GIT_PROMPT_KIT_HIDDEN_HOSTS` | array | The hosts that will not be included in the prompt | `()`
 `GIT_PROMPT_KIT_HIDDEN_USERS` | array | The users that will not be included in the prompt | `()`
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
