@@ -196,11 +196,11 @@ _git_prompt_kit_update_git() {
   # Set variables for later use
 
   local action_status=
-  local added_staged_count=
-  local not_default_remote=0
   local ref_status=
   local tree_status=
-  local unstaged_count=
+  local -i added_staged_count
+  local -i not_default_remote
+  local -i unstaged_count
 
   (( added_staged_count = VCS_STATUS_NUM_STAGED - VCS_STATUS_NUM_STAGED_NEW - VCS_STATUS_NUM_STAGED_DELETED ))
   (( unstaged_count = VCS_STATUS_NUM_UNSTAGED - VCS_STATUS_NUM_UNSTAGED_DELETED ))
@@ -437,8 +437,8 @@ _git_prompt_kit_update_nongit() {
 
   local host=${(%):-%m}
   local user=${(%):-%n}
-  local show_host=0
-  local show_user=0
+  local -i show_host
+  local -i show_user
 
   GIT_PROMPT_KIT_CUSTOM="%F{$GIT_PROMPT_KIT_COLOR_CUSTOM}$GIT_PROMPT_KIT_CUSTOM_CONTENT%f"
 
