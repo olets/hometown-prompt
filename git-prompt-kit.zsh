@@ -233,9 +233,7 @@ _git_prompt_kit_update_git() {
     triangular_workflow=1
   fi
 
-  if [[ -n $VCS_STATUS_PUSH_REMOTE_NAME ]] \
-    && [[ $VCS_STATUS_PUSH_REMOTE_NAME != $VCS_STATUS_REMOTE_NAME ]] \
-    && [[ $VCS_STATUS_PUSH_REMOTE_NAME != $GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME ]]; then
+  if (( triangular_workflow )) && [[ $VCS_STATUS_PUSH_REMOTE_NAME != $GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME ]]; then
     show_push_remote=1
   fi
 
@@ -347,8 +345,11 @@ _git_prompt_kit_update_git() {
   if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
     GIT_PROMPT_KIT_HEAD+="$GIT_PROMPT_KIT_SYMBOL_BRANCH$VCS_STATUS_LOCAL_BRANCH%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
 
-    if [[ -n $VCS_STATUS_REMOTE_BRANCH ]]; then
+    if [[ -z $VCS_STATUS_REMOTE_BRANCH ]] && (( ! triangular_workflow )); then 
+      GIT_PROMPT_KIT_REMOTE+="%F{$GIT_PROMPT_KIT_COLOR_REMOTE}$GIT_PROMPT_KIT_LOCAL%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
+    fi
 
+    if [[ -n $VCS_STATUS_REMOTE_BRANCH ]]; then
       if (( show_remote || show_remote_branch)); then
         if (( VCS_STATUS_COMMITS_AHEAD || VCS_STATUS_COMMITS_BEHIND )); then
           GIT_PROMPT_KIT_REMOTE+="%F{$GIT_PROMPT_KIT_COLOR_REMOTE}"
@@ -382,8 +383,6 @@ _git_prompt_kit_update_git() {
         (( VCS_STATUS_COMMITS_BEHIND )) && GIT_PROMPT_KIT_BEHIND+="$VCS_STATUS_COMMITS_BEHIND"
         GIT_PROMPT_KIT_BEHIND+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
       fi
-    else
-      GIT_PROMPT_KIT_REMOTE+="%F{$GIT_PROMPT_KIT_COLOR_REMOTE}$GIT_PROMPT_KIT_LOCAL%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
     fi
 
     if (( triangular_workflow )); then
