@@ -1,3 +1,16 @@
+# [2.1.0](https://github.com/olets/git-prompt-kit/compare/v2.0.0...v2.1.0) (2022-01-15)
+
+Now with push remote support!
+### Features
+
+* **copyright:** through present ([2279dc5](https://github.com/olets/git-prompt-kit/commit/2279dc51ecef79eb3202c359743b59119853e8ca))
+* **GIT_PROMPT_KIT_DEFAULT_REMOTE:** rename GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME ([4016b9b](https://github.com/olets/git-prompt-kit/commit/4016b9b5f1d77680747d77d6b445b8856f6a3060))
+* **ref:** always show remote symbols ([9e04a91](https://github.com/olets/git-prompt-kit/commit/9e04a91ce32d628179c02e94ba412ce567461fc9))
+* **ref:** show 'local' only if no u and no push ([8d74a18](https://github.com/olets/git-prompt-kit/commit/8d74a183fa950c6249d3af9885452153fd010cc1))
+* **ref:** support push remote ([2d114d3](https://github.com/olets/git-prompt-kit/commit/2d114d368a18c8714aa45f7dee711c76ad28703d))
+
+
+
 # [2.0.0](https://github.com/olets/porcelain-prompt/compare/v1.x...v2.0.0) (2021-12-28)
 
 The big change: Git Prompt Kit does not come with a theme. See [Hometown prompt](https://github.com/olets/hometown-prompt) for my theme.
