@@ -173,7 +173,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_SYMBOL_MODIFIED_STAGED` | string | Follows the Git staged modified file segment | `M_`
 `GIT_PROMPT_KIT_SYMBOL_MODIFIED` | string | Follows the Git unstaged modified file segment | `_M`
 `GIT_PROMPT_KIT_SYMBOL_NEW` | string | Follows Git new file segment | `A_`
-`GIT_PROMPT_KIT_SYMBOL_PUSH` | string | Precedes the Git push remote | `@{push}`
+`GIT_PROMPT_KIT_SYMBOL_PUSH_REMOTE` | string | Precedes the Git push remote | `@{push}`
 `GIT_PROMPT_KIT_SYMBOL_REMOTE` | string | Precedes the Git remote | `@{u}`
 `GIT_PROMPT_KIT_SYMBOL_SKIP_WORKTREE` | string | Follows the Git skip-worktree file segment | `⤳ `
 `GIT_PROMPT_KIT_SYMBOL_STASH` | string | Follows the Git stash segment | `⇲`
