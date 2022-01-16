@@ -558,44 +558,6 @@ _git_prompt_kit_update_nongit() {
   fi
 }
 
-_git_prompt_kit_git_prompt() {
-  local git_prompt=
-
-  git_prompt+='$GIT_PROMPT_KIT_REF'
-  git_prompt+='${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}'
-  git_prompt+='$GIT_PROMPT_KIT_STATUS'
-  git_prompt+='$GIT_PROMPT_KIT_ACTION'
-
-  'builtin' 'echo' $git_prompt
-}
-
-_git_prompt_kit_build_prompt() {
-  local prompt=
-
-  # Blank line after result of previous command
-  prompt+=$'\n'
-
-  # User and host
-  prompt+='${GIT_PROMPT_KIT_USERHOST:+$GIT_PROMPT_KIT_USERHOST }'
-
-  # Time
-  prompt+=$'%* '
-
-  # Custom (CWD by default)
-  prompt+='$GIT_PROMPT_KIT_CUSTOM'
-
-  # Git
-  # add a space if GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF, otherwise add a linebreak
-  prompt+='${GIT_PROMPT_KIT_HEAD:+${${GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF:+ }:-\n}}'
-  prompt+=$(_git_prompt_kit_git_prompt)
-
-  # Prompt character
-  prompt+=$'\n'
-  prompt+='${GIT_PROMPT_KIT_CHAR:+$GIT_PROMPT_KIT_CHAR }'
-
-  'builtin' 'echo' $prompt
-}
-
 _git_prompt_kit_no_color() {
   local -a shell_vars
   local -i found
