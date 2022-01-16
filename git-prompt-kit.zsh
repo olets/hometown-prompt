@@ -31,6 +31,7 @@ GIT_PROMPT_KIT_COLOR_SUCCEEDED=${GIT_PROMPT_KIT_COLOR_SUCCEEDED-76}
 GIT_PROMPT_KIT_COLOR_TAG=${GIT_PROMPT_KIT_COLOR_TAG-86}
 GIT_PROMPT_KIT_COLOR_UNSTAGED=${GIT_PROMPT_KIT_COLOR_UNSTAGED-162}
 GIT_PROMPT_KIT_COLOR_USER=${GIT_PROMPT_KIT_COLOR_USER-109}
+GIT_PROMPT_KIT_COLOR_WORKDIR=${GIT_PROMPT_KIT_COLOR_WORKDIR-39}
 
 # Configuration options
 typeset -g GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX=${GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX:-__git_prompt_kit}
@@ -39,6 +40,7 @@ typeset -g GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME=${GIT_PROMPT_KIT_GITSTATUSD_I
 # Content options
 GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME=${GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME-upstream}
 GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME=${GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME-origin}
+GIT_PROMPT_KIT_WORKDIR_DEPTH=${GIT_PROMPT_KIT_WORKDIR_DEPTH-2}
 #
 ! [[ -v GIT_PROMPT_KIT_HIDDEN_HOSTS ]] && typeset -a GIT_PROMPT_KIT_HIDDEN_HOSTS=()
 ! [[ -v GIT_PROMPT_KIT_HIDDEN_USERS ]] && typeset -a GIT_PROMPT_KIT_HIDDEN_USERS=()
@@ -93,6 +95,7 @@ _git_prompt_kit_configs=(
   GIT_PROMPT_KIT_COLOR_TAG
   GIT_PROMPT_KIT_COLOR_UNSTAGED
   GIT_PROMPT_KIT_COLOR_USER
+  GIT_PROMPT_KIT_COLOR_WORKDIR
   GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME
   GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME
   GIT_PROMPT_KIT_HIDDEN_HOSTS
@@ -123,6 +126,7 @@ _git_prompt_kit_configs=(
   GIT_PROMPT_KIT_SYMBOL_STASH
   GIT_PROMPT_KIT_SYMBOL_TAG
   GIT_PROMPT_KIT_SYMBOL_UNTRACKED
+  GIT_PROMPT_KIT_WORKDIR_DEPTH
 )
 
 typeset -ga _git_prompt_kit_colors
@@ -196,6 +200,7 @@ _git_prompt_kit_update_git() {
   typeset -g GIT_PROMPT_KIT_STATUS_EXTENDED=
   typeset -g GIT_PROMPT_KIT_TAG=
   typeset -g GIT_PROMPT_KIT_UNTRACKED=
+  typeset -g GIT_PROMPT_KIT_WORKDIR=
 
   (( GIT_PROMPT_KIT_LINEBREAK_AFTER_GIT_REF )) || typeset -g GIT_PROMPT_KIT_LINEBREAK_AFTER_GIT_REF=
   (( GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF )) || typeset -g GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF=
@@ -216,6 +221,7 @@ _git_prompt_kit_update_git() {
   local -i show_push_remote
   local -i show_remote
   local -i show_remote_branch
+  local -i subpath_depth
   local -i triangular_workflow
   local -i unstaged_count
 
@@ -242,6 +248,23 @@ _git_prompt_kit_update_git() {
   # show_push_remote_branch would go here
   (( show_push_ahead = ! GIT_PROMPT_KIT_HIDE_INACTIVE_AHEAD_BEHIND || VCS_STATUS_COMMITS_AHEAD ))
   (( show_push_behind = ! GIT_PROMPT_KIT_HIDE_INACTIVE_AHEAD_BEHIND || VCS_STATUS_COMMITS_BEHIND ))
+
+  # Git directory
+
+  subpath_depth=${#${(s./.)${PWD#$VCS_STATUS_WORKDIR}}}
+  GIT_PROMPT_KIT_WORKDIR+="%F{$GIT_PROMPT_KIT_COLOR_WORKDIR}"
+  # If PWD is deep enough inside the repo that the repo name does not show in the trimmed PWD,
+  # prefix the trimmed PWD with the "<repo name>/".
+  if (( $subpath_depth >= $GIT_PROMPT_KIT_WORKDIR_DEPTH )); then
+    GIT_PROMPT_KIT_WORKDIR+="${VCS_STATUS_WORKDIR##*/}/"
+  fi
+  # If directories are ellided between the repo root and the trimmed PWD,
+  # add ".../" after the repo name
+  if (( $subpath_depth > $GIT_PROMPT_KIT_WORKDIR_DEPTH )); then
+    GIT_PROMPT_KIT_WORKDIR+=".../"
+  fi
+  GIT_PROMPT_KIT_WORKDIR+="%$GIT_PROMPT_KIT_WORKDIR_DEPTH~"
+  GIT_PROMPT_KIT_WORKDIR+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
 
   # Git tree status: stashes
 

@@ -127,6 +127,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_COLOR_TAG` | string | Color of Git tag segment | `86`
 `GIT_PROMPT_KIT_COLOR_UNSTAGED` | string | Color of Git unstaged files segment | `162`
 `GIT_PROMPT_KIT_COLOR_USER` | string | Color of the user | `109`
+`GIT_PROMPT_KIT_COLOR_WORKDIR` | string | Color of the directory segment | `39`
 
 ### Content options
 
@@ -138,6 +139,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_HIDDEN_USERS` | array | The users that will not be included in the prompt | `()`
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
 `GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | number | Show the stash, assume-unchanged, and skip-worktree counts (YES if non-zero, NO if zero) | `1`
+`GIT_PROMPT_KIT_WORKDIR_DEPTH` | integer | The number of path components shown in the working directory component
 
 \* For the special sequences supported in zsh prompts see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 
@@ -200,8 +202,8 @@ Using Git Prompt Kit for everything
 # ~/.zshrc
 # --- snip ---
 # Load Git Prompt Kit (will differ depending on installation method)
-GIT_PROMPT_KIT_CUSTOM_CONTENT='%1d'
-PROMPT='$GIT_PROMPT_KIT_CUSTOM_CONTENT ${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }$GIT_PROMPT_KIT_CHAR '
+GIT_PROMPT_KIT_WORKDIR_DEPTH='2'
+PROMPT='$GIT_PROMPT_KIT_WORKDIR ${GIT_PROMPT_KIT_HEAD:+$GIT_PROMPT_KIT_HEAD }$GIT_PROMPT_KIT_CHAR '
 ```
 
 ### Atom components
