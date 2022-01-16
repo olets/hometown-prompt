@@ -119,7 +119,8 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_COLOR_HEAD` | string | Color of the Git HEAD segment when the working tree is dirty | `140`
 `GIT_PROMPT_KIT_COLOR_HOST` | string | Color of the host segment | `109`
 `GIT_PROMPT_KIT_COLOR_INACTIVE` | string | Color of inactive segments | `247`
-`GIT_PROMPT_KIT_COLOR_REMOTE` | string | Color of the Git remote and the commits-ahead files segment | `216`
+`GIT_PROMPT_KIT_COLOR_PUSH_REMOTE` | string | Color of the Git push remote and its commits-ahead files segment | `111`
+`GIT_PROMPT_KIT_COLOR_REMOTE` | string | Color of the Git remote and its commits-ahead files segment | `216`
 `GIT_PROMPT_KIT_COLOR_SKIP_WORKTREE` | string | Color of the Git skip-worktree files segment | `81`
 `GIT_PROMPT_KIT_COLOR_STAGED` | string | Color of Git staged files segment  | `120`
 `GIT_PROMPT_KIT_COLOR_STASH` | string | Color of the Git stashes segment | `81`
