@@ -114,7 +114,6 @@ Name | Type | Description | Default
 ---|---|---|---
 `GIT_PROMPT_KIT_COLOR_ACTION` | string | Color of the Git action segment | `199`
 `GIT_PROMPT_KIT_COLOR_ASSUME_UNCHANGED` | string | Color of the Git assumed unchaged files segment | `81`
-`GIT_PROMPT_KIT_COLOR_CUSTOM` | string | Color of the custom segment (CWD in the default prompt) | `39`
 `GIT_PROMPT_KIT_COLOR_FAILED` | string | Color of the prompt character when the previous command failed | `88`
 `GIT_PROMPT_KIT_COLOR_HEAD` | string | Color of the Git HEAD segment when the working tree is dirty | `140`
 `GIT_PROMPT_KIT_COLOR_HOST` | string | Color of the host segment | `109`
@@ -133,7 +132,6 @@ Name | Type | Description | Default
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_CUSTOM_CONTENT` | string | The code for the custom component* | `%2~`**
 `GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME` | string | The default Git push remote | `upstream`
 `GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME` | string | The default Git remote | `origin`
 `GIT_PROMPT_KIT_HIDDEN_HOSTS` | array | The hosts that will not be included in the prompt | `()`
@@ -142,8 +140,6 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | number | Show the stash, assume-unchanged, and skip-worktree counts (YES if non-zero, NO if zero) | `1`
 
 \* For the special sequences supported in zsh prompts see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-
-\** Current working directory and its parent, with `~` for initial `$HOME` (and with custom zsh "named directories" respected; see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Shell-state) (use `print -P <string>` to check a prompt string, e.g. `print -P "%2~"`).
 
 ### Layout options
 
@@ -164,7 +160,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_SYMBOL_ASSUME_UNCHANGED` | string | Follows the Git assume-unchanged segment | `⥱ `
 `GIT_PROMPT_KIT_SYMBOL_BEHIND` | string | Precedes the Git commits-behind segment | `-`
 `GIT_PROMPT_KIT_SYMBOL_BRANCH` | string | Precedes the Git branch | none
-`GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL` | string | Character shown at end of prompt for normal users | `%%` ***
+`GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL` | string | Character shown at end of prompt for normal users | `%%` **
 `GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT` | string | Character shown at end of prompt for root users | `#`
 `GIT_PROMPT_KIT_SYMBOL_COMMIT` | string | Precedes the Git commit | none
 `GIT_PROMPT_KIT_SYMBOL_CONFLICTED` | string | Follows the Git conflicted files segment | `UU`
@@ -181,7 +177,7 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_SYMBOL_TAG` | string | Precedes the Git tag | `@`
 `GIT_PROMPT_KIT_SYMBOL_UNTRACKED` | string | Follows Git untracked file segment | `??`
 
-\*** `%%` expands as `%` in the zsh prompt.
+\** `%%` expands as `%` in the zsh prompt.
 
 ## Components
 
@@ -220,7 +216,6 @@ Name | Type | Description
 `GIT_PROMPT_KIT_PUSH_BEHIND` | prompt string | Git: commits behind the push remote
 `GIT_PROMPT_KIT_CHAR` | prompt string | Prompt character
 `GIT_PROMPT_KIT_CONFLICTED` | prompt string | Git: conflicted files count
-`GIT_PROMPT_KIT_CUSTOM` | prompt string | Custom (current working directory by default, see [Content Options](#content-options))
 `GIT_PROMPT_KIT_DELETED_STAGED` | prompt string | Git: staged deleted files count
 `GIT_PROMPT_KIT_DELETED` | prompt string | Git: unstaged deleted files count
 `GIT_PROMPT_KIT_HEAD` | prompt string | Git: HEAD (branch or commit)
