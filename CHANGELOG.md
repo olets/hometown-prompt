@@ -1,3 +1,13 @@
+# [v2.2.0](https://github.com/olets/git-prompt-kit/compare/v2.1.0...v2.2.0) (2022-01-17)
+
+New cwd, root, and workdir (root + cwd) components
+
+### Features
+
+* **custom content:** drop ([1056672](https://github.com/olets/git-prompt-kit/commit/1056672cb5b9193fdb22a8c4b8c85e09fd268ac0))
+* **:** -1 shows entire path 
+* **cwd,root,workdir:** new components ([1e720a0](https://github.com/olets/git-prompt-kit/commit/1e720a000060ae0c9592c85ebfbd1ec085d3f5fa)), ([63bdab6](https://github.com/olets/git-prompt-kit/commit/63bdab69d9f6b2895c356080e66dc48628c0b5dc)), ([878348f](https://github.com/olets/git-prompt-kit/commit/878348fe3bfb54ba96fadbe11159becdeff667f9)), ([8de45aa](https://github.com/olets/git-prompt-kit/commit/8de45aa5f3a2b7ccb41b1f1a07930d501a9d7dc5))
+
 # [2.1.0](https://github.com/olets/git-prompt-kit/compare/v2.0.0...v2.1.0) (2022-01-15)
 
 Now with push remote support!
