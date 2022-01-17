@@ -5,6 +5,8 @@
 # v1.1.0
 # Copyright (©) 2021 Henry  Bley-Vroman
 
+typeset -g HOMETOWN_PROMPT_CUSTOM=${HOMETOWN_PROMPT_CUSTOM-}
+
 _hometown_prompt_git_prompt() {
   emulate -L zsh
 
@@ -35,6 +37,9 @@ _hometown_prompt_build_prompt() {
 
   # Time
   prompt+=$'%* '
+
+  # Custom (empty by default)
+  prompt+='${HOMETOWN_PROMPT_CUSTOM:+$HOMETOWN_PROMPT_CUSTOM }'
 
   # Working directory
   prompt+='$GIT_PROMPT_KIT_WORKDIR'

@@ -57,6 +57,7 @@ Hometown shows
 - The current user, if not one you've configured as hidden
 - The current host, if not one you've configured as hidden
 - The time the prompt was drawn
+- Any custom prompt content
 - The current working directory, or other custom content
 - The checked out branch or, if HEAD is detached, the checked out commit
   - color is determined by whether or not the index is dirty
@@ -108,7 +109,9 @@ As text:
 
 Hometown is highly customizable. Change the colors and symbols, add and remove line breaks, modify the current working directory segment, show inactive elements (for example, show the Git status symbols, dimmed, when the local branch is up to date with its upstream, as seen in the above screenshot), and more.
 
-Configuration is done through Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/olets/git-prompt-kit#options).
+Most configuration is done through Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/olets/git-prompt-kit#options).
+
+You can also configure `HOMETOWN_PROMPT_CUSTOM`. This is shown between the time and the working directory. It is a prompt string (output with `print -P`); see ["Prompt Expansion"](https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html) in the zsh documentation for more information.
 
 ## Performance
 
