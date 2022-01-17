@@ -41,6 +41,8 @@ typeset -g GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME=${GIT_PROMPT_KIT_GITSTATUSD_I
 GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME=${GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME-upstream}
 GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME=${GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME-origin}
 GIT_PROMPT_KIT_WORKDIR_DEPTH=${GIT_PROMPT_KIT_WORKDIR_DEPTH-2}
+GIT_PROMPT_KIT_WORKDIR_CWD_TRAILING_COUNT=${GIT_PROMPT_KIT_WORKDIR_CWD_TRAILING_COUNT-1}
+GIT_PROMPT_KIT_WORKDIR_ROOT_TRAILING_COUNT=${GIT_PROMPT_KIT_WORKDIR_ROOT_TRAILING_COUNT-1}
 #
 ! [[ -v GIT_PROMPT_KIT_HIDDEN_HOSTS ]] && typeset -a GIT_PROMPT_KIT_HIDDEN_HOSTS=()
 ! [[ -v GIT_PROMPT_KIT_HIDDEN_USERS ]] && typeset -a GIT_PROMPT_KIT_HIDDEN_USERS=()
@@ -126,7 +128,6 @@ _git_prompt_kit_configs=(
   GIT_PROMPT_KIT_SYMBOL_STASH
   GIT_PROMPT_KIT_SYMBOL_TAG
   GIT_PROMPT_KIT_SYMBOL_UNTRACKED
-  GIT_PROMPT_KIT_WORKDIR_DEPTH
 )
 
 typeset -ga _git_prompt_kit_colors
@@ -213,6 +214,8 @@ _git_prompt_kit_update_git() {
   local action_status=
   local ref_status=
   local tree_status=
+  local -a cwd_path_components
+  local -a root_path_components
   local -i added_staged_count
   local -i show_ahead
   local -i show_behind
@@ -221,7 +224,6 @@ _git_prompt_kit_update_git() {
   local -i show_push_remote
   local -i show_remote
   local -i show_remote_branch
-  local -i subpath_depth
   local -i triangular_workflow
   local -i unstaged_count
 
@@ -251,19 +253,32 @@ _git_prompt_kit_update_git() {
 
   # Git directory
 
-  subpath_depth=${#${(s./.)${PWD#$VCS_STATUS_WORKDIR}}}
   GIT_PROMPT_KIT_WORKDIR+="%F{$GIT_PROMPT_KIT_COLOR_WORKDIR}"
-  # If PWD is deep enough inside the repo that the repo name does not show in the trimmed PWD,
-  # prefix the trimmed PWD with the "<repo name>/".
-  if (( $subpath_depth >= $GIT_PROMPT_KIT_WORKDIR_DEPTH )); then
-    GIT_PROMPT_KIT_WORKDIR+="${VCS_STATUS_WORKDIR##*/}/"
+
+  root_path_components=( ${(s./.)VCS_STATUS_WORKDIR} )
+  
+  if (( GIT_PROMPT_KIT_WORKDIR_ROOT_TRAILING_COUNT == 0 )) || (( GIT_PROMPT_KIT_WORKDIR_ROOT_TRAILING_COUNT == -1 )); then
+    GIT_PROMPT_KIT_WORKDIR+=${(j./.)root_path_components[$GIT_PROMPT_KIT_WORKDIR_ROOT_TRAILING_COUNT,-2]}
+  else
+    GIT_PROMPT_KIT_WORKDIR+=${(j./.)root_path_components[$(( -1 - GIT_PROMPT_KIT_WORKDIR_ROOT_TRAILING_COUNT )),-2]}
   fi
-  # If directories are ellided between the repo root and the trimmed PWD,
-  # add ".../" after the repo name
-  if (( $subpath_depth > $GIT_PROMPT_KIT_WORKDIR_DEPTH )); then
-    GIT_PROMPT_KIT_WORKDIR+=".../"
+
+  GIT_PROMPT_KIT_WORKDIR+="/%U${root_path_components[-1]}%u"
+
+  if [[ $VCS_STATUS_WORKDIR != $PWD ]]; then
+    cwd_path_components=( ${(s./.)PWD} )
+
+    GIT_PROMPT_KIT_WORKDIR+=/
+
+    if (( GIT_PROMPT_KIT_WORKDIR_CWD_TRAILING_COUNT >= ${#cwd_path_components} - ${#root_path_components} - 1 )); then
+      GIT_PROMPT_KIT_WORKDIR+=${(j./.)cwd_path_components[$(( ${#root_path_components} - ${#cwd_path_components} )),-1]}
+    elif (( GIT_PROMPT_KIT_WORKDIR_CWD_TRAILING_COUNT == 0 )) || (( GIT_PROMPT_KIT_WORKDIR_CWD_TRAILING_COUNT == -1 )); then
+      GIT_PROMPT_KIT_WORKDIR+=../${(j./.)cwd_path_components[$(( GIT_PROMPT_KIT_WORKDIR_CWD_TRAILING_COUNT )),-1]}
+    else
+      GIT_PROMPT_KIT_WORKDIR+=../${(j./.)cwd_path_components[$(( -1 - GIT_PROMPT_KIT_WORKDIR_CWD_TRAILING_COUNT )),-1]}
+    fi
   fi
-  GIT_PROMPT_KIT_WORKDIR+="%$GIT_PROMPT_KIT_WORKDIR_DEPTH~"
+
   GIT_PROMPT_KIT_WORKDIR+="%F{$GIT_PROMPT_KIT_COLOR_INACTIVE}"
 
   # Git tree status: stashes

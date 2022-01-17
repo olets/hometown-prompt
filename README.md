@@ -139,9 +139,10 @@ Name | Type | Description | Default
 `GIT_PROMPT_KIT_HIDDEN_USERS` | array | The users that will not be included in the prompt | `()`
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
 `GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | number | Show the stash, assume-unchanged, and skip-worktree counts (YES if non-zero, NO if zero) | `1`
-`GIT_PROMPT_KIT_WORKDIR_DEPTH` | integer | The number of path components shown in the working directory component
+`GIT_PROMPT_KIT_WORKDIR_CWD_TRAILING_COUNT` | integer | The number of path components trailing the Git root directory in the working directory component *
+`GIT_PROMPT_KIT_WORKDIR_ROOT_TRAILING_COUNT` | integer | When in a subdirectory of the Git repo, the number of path components trailing the current working directory in the working directory component *
 
-\* For the special sequences supported in zsh prompts see http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+\* Zero means the whole path, -1 means no trailing components. See https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
 
 ### Layout options
 
@@ -231,6 +232,7 @@ Name | Type | Description
 `GIT_PROMPT_KIT_UNTRACKED` | prompt string | Git: untracked (not staged) files count
 `GIT_PROMPT_KIT_REMOTE` | prompt string | Git: "local" if no upstream; upstream branch if the name differs from the local branch; upstream remote and branch if the remote is not the default
 `GIT_PROMPT_KIT_USERHOST` | prompt string | User (if not configured as hidden) and host (if not configured as hidden)
+`GIT_PROMPT_KIT_WORKDIR` | prompt string | Git root directory with trailing directories. If in a subdirectory, the current working directory with trailing directories.
 
 ### Molecule components
 
