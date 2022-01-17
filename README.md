@@ -133,13 +133,13 @@ Name | Type | Description | Default
 
 Name | Type | Description | Default
 ---|---|---|---
-`GIT_PROMPT_KIT_CWD_TRAILING_COUNT` | integer | The maximum number of trailing path components in the current working directory component. When in a Git repository, this is relative to the Git root
+`GIT_PROMPT_KIT_CWD_TRAILING_COUNT` | integer | The maximum number of trailing path components in the current working directory component. When in a Git repository, this is relative to the Git root. If less than zero, show all | `1`
 `GIT_PROMPT_KIT_DEFAULT_PUSH_REMOTE_NAME` | string | The default Git push remote | `upstream`
 `GIT_PROMPT_KIT_DEFAULT_REMOTE_NAME` | string | The default Git remote | `origin`
 `GIT_PROMPT_KIT_HIDDEN_HOSTS` | array | The hosts that will not be included in the prompt | `()`
 `GIT_PROMPT_KIT_HIDDEN_USERS` | array | The users that will not be included in the prompt | `()`
 `GIT_PROMPT_KIT_LOCAL` | string | Shown if the checked-out branch has no upstream | `local`
-`GIT_PROMPT_KIT_ROOT_TRAILING_COUNT` | integer | The maximum number of trailing path components in the Git root directory component * | `1`
+`GIT_PROMPT_KIT_ROOT_TRAILING_COUNT` | integer | The maximum number of trailing path components in the Git root directory component. If less than zero, show all | `1`
 `GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS` | number | Show the stash, assume-unchanged, and skip-worktree counts (YES if non-zero, NO if zero) | `1`
 
 ### Layout options

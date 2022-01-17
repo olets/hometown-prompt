@@ -254,7 +254,7 @@ _git_prompt_kit_update_git() {
   GIT_PROMPT_KIT_ROOT+="%F{$GIT_PROMPT_KIT_COLOR_WORKDIR}"
   root_path_components=( ${(s./.)VCS_STATUS_WORKDIR} )
 
-  if (( GIT_PROMPT_KIT_ROOT_TRAILING_COUNT + 1 >= ${#root_path_components} )); then
+  if (( GIT_PROMPT_KIT_ROOT_TRAILING_COUNT + 1 >= ${#root_path_components} )) || (( GIT_PROMPT_KIT_ROOT_TRAILING_COUNT < 0 )); then
     GIT_PROMPT_KIT_ROOT+=${(j./.)root_path_components[0,-2]}
   else
     GIT_PROMPT_KIT_ROOT+=${(j./.)root_path_components[$(( -1 - GIT_PROMPT_KIT_ROOT_TRAILING_COUNT )),-2]}
@@ -581,7 +581,7 @@ _git_prompt_kit_update_nongit() {
 
       GIT_PROMPT_KIT_CWD+="%F{$GIT_PROMPT_KIT_COLOR_WORKDIR}"
 
-      if (( GIT_PROMPT_KIT_CWD_TRAILING_COUNT + 1 >= ${#cwd_path_components} )); then
+      if (( GIT_PROMPT_KIT_CWD_TRAILING_COUNT + 1 >= ${#cwd_path_components} )) || (( GIT_PROMPT_KIT_CWD_TRAILING_COUNT < 0 )); then
         GIT_PROMPT_KIT_CWD+=${(j./.)cwd_path_components[0,-1]}
       else
         GIT_PROMPT_KIT_CWD+=.../${(j./.)cwd_path_components[$(( -1 - GIT_PROMPT_KIT_CWD_TRAILING_COUNT )),-1]}
