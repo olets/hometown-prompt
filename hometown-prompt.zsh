@@ -36,8 +36,8 @@ _hometown_prompt_build_prompt() {
   # Time
   prompt+=$'%* '
 
-  # Custom (CWD by default)
-  prompt+='$GIT_PROMPT_KIT_CUSTOM'
+  # Working directory
+  prompt+='$GIT_PROMPT_KIT_WORKDIR'
 
   # Git
   # add a space if GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF, otherwise add a linebreak
