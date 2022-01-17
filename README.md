@@ -60,14 +60,18 @@ Hometown shows
 - The current working directory, or other custom content
 - The checked out branch or, if HEAD is detached, the checked out commit
   - color is determined by whether or not the index is dirty
-- How many commits ahead of the upstream 
 - If a branch is checked out:
   - Its name, colored by whether or not the index is dirty
-  - Whether or not it has an upstream. If it has an upstream,
+  - If it has an upstream (that is, [`@{upstream}`](https://www.git-scm.com/docs/gitrevisions#Documentation/gitrevisions.txt-emltbranchnamegtupstreamemegemmasterupstreamememuem)),
     - How many commits ahead of the upstream it is
     - How many commits behind the upstream it is
     - The upstream's name if different from the local's
     - The upstream's remote if different from your default
+  - If it has a push remote (that is, [`@{push}`](https://www.git-scm.com/docs/gitrevisions#Documentation/gitrevisions.txt-emltbranchnamegtpushemegemmasterpushemempushem)) different from the upstream,
+    - How many commits ahead of the push remote it is
+    - How many commits behind the push remote it is
+    - The push remote's remote if different from your default
+    - Want to show the upstream branch's name? Weigh in at at [romkatv/gitstatus/#291](https://github.com/romkatv/gitstatus/issues/291)
 - Up to one tag which points to the current commit
 - The stash count
 - The assume-unchanged files count
@@ -85,7 +89,7 @@ Hometown shows
 
 Try out Hometown at https://hometown-prompt.netlify.app/.
 
-In the below screenshot, the user configuration specifies that dimmed symbols should be shown for Git status counts equal to zero (see [Options](#options)). The prompt shows that `main` is checked out and dirty; it is one commit ahead of the remote tracking branch; there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file; the previous command succeeded, and that the user is not root; and, implicitly, that neither the user or host is unexpected, the upstream branch is `origin/main`, the local branch is not behind it, there is no tag at `HEAD`, there are no files with the assume-unchanged bit set, there are no files with the skip-worktree bit set, and there is no action (e.g. merge, rebase, cherry-pick) underway.
+In the below screenshot, the user configuration specifies that dimmed symbols should be shown for Git status counts equal to zero (see [Options](#options)). The prompt shows that `main` is checked out and dirty; it is one commit ahead of the remote tracking branch; there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file; the previous command succeeded, and that the user is not root; and, implicitly, that neither the user or host is unexpected, the upstream branch is `origin/main`, the local branch is not behind it, there is no distinct push remote, there is no tag at `HEAD`, there are no files with the assume-unchanged bit set, there are no files with the skip-worktree bit set, and there is no action (e.g. merge, rebase, cherry-pick) underway.
 
 <figure>
 <img src="./img/hometown-default.jpg">
