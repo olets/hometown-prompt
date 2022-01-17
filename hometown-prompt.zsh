@@ -2,6 +2,7 @@
 
 # Hometown
 # https://github.com/olets/hometown-prompt
+# v1.1.0
 # Copyright (©) 2021 Henry  Bley-Vroman
 
 _hometown_prompt_git_prompt() {
