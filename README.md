@@ -94,7 +94,7 @@ Hometown shows, in this order
 
 ### Examples
 
-Try out Hometown at https://hometown-prompt.netlify.app/.
+Try out Hometown at https://hometown-prompt.olets.dev/.
 
 In the below screenshot, the user configuration specifies that dimmed symbols should not be shown for Git status counts equal to zero (see [Options](#options)). The prompt shows that `main` is checked out and dirty; it is one commit ahead of the remote tracking branch; there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file; the previous command succeeded; the user is not root; and, implicitly, that neither the user or host is unexpected, the upstream branch is `origin/main`, the local branch is not behind it, there is no distinct push remote, there is no tag at `HEAD`, there are no files with the assume-unchanged bit set, there are no files with the skip-worktree bit set, and there is no action (e.g. merge, rebase, cherry-pick) underway.
 
