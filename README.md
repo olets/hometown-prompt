@@ -54,30 +54,34 @@ exec zsh
 
 Hometown shows, in this order
 
+Always:
+
 - The current user, if not one you've configured as hidden
 - The current host, if not one you've configured as hidden
 - The time the prompt was drawn
 - User-configured content
 - The current working directory
   - The number of path segments before the CWD is configurable.
-  - If CWD is a subdirectory of a Git repo, the Git root and the CWD are shown — "git-parent/**git-root**/sub/subsub")
-- The checked out branch or, if HEAD is detached, the checked out commit
-  - color is determined by whether or not the index is dirty
+
+If in a Git repo:
+
+- If the current working directory is a subdirectory in a Git repo, the Git root is shown (prefixed by the configured number of path segments) followed by the current working directory (prefixed by a separately-configured number of path segments between the Git root and the CWD). The Git repo's root is underlined. For example, "git-parent/_git-root_/git-child", "git-parent/_git-root_/.../git-grandchild/git-great-grandchild-cwd".
+- If HEAD is detached, the checked out commit, colored if the index is dirty
 - If a branch is checked out:
-  - Its name, colored by whether or not the index is dirty
-  - Whether or not it has a remote tracking branch
+  - Its name, colored if the index is dirty
+  - If it  does not have a remote tracking branch, the word "local"
   - If it has an upstream (that is, [`@{upstream}`](https://www.git-scm.com/docs/gitrevisions#Documentation/gitrevisions.txt-emltbranchnamegtupstreamemegemmasterupstreamememuem)),
-    - How many commits ahead of the upstream the local branch is
-    - How many commits behind the upstream the local branch is
-    - The upstream's remote if different from your default
-    - The upstream's name if different from the local branch's
+    - The number of commits ahead of the upstream the local branch is, if any
+    - The number of commits behind the upstream the local branch is, if any
+    - The upstream's remote, if different from the user-configured default
+    - The upstream's name, if different from the local branch's
     - Color is dependent on context and status:
       - If no distinct push remote, colored if the local is either ahead or behind
       - If there a distinct push remote, colored if the local is behind
   - If it has a push remote (that is, [`@{push}`](https://www.git-scm.com/docs/gitrevisions#Documentation/gitrevisions.txt-emltbranchnamegtpushemegemmasterpushemempushem)) different from the upstream,
-    - How many commits ahead of the push remote the local branch is
-    - How many commits behind the push remote the local branch is
-    - The push remote's remote if different from your default
+    - The number commits ahead of the push remote the local branch is, if any
+    - The number commits behind the push remote the local branch is, if any
+    - The push remote's remote, if different from the user-configured default
     - (The push branch's name is not shown. Want it to be? Weigh in at at [romkatv/gitstatus/#291](https://github.com/romkatv/gitstatus/issues/291))
 - The first tag pointing to the current commit, if there is one
 - The number of stashes
@@ -115,9 +119,9 @@ As text:
 
 Hometown is highly customizable. Change the colors and symbols, add or remove line breaks, specify the number of path segments to show before the current working directory, hide or show inactive elements (for example, show the Git status symbols, dimmed, when the local branch is up to date with its upstream, as seen in the above screenshot), and much more.
 
-Most configuration is done through Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/olets/git-prompt-kit#options).
+🌟 Most configuration is done through Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/olets/git-prompt-kit#options).
 
-In addition the following options are available:
+In addition there are Hometown Prompt-specific options:
 
 Name | Type | Description | Default
 ---|---|---|---
