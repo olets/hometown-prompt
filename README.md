@@ -52,39 +52,45 @@ exec zsh
 
 ## Usage
 
-Hometown shows
+Hometown shows, in this order
 
 - The current user, if not one you've configured as hidden
 - The current host, if not one you've configured as hidden
 - The time the prompt was drawn
-- Any custom prompt content
-- The current working directory, or other custom content
+- User-configured content
+- The current working directory
+  - The number of path segments before the CWD is configurable.
+  - If CWD is a subdirectory of a Git repo, the Git root and the CWD are shown — "git-parent/**git-root**/sub/subsub")
 - The checked out branch or, if HEAD is detached, the checked out commit
   - color is determined by whether or not the index is dirty
 - If a branch is checked out:
   - Its name, colored by whether or not the index is dirty
+  - Whether or not it has a remote tracking branch
   - If it has an upstream (that is, [`@{upstream}`](https://www.git-scm.com/docs/gitrevisions#Documentation/gitrevisions.txt-emltbranchnamegtupstreamemegemmasterupstreamememuem)),
-    - How many commits ahead of the upstream it is
-    - How many commits behind the upstream it is
-    - The upstream's name if different from the local's
+    - How many commits ahead of the upstream the local branch is
+    - How many commits behind the upstream the local branch is
     - The upstream's remote if different from your default
+    - The upstream's name if different from the local branch's
+    - Color is dependent on context and status:
+      - If no distinct push remote, colored if the local is either ahead or behind
+      - If there a distinct push remote, colored if the local is behind
   - If it has a push remote (that is, [`@{push}`](https://www.git-scm.com/docs/gitrevisions#Documentation/gitrevisions.txt-emltbranchnamegtpushemegemmasterpushemempushem)) different from the upstream,
-    - How many commits ahead of the push remote it is
-    - How many commits behind the push remote it is
+    - How many commits ahead of the push remote the local branch is
+    - How many commits behind the push remote the local branch is
     - The push remote's remote if different from your default
-    - Want to show the upstream branch's name? Weigh in at at [romkatv/gitstatus/#291](https://github.com/romkatv/gitstatus/issues/291)
-- Up to one tag which points to the current commit
-- The stash count
-- The assume-unchanged files count
-- The skip-worktree files count
-- The untracked ("new") files count
-- The conflicted files count
-- The unstaged deleted files count
-- The unstaged modified files count
-- The staged new files count
-- The staged deleted files count
-- The staged modified files count
-- The name of the ongoing action, if any
+    - (The push branch's name is not shown. Want it to be? Weigh in at at [romkatv/gitstatus/#291](https://github.com/romkatv/gitstatus/issues/291))
+- The first tag pointing to the current commit, if there is one
+- The number of stashes
+- The number of files with the assume-unchanged bit set
+- The number of files with the skip-worktree bit set
+- The number of untracked ("new") files
+- The number of conflicted files
+- The number of unstaged deleted files
+- The number of unstaged modified files
+- The number of staged new files
+- The number of staged deleted files
+- The number of staged modified files
+- The name of the ongoing action (for example "rebase") if any
 
 ### Examples
 
@@ -107,7 +113,7 @@ As text:
 
 ### Options
 
-Hometown is highly customizable. Change the colors and symbols, add and remove line breaks, modify the current working directory segment, show inactive elements (for example, show the Git status symbols, dimmed, when the local branch is up to date with its upstream, as seen in the above screenshot), and more.
+Hometown is highly customizable. Change the colors and symbols, add or remove line breaks, specify the number of path segments to show before the current working directory, hide or show inactive elements (for example, show the Git status symbols, dimmed, when the local branch is up to date with its upstream, as seen in the above screenshot), and much more.
 
 Most configuration is done through Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/olets/git-prompt-kit#options).
 
