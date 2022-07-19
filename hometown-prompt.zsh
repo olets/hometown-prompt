@@ -6,6 +6,7 @@
 # Copyright (©) 2021 Henry  Bley-Vroman
 
 typeset -g HOMETOWN_PROMPT_CUSTOM=${HOMETOWN_PROMPT_CUSTOM-}
+typeset -gi HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS=${HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS:-1}
 
 _hometown_prompt_git_prompt() {
   emulate -L zsh
@@ -13,12 +14,19 @@ _hometown_prompt_git_prompt() {
   local git_prompt=
 
   git_prompt+='$GIT_PROMPT_KIT_REF'
-  git_prompt+='${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}'
-  # Add a space after the extended Git prompt if there's a Git status or a Git action
-  git_prompt+='${${GIT_PROMPT_KIT_SHOW_EXTENDED_STATUS:+$GIT_PROMPT_KIT_STATUS_EXTENDED}:+${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }}'
+
+  if (( HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS )); then
+    git_prompt+='$GIT_PROMPT_KIT_STATUS_EXTENDED'
+
+    # Add a space after the extended Git prompt if there's a Git status or a Git action
+    git_prompt+='${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }'
+  fi
+
   git_prompt+='$GIT_PROMPT_KIT_STATUS'
-  # Add a space after the Git prompt if there's a Git action
+
+  # Add a space after the Git status if there's a Git action
   git_prompt+='${GIT_PROMPT_KIT_STATUS:+${GIT_PROMPT_KIT_ACTION:+ }}'
+
   git_prompt+='$GIT_PROMPT_KIT_ACTION'
 
   'builtin' 'echo' $git_prompt

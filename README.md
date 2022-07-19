@@ -111,7 +111,14 @@ Hometown is highly customizable. Change the colors and symbols, add and remove l
 
 Most configuration is done through Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/olets/git-prompt-kit#options).
 
-You can also configure `HOMETOWN_PROMPT_CUSTOM`. This is shown between the time and the working directory. It is a prompt string (output with `print -P`); see ["Prompt Expansion"](https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html) in the zsh documentation for more information.
+In addition the following options are available:
+
+Name | Type | Description | Default
+---|---|---|---
+`HOMETOWN_PROMPT_CUSTOM` | prompt string* | Shown between the time and the working directory | 
+`HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS` | number | If non-zero show the stash count, assume-unchanged file count, and skip-worktree file count | `1`
+
+\* Output with `print -P`; see ["Prompt Expansion"](https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html) in the zsh documentation for more information.
 
 ## Performance
 
