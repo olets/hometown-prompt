@@ -18,8 +18,8 @@ _hometown_prompt_git_prompt() {
   if (( HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS )); then
     git_prompt+='$GIT_PROMPT_KIT_STATUS_EXTENDED'
 
-    # Add a space after the extended Git prompt if there's a Git status or a Git action
-    git_prompt+='${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }'
+    # Add a space after the extended Git prompt if there's an extended Git status and either a Git status or a Git action
+    git_prompt+='${GIT_PROMPT_KIT_STATUS_EXTENDED:+${${GIT_PROMPT_KIT_STATUS:-$GIT_PROMPT_KIT_ACTION}:+ }}'
   fi
 
   git_prompt+='$GIT_PROMPT_KIT_STATUS'
