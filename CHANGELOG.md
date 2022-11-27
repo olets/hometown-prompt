@@ -1,3 +1,19 @@
+# [v2.0.1](/compare/v2.0.0...v2.0.1) (2022-11-27)
+
+
+### Bug Fixes
+
+* **binaries:** delete and ignore cc08f8b
+
+
+### Features
+
+* **extended status:** new HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS option f5de6f7
+* **git-prompt-kit:** update submodule v3.0.1
+* **git:** no space before status if no extended status db3b9c3
+
+
+
 # [v2.0.0](/compare/v1.1.0...v2.0.0) (2022-01-17)
 
 Working directory enhancements. See https://github.com/olets/git-prompt-kit/releases/tag/v3.0.0

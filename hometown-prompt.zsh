@@ -2,8 +2,8 @@
 
 # Hometown
 # https://github.com/olets/hometown-prompt
-# v2.0.0
-# Copyright (©) 2021-present Henry  Bley-Vroman
+# v2.0.1
+# Copyright (©) 2021-present Henry Bley-Vroman
 
 typeset -g HOMETOWN_PROMPT_CUSTOM=${HOMETOWN_PROMPT_CUSTOM-}
 typeset -gi HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS=${HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS:-1}
