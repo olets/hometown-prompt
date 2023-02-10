@@ -129,6 +129,8 @@ In addition there are Hometown Prompt-specific options:
 
 Name | Type | Description | Default
 ---|---|---|---
+`GIT_PROMPT_KIT_LINEBREAK_AFTER_GIT_REF` | number | If **non-zero**, `GIT_PROMPT_KIT_REF` ends with a line break | `1`
+`GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF` | number | If **zero**, `GIT_PROMPT_KIT_REF` starts with a line break | `1`
 `HOMETOWN_PROMPT_CUSTOM` | prompt string* | Shown between the time and the working directory | 
 `HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS` | number | If non-zero show the stash count, assume-unchanged file count, and skip-worktree file count | `1`
 
