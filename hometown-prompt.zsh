@@ -7,13 +7,43 @@
 
 typeset -g HOMETOWN_PROMPT_CUSTOM=${HOMETOWN_PROMPT_CUSTOM-}
 typeset -gi HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS=${HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS:-1}
+typeset -gi HOMETOWN_PROMPT_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_PROMPT_LINEBREAK_AFTER_GIT_REF:-1}
+typeset -gi HOMETOWN_PROMPT_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_PROMPT_NO_LINEBREAK_BEFORE_GIT_REF:-1}
 
 _hometown_prompt_git_prompt() {
   emulate -L zsh
 
   local git_prompt=
 
-  git_prompt+='$GIT_PROMPT_KIT_REF'
+  if (( HOMETOWN_PROMPT_NO_LINEBREAK_BEFORE_GIT_REF )); then
+    git_prompt+='${GIT_PROMPT_KIT_REF:+ }'
+  else
+    git_prompt+='${GIT_PROMPT_KIT_REF:+\n}'
+  fi
+
+  git_prompt+='${GIT_PROMPT_KIT_REF:+$GIT_PROMPT_KIT_REF}'
+
+  if (( HOMETOWN_PROMPT_LINEBREAK_AFTER_GIT_REF )); then
+    if (( HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS )); then
+      # Add a line break after the Git ref if there's any of Git extended status, Git status, or Git action
+      git_prompt+='${${GIT_PROMPT_KIT_STATUS_EXTENDED:-${GIT_PROMPT_KIT_STATUS:-${GIT_PROMPT_KIT_ACTION}}}:+\n}'
+    else
+      # Add a line break after the Git ref if there's either Git status or Git action
+      git_prompt+='${${GIT_PROMPT_KIT_STATUS:-${GIT_PROMPT_KIT_ACTION}}:+\n}'
+    fi
+  else
+    if (( HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS )); then
+      # Add a space after the Git ref if there's any of Git extended status, Git status, or Git action
+      git_prompt+='${${GIT_PROMPT_KIT_STATUS_EXTENDED:-${GIT_PROMPT_KIT_STATUS:-${GIT_PROMPT_KIT_ACTION}}}:+ }'
+    else
+      # Add a space after the Git ref if there's either Git status or Git action
+      git_prompt+='${${GIT_PROMPT_KIT_STATUS:-${GIT_PROMPT_KIT_ACTION}}:+ }'
+    fi
+  fi
+
+  # For print -P friendliness, have to do
+  # git_prompt+='${(j. .)${:-{$GIT_PROMPT_KIT_STATUS_EXTENDED,$GIT_PROMPT_KIT_STATUS,$GIT_PROMPT_KIT_ACTION}}}'
+  # manually
 
   if (( HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS )); then
     git_prompt+='${GIT_PROMPT_KIT_STATUS_EXTENDED}'
@@ -53,8 +83,6 @@ _hometown_prompt_build_prompt() {
   prompt+='${GIT_PROMPT_KIT_WORKDIR}'
 
   # Git
-  # add a space if GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF, otherwise add a linebreak
-  prompt+='${GIT_PROMPT_KIT_HEAD:+${${GIT_PROMPT_KIT_NO_LINEBREAK_BEFORE_GIT_REF:+ }:-\n}}'
   prompt+=$(_hometown_prompt_git_prompt)
 
   # Prompt character
