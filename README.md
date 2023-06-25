@@ -65,7 +65,7 @@ Always:
 
 If in a Git repo:
 
-- If the current working directory is a subdirectory in a Git repo, the Git root is shown (prefixed by the configured number of path segments) followed by the current working directory (prefixed by a separately-configured number of path segments between the Git root and the CWD). The Git repo's root is underlined. For example, "git-parent/_git-root_/git-child", "git-parent/_git-root_/.../git-grandchild/git-great-grandchild-cwd".
+- If the current working directory is a subdirectory in a Git repo, the Git root is shown (prefixed by the configured number of path segments) followed by the current working directory (prefixed by a separately-configured number of path segments between the Git root and the CWD). The Git repo's root is underlined. For example, "git-parent/g͟i͟t͟-͟r͟o͟o͟t/git-child", "git-parent/g͟i͟t͟-͟r͟o͟o͟t/.../git-grandchild/git-great-grandchild-cwd".
 - If HEAD is detached, the checked out commit, colored if the index is dirty
 - If a branch is checked out:
   - Its name, colored if the index is dirty
@@ -107,7 +107,7 @@ In the below screenshot, the user configuration specifies that dimmed symbols sh
 <figcaption>
 As text:
 <pre>
-19:29:25 olets/git-prompt-kit main +1
+19:29:25 olets/gi̲t̲-̲pr̲o̲m̲pt̲-̲k̲i̲t̲ main +1
 3⇲ ?? UU _D 1_M A_ D_ 1M_
 % # time, directory, branch, one commit ahead of remote
   # three stashes, one unstaged modified file, one staged modified file
