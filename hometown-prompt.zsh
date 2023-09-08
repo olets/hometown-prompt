@@ -80,7 +80,7 @@ _hometown_prompt_build_prompt() {
   prompt+='${HOMETOWN_PROMPT_CUSTOM:+$HOMETOWN_PROMPT_CUSTOM }'
 
   # Working directory
-  prompt+='${GIT_PROMPT_KIT_WORKDIR}'
+  prompt+='${GIT_PROMPT_KIT_CWD}'
 
   # Git
   prompt+=$(_hometown_prompt_git_prompt)
