@@ -94,12 +94,6 @@ If in a Git repo:
 
 See the [CHANGELOG](CHANGELOG.md) file.
 
-## Acknowledgments
-
-Splash card font is [Nickainley](https://www.fontfabric.com/fonts/nickainley/) by Seniors Studio.
-
-See [Git Prompt Kit's acknowledgments](https://github.com/olets/git-prompt-kit#acknowledgments) for more.
-
 ## Contributing
 
 _Looking for the documentation site's source? See <https://github.com/olets/hometown-prompt-docs>_
@@ -142,4 +136,8 @@ Under the following terms
 
 ## Acknowledgments
 
-- The human-readable license summary is based on https://creativecommons.org/licenses/by-nc-sa/4.0. The ethics point was added.
+Splash card font is [Nickainley](https://www.fontfabric.com/fonts/nickainley/) by Seniors Studio.
+
+Hometown Prompt is built out of [Git Prompt Kit components](https://github.com/olets/git-prompt-kit#acknowledgments).
+
+The human-readable license summary is based on https://creativecommons.org/licenses/by-nc-sa/4.0. The ethics point was added.
