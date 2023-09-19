@@ -2,59 +2,21 @@
 
 # Hometown Prompt ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/hometown-prompt) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/olets/hometown-prompt/latest)
 
-**Hometown is a feature rich, high performance Git-aware zsh theme** with segments for the user, host, time, the current working directory and its parent, and —within a Git repo— detailed Git status. It is carefully designed to show a lot of information clearly.
-
-Get a feel for how the components respond to context and how the options work by playing with the online simulator: <a href="https://hometown-prompt.olets.dev/">https://hometown-prompt.olets.dev/</a>.
+**Hometown is a feature rich, high performance Git-centric zsh theme** with segments for the user, host, time, the current working directory and its parent, and —within a Git repo— detailed Git status. It is carefully designed to show dense information clearly.
 
 &nbsp;
 
-> 🎉 The next major version of Hometown Prompt is in the works, complete with a brand new documentation site. Take a look in the [`next` branch](https://github.com/olets/hometown-prompt/tree/next)
+> This is the WIP branch for the next major version. **It may be force pushed.**
 
 &nbsp;
 
-<!-- TOC -->
-- [Requirements](#requirements)
-- [Installation](#installation)
-    - [With a shell plugin manager](#with-a-shell-plugin-manager)
-    - [Manual](#manual)
-- [Usage](#usage)
-    - [Examples](#examples)
-    - [Options](#options)
-- [Contributing](#contributing)
-- [License](#License)
+## Documentation
 
-## Requirements
+<!-- TODO drop `next.` -->
 
-- Zsh
+📖 See the guide, including a web simulation demonstrating how the prompt responds to context and configuration, at https://next.hometown-prompt.olets.dev/
 
-## Installation
-
-Shell plugin manager is the recommended installation method.
-
-### With a shell plugin manager
-
-1. Install hometown-prompt with a zsh plugin manager. Each has their own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a).
-
-    After adding the plugin to the manager, restart zsh:
-
-    ```shell
-    exec zsh
-    ```
-
-### Manual
-
-Either clone this repo and add `source path/to/hometown-prompt.zsh` to your `.zshrc`, or
-
-1. Download [the latest `hometown-prompt` binary](https://github.com/olets/hometown-prompt/releases/latest)
-1. Put the file `hometown-prompt` in a directory in your `PATH`
-
-Then restart zsh:
-
-```shell
-exec zsh
-```
-
-## Usage
+&nbsp;
 
 Hometown shows, in this order
 
@@ -100,47 +62,9 @@ If in a Git repo:
 - The number of staged modified files
 - The name of the ongoing action (for example "rebase") if any
 
-### Examples
+## Changelog
 
-Try out Hometown at https://hometown-prompt.olets.dev/.
-
-In the below screenshot, the user configuration specifies that dimmed symbols should not be shown for Git status counts equal to zero (see [Options](#options)). The prompt shows that `main` is checked out and dirty; it is one commit ahead of the remote tracking branch; there are three stashes, no untracked files, no conflicted files, no unstaged deleted files, one unstaged modified file, no staged new files, no staged deleted files, and one staged modified file; the previous command succeeded; the user is not root; and, implicitly, that neither the user or host is unexpected, the upstream branch is `origin/main`, the local branch is not behind it, there is no distinct push remote, there is no tag at `HEAD`, there are no files with the assume-unchanged bit set, there are no files with the skip-worktree bit set, and there is no action (e.g. merge, rebase, cherry-pick) underway.
-
-<figure>
-<img src="./img/hometown-default.jpg">
-<figcaption>
-As text:
-<pre>
-19:29:25 olets/gi̲t̲-̲pr̲o̲m̲pt̲-̲k̲i̲t̲ main +1
-3⇲ ?? UU _D 1_M A_ D_ 1M_
-% # time, directory, branch, one commit ahead of remote
-  # three stashes, one unstaged modified file, one staged modified file
-</pre>
-</figcaption>
-</figure>
-
-### Options
-
-Hometown is highly customizable. Change the colors and symbols, add or remove line breaks, specify the number of path segments to show before the current working directory, hide or show inactive elements (for example, show the Git status symbols, dimmed, when the local branch is up to date with its upstream, as seen in the above screenshot), and much more.
-
-🌟 Most configuration is done through Git Prompt Kit. See [Git Prompt Kit's Options](https://github.com/olets/git-prompt-kit#options).
-
-In addition there are Hometown Prompt-specific options:
-
-Name | Type | Description | Default
----|---|---|---
-`HOMETOWN_PROMPT_LINEBREAK_AFTER_GIT_REF` | number | If **non-zero**, `GIT_PROMPT_KIT_REF` ends with a line break | `1`
-`HOMETOWN_PROMPT_NO_LINEBREAK_BEFORE_GIT_REF` | number | If **zero**, `GIT_PROMPT_KIT_REF` starts with a line break | `1`
-`HOMETOWN_PROMPT_CUSTOM` | prompt string* | Shown between the time and the working directory | 
-`HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS` | number | If non-zero show the stash count, assume-unchanged file count, and skip-worktree file count | `1`
-
-\* Output with `print -P`; see ["Prompt Expansion"](https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html) in the zsh documentation for more information.
-
-## Performance
-
-Hometown adds less than 10ms to the time between prompts, as measured by [`zsh-prompt-benchmark`](https://github.com/romkatv/zsh-prompt-benchmark).
-
-Hometown uses Git Prompt Kit. See [Git Prompt Kit](https://github.com/olets/git-prompt-kit) for performance details.
+See the [CHANGELOG](CHANGELOG.md) file.
 
 ## Acknowledgments
 
@@ -150,18 +74,44 @@ See [Git Prompt Kit's acknowledgments](https://github.com/olets/git-prompt-kit#a
 
 ## Contributing
 
+_Looking for the documentation site's source? See <https://github.com/olets/hometown-prompt-docs>_
+
 Thanks for your interest. Contributions are welcome!
 
 > Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-Check the [Issues](https://github.com/olets/hometown-prompt/issues) to see if your topic has been discussed before or if it is being worked on.
+Check the [Issues](https://github.com/olets/hometown-prompt/issues) to see if your topic has been discussed before or if it is being worked on. You may also want to check the roadmap (see above).
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
+### Sponsoring
+
+Love Hometown Prompt? I'm happy to be able to provide it for free. If you are moved to turn appreciation into action, I invite you to make a donation to one of the organizations listed below (to be listed as a financial contributor, send me a receipt via email or [Reddit DM](https://www.reddit.com/user/olets)). Thank you!
+
+- [O‘ahu Water Protectors](https://oahuwaterprotectors.org/) a coalition of organizers and concerned community members fighting for safe, clean water on Oʻahu. Currently focused on the Red Hill Bulk Fuel Storage Facility crisis (see Sierra Club of Hawaii's [explainer](https://sierraclubhawaii.org/redhill)).
+- [Hoʻoulu ʻĀina](https://hoouluaina.org/) is a 100-acre nature preserve nestled in the back of Kali hi valley on the island of Oʻahu which seeks to provide people of our ahupuaʻa and beyond the freedom to make connections and build meaningful relationships with the ʻāina, each other and ourselves.
+- [Ol Pejeta Conservancy](https://www.olpejetaconservancy.org/) are caretakers of the land, safeguarding endangered species and ensuring the openness and accessibility of conservation for all. They empower their people to think the same way and embrace new approaches to conservation, and provide natural wilderness experiences, backed up by scientifically credible conservation and genuine interactions with wildlife.
+- [Southern Utah Wilderness Alliance (SUWA)](https://suwa.org/) the only non-partisan, non-profit organization working full time to defend Utah’s redrock wilderness from oil and gas development, unnecessary road construction, rampant off-road vehicle use, and other threats to Utah’s wilderness-quality lands.
+
 ## License
 
-<p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text"><a rel="cc:attributionURL" property="dct:title" href="https://www.github.com/olets/hometown-prompt">hometown-prompt</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.github.com/olets">Henry Bley-Vroman</a> is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> plus <a href="https://firstdonoharm.dev/version/2/1/license.html">Hippocratic License 3</a>. Persons interested in using or adapting this work for commercial purposes should contact the author.</p>
+<a href="https://www.github.com/olets/hometown-prompt">Hometown Prompt</a> by <a href="https://www.github.com/olets">Henry Bley-Vroman</a> is licensed under a license which is the unmodified text of <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> and the unmodified text of a <a href="https://firstdonoharm.dev/build?modules=eco,extr,media,mil,sv,usta">Hippocratic License 3</a>. It is not affiliated with Creative Commons or the Organization for Ethical Source.
 
-<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" title="Creative Commons-licensed" /> <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" title="Creative Commons: Attribution" /> <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" title="Creative Commons: NonCommercial"/> <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" title="Creative Commons: ShareAlike" />
+Human-readable summary of (and not a substitute for) the [LICENSE](LICENSE) file:
 
-For the full text of the license, see the [LICENSE](LICENSE) file.
+You are free to
+
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material
+
+Under the following terms
+
+- Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+- Non-commercial — You may not use the material for commercial purposes.
+- Ethics - You must abide by the ethical standards specified in the Hippocratic License 3 with Ecocide, Extractive Industries, US Tariff Act, Mass Surveillance, Military Activities, and Media modules.
+- Preserve terms — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+- No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+## Acknowledgments
+
+- The human-readable license summary is based on https://creativecommons.org/licenses/by-nc-sa/4.0. The ethics point was added.
