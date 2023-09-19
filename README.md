@@ -18,6 +18,10 @@
 
 &nbsp;
 
+Depending on how you configure it, Hometown looks something like this:
+
+![Hometown Prompt example screenshot](https://next.hometown-prompt.olets.dev/images/hometown-prompt-example.jpg)
+
 Hometown shows, in this order
 
 Always:
