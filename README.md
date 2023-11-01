@@ -26,7 +26,7 @@ You can customize symbols and colors, hide inactive segments, hide certain segme
 <!-- TODO drop `next.` -->
 > Try It Out !  
 > The best way to get a sense of Hometown Prompt, other than installing it, is to play with the  
-> 🎨 [interactive web demo](https://next.hometown-prompt.olets.dev/demo.md) 🎨  
+> 🎨 [interactive web demo](https://next.hometown-prompt.olets.dev/demo.html) 🎨  
 
 Here are three static examples to start with, using the default colors and default symbol sets. In each, Hometown Prompt is telling us that we're logged in as one of our usual users on one of our usual hosts, the user is not root, the previous command succeeded, the current directory is the Git repo `hometown-prompt`, the branch `main` is checked out, `main` pushes and pulls from `origin/main`, we're 15 commits ahead of the remote, there are seven stashes, and there are three untracked files.
 
