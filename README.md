@@ -1,6 +1,6 @@
 <img src="./img/hometown.png" alt="">
 
-# Hometown Prompt ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/hometown-prompt) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/olets/hometown-prompt/latest)
+# Hometown Prompt ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/olets/hometown-prompt?include_prereleases&label=pre-release) ![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/olets/hometown-prompt/latest?include_prereleases)
 
 **Hometown is a feature rich, high performance Git-centric zsh theme** with segments for the user, host, time, the current working directory and its parent, and —within a Git repo— detailed Git status. It is carefully designed to show dense information clearly.
 
