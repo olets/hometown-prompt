@@ -8,6 +8,10 @@ Get a feel for how the components respond to context and how the options work by
 
 &nbsp;
 
+> 🎉 The next major version of Hometown Prompt is in the works, complete with a brand new documentation site. Take a look in the [`next` branch](https://github.com/olets/hometown-prompt/tree/next)
+
+&nbsp;
+
 <!-- TOC -->
 - [Requirements](#requirements)
 - [Installation](#installation)
