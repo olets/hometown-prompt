@@ -4,7 +4,7 @@
 
 **Hometown is a feature rich, high performance Git-aware zsh theme** with segments for the user, host, time, the current working directory and its parent, and —within a Git repo— detailed Git status. It is carefully designed to show a lot of information clearly.
 
-Get a feel for how the components respond to context and how the options work by playing with the online simulator: <a href="https://hometown-prompt.netlify.app/">https://hometown-prompt.netlify.app/</a>.
+Get a feel for how the components respond to context and how the options work by playing with the online simulator: <a href="https://hometown-prompt.olets.dev/">https://hometown-prompt.olets.dev/</a>.
 
 &nbsp;
 
