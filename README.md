@@ -30,11 +30,11 @@ Default (Git ref on first line, no inactive Git ref segments, no extended Git st
 
 More concise (inactive Git status segments hidden, active extended Git status segments visible, everything on one line)
 
-![Hometown Prompt screenshot, default configuration](./img/hometown-prompt-short.png)
+![Hometown Prompt screenshot, short configuration](./img/hometown-prompt-short.png)
 
 Less concise (Git ref and status each on their own line, inactive Git ref segments visible, active extended Git status segments visible, inactive Git status segments hidden, verbose default symbols)
 
-![Hometown Prompt screenshot, default configuration](./img/hometown-prompt-long.png)
+![Hometown Prompt screenshot, long configuration](./img/hometown-prompt-long.png)
 
 > The window title in the screenshots above is thanks to [zsh-window-title](https://github.com/olets/zsh-window-title)
 
