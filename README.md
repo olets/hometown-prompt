@@ -36,6 +36,10 @@ Less concise (Git ref and status each on their own line, inactive Git ref segmen
 
 ![Hometown Prompt screenshot, long configuration](./img/hometown-prompt-long.png)
 
+Or go completely custom! The colors and symbols can be anything you want.
+
+![Hometown Prompt screenshot, custom configuration](./img/hometown-prompt-custom.png)
+
 > The window title in the screenshots above is thanks to [zsh-window-title](https://github.com/olets/zsh-window-title)
 
 ### What all is shown?
