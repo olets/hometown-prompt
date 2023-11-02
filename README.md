@@ -134,8 +134,4 @@ Under the following terms
 
 ## Acknowledgments
 
-Splash card font is [Nickainley](https://www.fontfabric.com/fonts/nickainley/) by Seniors Studio.
-
-Hometown Prompt is built out of [Git Prompt Kit components](https://github.com/olets/git-prompt-kit#acknowledgments).
-
-The human-readable license summary is based on https://creativecommons.org/licenses/by-nc-sa/4.0. The ethics point was added.
+- The human-readable license summary is based on https://creativecommons.org/licenses/by-nc-sa/4.0. The ethics point was added.
