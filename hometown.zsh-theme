@@ -95,6 +95,7 @@ _hometown_init() {
 
   if ! (( $# )); then
     'builtin' 'printf' Hometown could not be initialized
+    return
   fi
 
   dir=$1
