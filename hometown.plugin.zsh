@@ -1,1 +1,1 @@
-source ${0:A:h}/hometown.zsh
+source ${0:A:h}/hometown.zsh-theme
