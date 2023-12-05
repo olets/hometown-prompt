@@ -43,10 +43,6 @@ _hometown_prompt_git_prompt() {
     fi
   fi
 
-  # For print -P friendliness, have to do
-  # git_prompt+='${(j. .)${:-{$GIT_PROMPT_KIT_STATUS_EXTENDED,$GIT_PROMPT_KIT_STATUS,$GIT_PROMPT_KIT_ACTION}}}'
-  # manually
-
   if (( HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS )); then
     git_prompt+='${GIT_PROMPT_KIT_STATUS_EXTENDED}'
 
