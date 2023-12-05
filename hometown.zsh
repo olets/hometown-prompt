@@ -7,17 +7,17 @@
 
 typeset -r HOMETOWN_PROMPT_VERSION="2.0.1"
 
-typeset -g HOMETOWN_PROMPT_CUSTOM=${HOMETOWN_PROMPT_CUSTOM-%*}
-typeset -gi HOMETOWN_PROMPT_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_PROMPT_LINEBREAK_AFTER_GIT_REF:-1}
-typeset -gi HOMETOWN_PROMPT_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_PROMPT_NO_LINEBREAK_BEFORE_GIT_REF:-1}
-typeset -gi HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS=${HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS:-1}
+typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%*}
+typeset -gi HOMETOWN_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_LINEBREAK_AFTER_GIT_REF:-1}
+typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF:-1}
+typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
 
-_hometown_prompt_git_prompt() {
+_hometown_git_prompt() {
   emulate -L zsh
 
   local git_prompt=
 
-  if (( HOMETOWN_PROMPT_NO_LINEBREAK_BEFORE_GIT_REF )); then
+  if (( HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF )); then
     git_prompt+='${GIT_PROMPT_KIT_REF:+ }'
   else
     git_prompt+='${GIT_PROMPT_KIT_REF:+\n}'
@@ -25,8 +25,8 @@ _hometown_prompt_git_prompt() {
 
   git_prompt+='${GIT_PROMPT_KIT_REF:+$GIT_PROMPT_KIT_REF}'
 
-  if (( HOMETOWN_PROMPT_LINEBREAK_AFTER_GIT_REF )); then
-    if (( HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS )); then
+  if (( HOMETOWN_LINEBREAK_AFTER_GIT_REF )); then
+    if (( HOMETOWN_SHOW_EXTENDED_STATUS )); then
       # Add a line break after the Git ref if there's any of Git extended status, Git status, or Git action
       git_prompt+='${${GIT_PROMPT_KIT_STATUS_EXTENDED:-${GIT_PROMPT_KIT_STATUS:-${GIT_PROMPT_KIT_ACTION}}}:+\n}'
     else
@@ -34,7 +34,7 @@ _hometown_prompt_git_prompt() {
       git_prompt+='${${GIT_PROMPT_KIT_STATUS:-${GIT_PROMPT_KIT_ACTION}}:+\n}'
     fi
   else
-    if (( HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS )); then
+    if (( HOMETOWN_SHOW_EXTENDED_STATUS )); then
       # Add a space after the Git ref if there's any of Git extended status, Git status, or Git action
       git_prompt+='${${GIT_PROMPT_KIT_STATUS_EXTENDED:-${GIT_PROMPT_KIT_STATUS:-${GIT_PROMPT_KIT_ACTION}}}:+ }'
     else
@@ -43,7 +43,7 @@ _hometown_prompt_git_prompt() {
     fi
   fi
 
-  if (( HOMETOWN_PROMPT_SHOW_EXTENDED_STATUS )); then
+  if (( HOMETOWN_SHOW_EXTENDED_STATUS )); then
     git_prompt+='${GIT_PROMPT_KIT_STATUS_EXTENDED}'
 
     # Add a space after the extended Git prompt if there's an extended Git status and either a Git status or a Git action
@@ -60,7 +60,7 @@ _hometown_prompt_git_prompt() {
   'builtin' 'echo' $git_prompt
 }
 
-_hometown_prompt_build_prompt() {
+_hometown_build_prompt() {
   emulate -L zsh
 
   local prompt=
@@ -72,13 +72,13 @@ _hometown_prompt_build_prompt() {
   prompt+='${GIT_PROMPT_KIT_USERHOST:+$GIT_PROMPT_KIT_USERHOST }'
 
   # Custom (24h format HH:MM:SS time by default)
-  prompt+='${HOMETOWN_PROMPT_CUSTOM:+$HOMETOWN_PROMPT_CUSTOM }'
+  prompt+='${HOMETOWN_CUSTOM:+$HOMETOWN_CUSTOM }'
 
   # Working directory
   prompt+='${GIT_PROMPT_KIT_CWD}'
 
   # Git
-  prompt+=$(_hometown_prompt_git_prompt)
+  prompt+=$(_hometown_git_prompt)
 
   # Prompt character
   prompt+=$'\n'
@@ -87,7 +87,7 @@ _hometown_prompt_build_prompt() {
   'builtin' 'echo' $prompt
 }
 
-_hometown_prompt_init() {
+_hometown_init() {
   emulate -L zsh
 
   local dir
@@ -98,12 +98,12 @@ _hometown_prompt_init() {
 
   dir=$1
 
-  GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX=__hometown_prompt
-  GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME=HOMETOWN_PROMPT
+  GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX=__hometown
+  GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME=HOMETOWN
 
   'builtin' 'source' $dir/git-prompt-kit/git-prompt-kit.zsh
 
-  PROMPT=$(_hometown_prompt_build_prompt)
+  PROMPT=$(_hometown_build_prompt)
 }
 
-_hometown_prompt_init ${0:A:h}
+_hometown_init ${0:A:h}
