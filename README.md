@@ -135,3 +135,6 @@ Under the following terms
 ## Acknowledgments
 
 - The human-readable license summary is based on https://creativecommons.org/licenses/by-nc-sa/4.0. The ethics point was added.
+- Splash card font is [Nickainley](https://www.fontfabric.com/fonts/nickainley/) by Seniors Studio.
+- See also [Git Prompt Kit](https://github.com/olets/git-prompt-kit#acknowledgments)'s acknowledgments.
+
