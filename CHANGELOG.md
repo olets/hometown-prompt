@@ -1,3 +1,12 @@
+# [v3.1.0](/compare/v3.0.0...v3.1.0) (2023-12-05)
+
+### Features
+
+* **git-prompt-kit:** upgrade to v4.1.0 [d1aa126](https://github.com/olets/hometown-prompt/commit/d1aa126)
+* **submodules:** init if necessary [862f29a](https://github.com/olets/hometown-prompt/commit/862f29a3c243fd5e5ac4b7982f93cf5948649aa3)
+
+
+
 # [v3.0.0](/compare/v2.0.1...v3.0.0) (2023-12-05)
 
 
