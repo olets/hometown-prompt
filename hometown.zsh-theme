@@ -91,21 +91,24 @@ _hometown_build_prompt() {
 _hometown_init() {
   emulate -L zsh
 
-  local dir
-
-  if ! (( $# )); then
-    'builtin' 'printf' Hometown could not be initialized
-    return
+  # if installed with Homebrew, will not have .gitmodules
+  if [[ -f ${_hometown_source_path}/.gitmodules && ! -f ${_hometown_source_path}/git-prompt-kit/git-prompt-kit.plugin.zsh ]]; then
+    'builtin' 'print' Finishing installing Hometown
+    'command' 'git' submodule update --init --recursive &>/dev/null
   fi
 
-  dir=$1
+  if ! [[ -f ${_hometown_source_path}/git-prompt-kit/git-prompt-kit.plugin.zsh ]]; then
+    'builtin' 'print' There was problem finishing installing Hometown
+    return
+  fi
 
   GIT_PROMPT_KIT_GITSTATUS_FUNCTIONS_SUFFIX=__hometown
   GIT_PROMPT_KIT_GITSTATUSD_INSTANCE_NAME=HOMETOWN
 
-  'builtin' 'source' $dir/git-prompt-kit/git-prompt-kit.zsh
+  'builtin' 'source' $_hometown_source_path/git-prompt-kit/git-prompt-kit.zsh
 
   PROMPT=$(_hometown_build_prompt)
 }
 
-_hometown_init ${0:A:h}
+typeset -r _hometown_source_path=${0:A:h}
+_hometown_init
