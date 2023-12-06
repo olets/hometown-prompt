@@ -1,0 +1,24 @@
+name: Bump Homebrew Formula on Release Publication
+
+on:
+  release:
+    types: [published]
+jobs:
+  homebrew:
+    name: Bump Homebrew formula
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mislav/bump-homebrew-formula-action@v3
+        with:
+          formula-name: hometown-prompt
+          formula-path: hometown-prompt.rb
+          homebrew-tap: olets/homebrew-tap
+          download-url: https://github.com/olets/hometown-prompt.git
+          commit-message: |
+            feat({{formulaName}}): publish {{version}}
+
+            Created by https://github.com/mislav/bump-homebrew-formula-action
+            via the https://github.com/olets/hometown-prompt
+            "bump-homebrew-formula-on-release-publication" workflow
+        env:
+          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
