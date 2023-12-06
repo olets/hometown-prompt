@@ -1,3 +1,9 @@
+# [v3.1.1](/compare/v3.1.0...v3.1.1) (2023-12-06)
+
+* **version variable:** follow naming convention [5cec140](https://github.com/olets/hometown-prompt/commit/5cec140f39c5485d87318ead64522c91df11d6cc)
+
+
+
 # [v3.1.0](/compare/v3.0.0...v3.1.0) (2023-12-05)
 
 ### Features
