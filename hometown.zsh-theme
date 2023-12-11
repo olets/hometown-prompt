@@ -1,12 +1,12 @@
 #!/usr/bin/env zsh
 
 # Hometown
-# v3.1.1
-# Dec 5 2023
+# v3.1.2
+# Dec 11 2023
 # https://github.com/olets/hometown-prompt
 # Copyright (©) 2021-present Henry Bley-Vroman
 
-typeset -r HOMETOWN_VERSION="3.1.1"
+typeset -r HOMETOWN_VERSION="3.1.2"
 
 typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%*}
 typeset -gi HOMETOWN_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_LINEBREAK_AFTER_GIT_REF:-1}

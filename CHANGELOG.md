@@ -1,3 +1,13 @@
+# [v3.1.2](/compare/v3.1.1...v3.1.2) (2023-12-11)
+
+
+### Features
+
+* **deps:** bump git-prompt-kit from `21c5028` to `742f995` v4.1.1 [d451e22](https://github.com/olets/hometown-prompt/commit/d451e222d69b2b67d6a2a46ea493f04e13ece856)
+* **releases:** action to bump formula with each release [8283f94](https://github.com/olets/hometown-prompt/commit/8283f94)
+
+
+
 # [v3.1.1](/compare/v3.1.0...v3.1.1) (2023-12-06)
 
 * **version variable:** follow naming convention [5cec140](https://github.com/olets/hometown-prompt/commit/5cec140f39c5485d87318ead64522c91df11d6cc)
