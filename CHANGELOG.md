@@ -1,3 +1,8 @@
+# [v3.1.3](/compare/v3.1.2...v3.1.3) (2024-03-26)
+
+* **deps:** bump git-prompt-kit from `742f995` to `f5979bb` v4.1.2 [fe09de1](https://github.com/olets/hometown-prompt/commit/fe09de14715e5dc853481227462013d01b61bf91)
+
+
 # [v3.1.2](/compare/v3.1.1...v3.1.2) (2023-12-11)
 
 
