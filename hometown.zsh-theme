@@ -9,6 +9,7 @@
 typeset -r HOMETOWN_VERSION="3.1.6"
 
 typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%*}
+typeset -gi HOMETOWN_LINEBREAK_AFTER_CHAR=${HOMETOWN_LINEBREAK_AFTER_CHAR:-0}
 typeset -gi HOMETOWN_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_LINEBREAK_AFTER_GIT_REF:-1}
 typeset -gi HOMETOWN_LINEBREAK_BEFORE_PROMPT=${HOMETOWN_LINEBREAK_BEFORE_PROMPT:-1}
 typeset -gi HOMETOWN_LINEBREAK_BEFORE_CHAR=${HOMETOWN_LINEBREAK_BEFORE_CHAR:-1}
@@ -170,7 +171,15 @@ _hometown_build_prompt() {
   else
     prompt+=' '
   fi
-  prompt+='${GIT_PROMPT_KIT_CHAR:+$GIT_PROMPT_KIT_CHAR }'
+
+  prompt+='${GIT_PROMPT_KIT_CHAR:+$GIT_PROMPT_KIT_CHAR}'
+
+  if (( HOMETOWN_LINEBREAK_AFTER_CHAR )); then
+    # there is a U+200B zero-width space after the `\n`
+    prompt+=$'\n​'
+  else
+    prompt+='${GIT_PROMPT_KIT_CHAR:+ }'
+  fi
 
   'builtin' 'echo' $prompt
 }
