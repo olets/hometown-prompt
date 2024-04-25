@@ -44,6 +44,7 @@ _hometown_transient_prompt() {
     done
 
     _git_prompt_kit_update_git
+    _git_prompt_kit_update_nongit
     transient_prompt=$(_hometown_build_prompt)
 
     zle && PROMPT=$transient_prompt && zle reset-prompt && zle -R
