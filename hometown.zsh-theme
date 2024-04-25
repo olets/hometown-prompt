@@ -84,14 +84,21 @@ _hometown_transient_prompt() {
   }
 
   (( ${+precmd_functions} )) || typeset -ga precmd_functions
+
   (( ${#precmd_functions} )) || {
-    do_nothing() {true}
-    precmd_functions=(do_nothing)
+    do_nothing() {
+      true
+    }
+
+    precmd_functions=( do_nothing )
   }
 
   precmd_functions+=_hometown_transient_prompt_precmd
   function _hometown_transient_prompt_precmd {
-    TRAPINT() { zle && _hometown_transient_prompt-zle-line-finish; return $(( 128 + $1 )) }
+    TRAPINT() {
+      zle && _hometown_transient_prompt-zle-line-finish
+      return $(( 128 + $1 ))
+    }
   }
 }
 
