@@ -14,6 +14,69 @@ typeset -gi HOMETOWN_LINEBREAK_BEFORE_PROMPT=${HOMETOWN_LINEBREAK_BEFORE_PROMPT:
 typeset -gi HOMETOWN_LINEBREAK_BEFORE_CHAR=${HOMETOWN_LINEBREAK_BEFORE_CHAR:-1}
 typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF:-1}
 typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
+typeset -gA HOMETOWN_TRANSIENT_PROMPT_CONTEXT
+typeset -gi HOMETOWN_USE_TRANSIENT_PROMPT=${HOMETOWN_USE_TRANSIENT_PROMPT:-1}
+
+_hometown_transient_prompt() {
+  zle -N send-break _hometown_transient_prompt-send-break
+  function _hometown_transient_prompt-send-break {
+    _hometown_transient_prompt-zle-line-finish
+    zle .send-break
+  }
+
+  zle -N zle-line-finish _hometown_transient_prompt-zle-line-finish
+  function _hometown_transient_prompt-zle-line-finish {
+    local key
+    local value
+    local transient_prompt
+    
+    (( ! _hometown_transient_prompt_fd )) && {
+      sysopen -r -o cloexec -u _hometown_transient_prompt_fd /dev/null
+      zle -F $_hometown_transient_prompt_fd _hometown_transient_prompt_restore_prompt
+    }
+
+    for key value in ${(kv)HOMETOWN_TRANSIENT_PROMPT_CONTEXT}; do
+      # back up context
+      typeset -g _hometown_${key}_saved=${(P)key}
+
+      # apply transient prompt context
+      typeset -g "$key"="$value"
+    done
+
+    _git_prompt_kit_update_git
+    transient_prompt=$(_hometown_build_prompt)
+
+    zle && PROMPT=$transient_prompt && zle reset-prompt && zle -R
+    
+    # restore backed up context
+    local key_saved
+    for key in ${(k)HOMETOWN_TRANSIENT_PROMPT_CONTEXT}; do
+      typeset key_saved=_hometown_${key}_saved
+      typeset -g $key=${(P)key_saved}
+      unset $key_saved
+    done
+  }
+
+  function _hometown_transient_prompt_restore_prompt {
+    exec {1}>&-
+    (( ${+1} )) && zle -F $1
+    _hometown_transient_prompt_fd=0
+    PROMPT=$(_hometown_build_prompt)
+    zle reset-prompt
+    zle -R
+  }
+
+  (( ${+precmd_functions} )) || typeset -ga precmd_functions
+  (( ${#precmd_functions} )) || {
+    do_nothing() {true}
+    precmd_functions=(do_nothing)
+  }
+
+  precmd_functions+=_hometown_transient_prompt_precmd
+  function _hometown_transient_prompt_precmd {
+    TRAPINT() { zle && _hometown_transient_prompt-zle-line-finish; return $(( 128 + $1 )) }
+  }
+}
 
 _hometown_git_prompt() {
   emulate -L zsh
@@ -87,7 +150,7 @@ _hometown_build_prompt() {
 
   # Prompt character
   if (( HOMETOWN_LINEBREAK_BEFORE_CHAR )); then
-  prompt+=$'\n'
+    prompt+=$'\n'
   else
     prompt+=' '
   fi
@@ -122,3 +185,7 @@ typeset -r _hometown_source_path=${0:A:h}
 
 setopt prompt_subst
 _hometown_init
+
+if (( HOMETOWN_USE_TRANSIENT_PROMPT )); then
+  _hometown_transient_prompt
+fi
