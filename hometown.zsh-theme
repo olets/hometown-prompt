@@ -11,6 +11,7 @@ typeset -r HOMETOWN_VERSION="3.1.5"
 typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%*}
 typeset -gi HOMETOWN_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_LINEBREAK_AFTER_GIT_REF:-1}
 typeset -gi HOMETOWN_LINEBREAK_BEFORE_PROMPT=${HOMETOWN_LINEBREAK_BEFORE_PROMPT:-1}
+typeset -gi HOMETOWN_LINEBREAK_BEFORE_CHAR=${HOMETOWN_LINEBREAK_BEFORE_CHAR:-1}
 typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF:-1}
 typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
 
@@ -85,7 +86,11 @@ _hometown_build_prompt() {
   prompt+=$(_hometown_git_prompt)
 
   # Prompt character
+  if (( HOMETOWN_LINEBREAK_BEFORE_CHAR )); then
   prompt+=$'\n'
+  else
+    prompt+=' '
+  fi
   prompt+='${GIT_PROMPT_KIT_CHAR:+$GIT_PROMPT_KIT_CHAR }'
 
   'builtin' 'echo' $prompt
