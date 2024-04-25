@@ -214,13 +214,14 @@ _hometown_init() {
   'builtin' 'source' $_hometown_source_path/git-prompt-kit/git-prompt-kit.zsh
 
   PROMPT=$(_hometown_build_prompt)
+
+  if (( HOMETOWN_USE_TRANSIENT_PROMPT )); then
+    autoload -Uz add-zsh-hook
+    _hometown_transient_prompt
+  fi
 }
 
 typeset -r _hometown_source_path=${0:A:h}
 
 setopt prompt_subst
 _hometown_init
-
-if (( HOMETOWN_USE_TRANSIENT_PROMPT )); then
-  _hometown_transient_prompt
-fi
