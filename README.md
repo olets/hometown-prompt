@@ -2,7 +2,7 @@
 
 # Hometown Prompt ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/olets/hometown-prompt?include_prereleases&label=pre-release) ![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/olets/hometown-prompt/latest?include_prereleases)
 
-**Hometown is a feature rich, high performance Git-centric zsh theme** with segments for the user, host, time, the current working directory and its parent, and —within a Git repo— detailed Git status. It is carefully designed to show dense information clearly.
+**Hometown is a feature-rich, high-performance Git-centric zsh theme** with segments for the user, host, time, the current working directory and its parent, and — within a Git repo — detailed Git status. It is carefully designed to show dense information clearly.
 
 ## Documentation
 
@@ -15,10 +15,10 @@
 
 ### How does it look?
 
-You can customize symbols and colors, hide inactive segments, hide certain segments always, and choose how many lines the prompt takes up. Given your configuration, the content shown and the colors it's shown in changes based on which user is logged in, whether the previous command succeeded, and whether you're in a Git repo — and, if so, the Git status.
+You can customize symbols and colors, hide inactive segments, hide certain segments always, and choose how many lines the prompt takes up. Given your configuration, the content shown and the colors it's shown in change based on which user is logged in, whether the previous command succeeded, and whether you're in a Git repo — and, if so, the Git status.
 
 <!-- TODO drop `next.` -->
-> Try It Out !  
+> Try It Out!  
 > The best way to get a sense of Hometown Prompt, other than installing it, is to play with the  
 > 🎨 [interactive web demo](https://next.hometown-prompt.olets.dev/demo.html) 🎨  
 
@@ -55,7 +55,7 @@ Always:
 
 If in a Git repo:
 
-- the **repo root directory, underlined** (the maximum number directories above the CWD is configurable)
+- The **repo root directory, underlined** (the maximum number of directories above the CWD is configurable)
 - If in a subdirectory of the repo, the **subdirectory name** (the maximum number of directories listed between the Git root and the CWD is configurable)
 - If HEAD is detached, the **checked out commit**. Text color is dependent on whether or not the index is dirty
 - If a branch is checked out:
@@ -68,12 +68,12 @@ If in a Git repo:
     - The **upstream's name**, if different from the local branch's
     - Text color is dependent on context and status:
       - If no distinct push remote, colored if the local is either ahead or behind
-      - If there a distinct push remote, colored if the local is behind
+      - If there is a distinct push remote, colored if the local is behind
   - If the checked out branch has a push remote (that is, [`@{push}`](https://www.git-scm.com/docs/gitrevisions#Documentation/gitrevisions.txt-emltbranchnamegtpushemegemmasterpushemempushem)) different from the upstream,
     - The number **commits ahead of the push remote** the local branch is. Optionally show the indicator even if the local branch is not ahead of the push remote.
     - The number **commits behind the push remote** the local branch is. Optionally show the indicator even if the local branch is not behind the push remote.
     - The **push remote's remote**, if different from the user-configured default
-    - (The push branch's name is not shown, even if it differs from the local name. Want it to be? Weigh in at at [romkatv/gitstatus/#291](https://github.com/romkatv/gitstatus/issues/291))
+    - (The push branch's name is not shown, even if it differs from the local name. Want it to be? Weigh in at [romkatv/gitstatus/#291](https://github.com/romkatv/gitstatus/issues/291))
 - The first **tag** pointing to the current commit, if any
 - The number of **untracked ("new") files**. Optionally show the accompanying symbol when there are no such files.
 - The number of **conflicted files**. Optionally show the accompanying symbol when there are no such files.
@@ -82,7 +82,7 @@ If in a Git repo:
 - The number of **staged new files**. Optionally show the accompanying symbol when there are no such files.
 - The number of **staged deleted files**. Optionally show the accompanying symbol when there are no such files.
 - The number of **staged modified files**. Optionally show the accompanying symbol when there are no such files.
-- The name of the **ongoing action** (for example "rebase"), if any
+- The name of the **ongoing action** (for example, "rebase"), if any
 - Optionally:
   - The **number of stashes**. Optionally show the accompanying symbol when there are no such files.
   - The **number of files with the assume-unchanged bit set**. Optionally show the accompanying symbol when there are no such files.
@@ -98,7 +98,7 @@ _Looking for the documentation site's source? See <https://github.com/olets/home
 
 Thanks for your interest. Contributions are welcome!
 
-> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project, you agree to abide by its terms.
 
 Check the [Issues](https://github.com/olets/hometown-prompt/issues) to see if your topic has been discussed before or if it is being worked on. You may also want to check the roadmap (see above).
 
@@ -109,9 +109,9 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 Love Hometown Prompt? I'm happy to be able to provide it for free. If you are moved to turn appreciation into action, I invite you to make a donation to one of the organizations listed below (to be listed as a financial contributor, send me a receipt via email or [Reddit DM](https://www.reddit.com/user/olets)). Thank you!
 
 - [O‘ahu Water Protectors](https://oahuwaterprotectors.org/) a coalition of organizers and concerned community members fighting for safe, clean water on Oʻahu. Currently focused on the Red Hill Bulk Fuel Storage Facility crisis (see Sierra Club of Hawaii's [explainer](https://sierraclubhawaii.org/redhill)).
-- [Hoʻoulu ʻĀina](https://hoouluaina.org/) is a 100-acre nature preserve nestled in the back of Kali hi valley on the island of Oʻahu which seeks to provide people of our ahupuaʻa and beyond the freedom to make connections and build meaningful relationships with the ʻāina, each other and ourselves.
+- [Hoʻoulu ʻĀina](https://hoouluaina.org/) is a 100-acre nature preserve nestled in the back of Kalihi Valley on the island of Oʻahu which seeks to provide people of our ahupuaʻa and beyond the freedom to make connections and build meaningful relationships with the ʻāina, each other, and ourselves.
 - [Ol Pejeta Conservancy](https://www.olpejetaconservancy.org/) are caretakers of the land, safeguarding endangered species and ensuring the openness and accessibility of conservation for all. They empower their people to think the same way and embrace new approaches to conservation, and provide natural wilderness experiences, backed up by scientifically credible conservation and genuine interactions with wildlife.
-- [Southern Utah Wilderness Alliance (SUWA)](https://suwa.org/) the only non-partisan, non-profit organization working full time to defend Utah’s redrock wilderness from oil and gas development, unnecessary road construction, rampant off-road vehicle use, and other threats to Utah’s wilderness-quality lands.
+- [Southern Utah Wilderness Alliance (SUWA)](https://suwa.org/) the only non-partisan, non-profit organization working full time to defend Utah’s red rock wilderness from oil and gas development, unnecessary road construction, rampant off-road vehicle use, and other threats to Utah’s wilderness-quality lands.
 
 ## License
 
@@ -137,4 +137,3 @@ Under the following terms
 - The human-readable license summary is based on https://creativecommons.org/licenses/by-nc-sa/4.0. The ethics point was added.
 - Splash card font is [Nickainley](https://www.fontfabric.com/fonts/nickainley/) by Seniors Studio.
 - See also [Git Prompt Kit](https://github.com/olets/git-prompt-kit#acknowledgments)'s acknowledgments.
-
