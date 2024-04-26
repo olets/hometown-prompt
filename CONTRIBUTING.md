@@ -8,14 +8,4 @@ Check the [Issues](https://github.com/olets/hometown-prompt/issues) to see if yo
 
 This project includes a Git [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules). Passing `--recurse-submodules` when `git clone`ing is recommended.
 
-The site is managed in the Git Prompt Kit repo.
-
-```shell
-git config push.default current
-git config remote.pushdefault origin
-git remote add gpk https://github.com/olets/git-prompt-kit
-git fetch gpk
-git checkout site
-git branch -u gpk/site
-git checkout -
-```
+The docs are managed in a separate repo: <https://github.com/olets/git-prompt-kit-docs>.
