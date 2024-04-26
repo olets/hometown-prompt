@@ -111,4 +111,6 @@ _hometown_init() {
 }
 
 typeset -r _hometown_source_path=${0:A:h}
+
+setopt prompt_subst
 _hometown_init
