@@ -97,7 +97,7 @@ _hometown_init() {
     'command' 'git' submodule update --init --recursive &>/dev/null
   fi
 
-  if ! [[ -f ${_hometown_source_path}/git-prompt-kit/git-prompt-kit.plugin.zsh ]]; then
+  if ! [[ -f ${_hometown_source_path}/git-prompt-kit/git-prompt-kit.zsh ]]; then
     'builtin' 'print' There was problem finishing installing Hometown
     return
   fi
