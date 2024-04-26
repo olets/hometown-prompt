@@ -18,6 +18,7 @@ typeset -gi HOMETOWN_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_LINEBREAK_AFTER_GIT_REF:
 typeset -gi HOMETOWN_LINEBREAK_BEFORE_PROMPT=${HOMETOWN_LINEBREAK_BEFORE_PROMPT:-1}
 typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF:-1}
 typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
+typeset -gi HOMETOWN_SET_PSVAR=${HOMETOWN_SET_PSVAR:-1}
 typeset -gi HOMETOWN_USE_TRANSIENT_PROMPT=${HOMETOWN_USE_TRANSIENT_PROMPT:-1}
 
 # Hometown transient prompt config
@@ -33,6 +34,7 @@ HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_CWD_MAX_TRAILING_COUNT]=${HOMET
 HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL]-$'\n'}
 HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT]-$'\n'}
 # Hometown transient prompt config: Hometown
+HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]-'%F{%2v}%3v%f %v-%*'}
 HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_AFTER_GIT_REF]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_AFTER_GIT_REF]-0}
 HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_BEFORE_PROMPT]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_BEFORE_PROMPT]-0}
 HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]-1}
@@ -100,8 +102,32 @@ _hometown_transient_prompt() {
     precmd_functions=( do_nothing )
   }
 
-  precmd_functions+=_hometown_transient_prompt_precmd
-  function _hometown_transient_prompt_precmd {
+  if (( HOMETOWN_SET_PSVAR )); then
+    precmd_functions+=_hometown_transient_prompt_precmd:set_psvar
+    _hometown_transient_prompt_precmd:set_psvar() {
+      local -i exit_code=$?
+      local prompt_drawn_time=$(print -P '%*')
+
+      psvar=( )
+
+      psvar+=( $prompt_drawn_time )
+
+      if (( exit_code )); then
+        psvar+=( $GIT_PROMPT_KIT_COLOR_FAILED )
+      else
+        psvar+=( $GIT_PROMPT_KIT_COLOR_SUCCEEDED )
+      fi
+
+      if [[ ${(%):-%#} = \# ]]; then
+        psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT) )
+      else
+        psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL) )
+      fi
+    }
+  fi
+
+  precmd_functions+=_hometown_transient_prompt_precmd:trapint
+  function _hometown_transient_prompt_precmd:trapint {
     TRAPINT() {
       zle && _hometown_transient_prompt-zle-line-finish
       return $(( 128 + $1 ))
