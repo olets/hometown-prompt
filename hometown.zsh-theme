@@ -40,6 +40,10 @@ HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_BEFORE_PROMPT]=${HOMETOWN_T
 HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]-1}
 
 _hometown_transient_prompt() {
+  emulate -L zsh
+  
+  autoload -Uz add-zsh-hook
+
   zle -N send-break _hometown_transient_prompt-send-break
   function _hometown_transient_prompt-send-break {
     _hometown_transient_prompt-zle-line-finish
@@ -236,7 +240,6 @@ _hometown_init() {
   PROMPT=$(_hometown_build_prompt)
 
   if (( HOMETOWN_USE_TRANSIENT_PROMPT )); then
-    autoload -Uz add-zsh-hook
     _hometown_transient_prompt
   fi
 }
