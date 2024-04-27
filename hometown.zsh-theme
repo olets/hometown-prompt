@@ -80,8 +80,8 @@ _hometown_transient_prompt() {
   if (( HOMETOWN_SET_PSVAR )); then
     precmd_functions+=_hometown_transient_prompt_precmd
     _hometown_transient_prompt_precmd() {
+      local prompt_drawn_time=${(%):-%*}
       local -i exit_code=$?
-      local prompt_drawn_time=$(print -P '%*')
 
       psvar=( )
 
