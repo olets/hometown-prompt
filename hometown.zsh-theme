@@ -17,8 +17,8 @@ typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%*}
 typeset -gi HOMETOWN_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_LINEBREAK_AFTER_GIT_REF:-1}
 typeset -gi HOMETOWN_LINEBREAK_BEFORE_PROMPT=${HOMETOWN_LINEBREAK_BEFORE_PROMPT:-1}
 typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF:-1}
-typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
 typeset -gi HOMETOWN_SET_PSVAR=${HOMETOWN_SET_PSVAR:-1}
+typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
 typeset -gi HOMETOWN_USE_TRANSIENT_PROMPT=${HOMETOWN_USE_TRANSIENT_PROMPT:-1}
 
 # Hometown transient prompt config
@@ -41,70 +41,41 @@ HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]=${HOMETO
 
 _hometown_transient_prompt() {
   emulate -L zsh
-  
-  autoload -Uz add-zsh-hook
 
-  zle -N send-break _hometown_transient_prompt-send-break
-  function _hometown_transient_prompt-send-break {
-    _hometown_transient_prompt-zle-line-finish
-    zle .send-break
-  }
+  typeset -gA TRANSIENT_PROMPT_ENV
 
-  zle -N zle-line-finish _hometown_transient_prompt-zle-line-finish
-  function _hometown_transient_prompt-zle-line-finish {
-    local key
-    local value
-    local transient_prompt
-    
-    (( ! _hometown_transient_prompt_fd )) && {
-      sysopen -r -o cloexec -u _hometown_transient_prompt_fd /dev/null
-      zle -F $_hometown_transient_prompt_fd _hometown_transient_prompt_restore_prompt
-    }
-
-    # cannot use `for key value in ${(kv)…}` because that has undesired results when values are empty
-    for key in ${(k)HOMETOWN_TRANSIENT_PROMPT_CONTEXT}; do
-      value=$HOMETOWN_TRANSIENT_PROMPT_CONTEXT[$key]
-
-      # back up context
-      typeset -g _hometown_${key}_saved=${(P)key}
-
-      # apply transient prompt context
-      typeset -g "$key"="$value"
-    done
-
+  TRANSIENT_PROMPT_PRETRANSIENT() {
     _git_prompt_kit_update_git
     _git_prompt_kit_update_nongit
-    transient_prompt=$(_hometown_build_prompt)
+  }
 
-    zle && PROMPT=$transient_prompt && zle reset-prompt && zle -R
+  TRANSIENT_PROMPT_PROMPT=$PROMPT
+  
+  # cannot use `for key value in ${(kv)…}` because that has undesired results when values are empty
+  for key in ${(k)HOMETOWN_TRANSIENT_PROMPT_CONTEXT}; do
+    value=$HOMETOWN_TRANSIENT_PROMPT_CONTEXT[$key]
+
+    # back up context
+    typeset -g _hometown_${key}_saved=${(P)key}
+
+    # apply transient prompt context
+    typeset -g "$key"="$value"
     
-    # restore backed up context
-    local key_saved
-    for key in ${(k)HOMETOWN_TRANSIENT_PROMPT_CONTEXT}; do
-      typeset key_saved=_hometown_${key}_saved
-      typeset -g $key=${(P)key_saved}
-      unset $key_saved
-    done
-  }
+    # share transient prompt context with zsh-transient-prompt
+    TRANSIENT_PROMPT_ENV[$key]=$HOMETOWN_TRANSIENT_PROMPT_CONTEXT[$key]
+  done
 
-  function _hometown_transient_prompt_restore_prompt {
-    exec {1}>&-
-    (( ${+1} )) && zle -F $1
-    _hometown_transient_prompt_fd=0
-    PROMPT=$(_hometown_build_prompt)
-    zle reset-prompt
-    zle -R
-  }
+  TRANSIENT_PROMPT_TRANSIENT_PROMPT=$(_hometown_build_prompt)
 
-  (( ${+precmd_functions} )) || typeset -ga precmd_functions
+  # restore backed up context
+  local key_saved
+  for key in ${(k)HOMETOWN_TRANSIENT_PROMPT_CONTEXT}; do
+    typeset key_saved=_hometown_${key}_saved
+    typeset -g $key=${(P)key_saved}
+    unset $key_saved
+  done
 
-  (( ${#precmd_functions} )) || {
-    do_nothing() {
-      true
-    }
-
-    precmd_functions=( do_nothing )
-  }
+  'builtin' 'source' ${_hometown_source_path}/zsh-transient-prompt/transient-prompt.zsh-theme
 
   if (( HOMETOWN_SET_PSVAR )); then
     precmd_functions+=_hometown_transient_prompt_precmd:set_psvar
@@ -114,14 +85,17 @@ _hometown_transient_prompt() {
 
       psvar=( )
 
+      # 1v is drawn time
       psvar+=( $prompt_drawn_time )
 
+      # 2v is exit code color
       if (( exit_code )); then
         psvar+=( $GIT_PROMPT_KIT_COLOR_FAILED )
       else
         psvar+=( $GIT_PROMPT_KIT_COLOR_SUCCEEDED )
       fi
 
+      # 3v is char
       if [[ ${(%):-%#} = \# ]]; then
         psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT) )
       else
@@ -129,14 +103,6 @@ _hometown_transient_prompt() {
       fi
     }
   fi
-
-  precmd_functions+=_hometown_transient_prompt_precmd:trapint
-  function _hometown_transient_prompt_precmd:trapint {
-    TRAPINT() {
-      zle && _hometown_transient_prompt-zle-line-finish
-      return $(( 128 + $1 ))
-    }
-  }
 }
 
 _hometown_git_prompt() {
@@ -227,7 +193,7 @@ _hometown_init() {
     'command' 'git' submodule update --init --recursive &>/dev/null
   fi
 
-  if ! [[ -f ${_hometown_source_path}/git-prompt-kit/git-prompt-kit.zsh ]]; then
+  if ! [[ -f ${_hometown_source_path}/git-prompt-kit/git-prompt-kit.zsh && -f ${_hometown_source_path}/zsh-transient-prompt/transient-prompt.zsh-theme ]]; then
     'builtin' 'print' There was problem finishing installing Hometown
     return
   fi
