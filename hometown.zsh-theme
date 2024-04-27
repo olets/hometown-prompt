@@ -78,8 +78,8 @@ _hometown_transient_prompt() {
   'builtin' 'source' ${_hometown_source_path}/zsh-transient-prompt/transient-prompt.zsh-theme
 
   if (( HOMETOWN_SET_PSVAR )); then
-    precmd_functions+=_hometown_transient_prompt_precmd:set_psvar
-    _hometown_transient_prompt_precmd:set_psvar() {
+    precmd_functions+=_hometown_transient_prompt_precmd
+    _hometown_transient_prompt_precmd() {
       local -i exit_code=$?
       local prompt_drawn_time=$(print -P '%*')
 
