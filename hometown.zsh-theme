@@ -41,6 +41,10 @@ HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_AFTER_GIT_REF]=${HOMETOWN_T
 HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_BEFORE_PROMPT]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_BEFORE_PROMPT]-0}
 HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]-1}
 
+# Is the current prompt the first?
+typeset -g HOMETOWN_IS_FIRST_PROMPT=2
+typeset -g HOMETOWN_IS_NOT_FIRST_PROMPT=
+
 _hometown_transient_prompt() {
   emulate -L zsh
 
@@ -92,28 +96,32 @@ _hometown_precmd() {
   local -i exit_code=$?
   local -i first_line=$(( ! psvar[5] ))
 
-  psvar=( )
-
-  # 1v is drawn time
-  psvar+=( $prompt_drawn_time )
-
-  # 2v is exit code color
-  if (( exit_code )); then
-    psvar+=( $GIT_PROMPT_KIT_COLOR_FAILED )
-  else
-    psvar+=( $GIT_PROMPT_KIT_COLOR_SUCCEEDED )
+  (( HOMETOWN_IS_FIRST_PROMPT )) && (( HOMETOWN_IS_FIRST_PROMPT-- ))
+  if (( ! HOMETOWN_IS_FIRST_PROMPT )); then
+    HOMETOWN_IS_FIRST_PROMPT=
+    HOMETOWN_IS_NOT_FIRST_PROMPT=1
   fi
 
-  # 3v is char
-  if [[ ${(%):-%#} = \# ]]; then
-    psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT) )
-  else
-    psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL) )
-  fi
+  if (( HOMETOWN_SET_PSVAR )); then
+    psvar=( )
 
-  # 4v is whether this is the first line (0 if first line)
-  # 5v is reserved to assist with 4v calculation
-  psvar+=( $first_line 1 )
+    # 1v is drawn time
+    psvar+=( $prompt_drawn_time )
+
+    # 2v is exit code color
+    if (( exit_code )); then
+      psvar+=( $GIT_PROMPT_KIT_COLOR_FAILED )
+    else
+      psvar+=( $GIT_PROMPT_KIT_COLOR_SUCCEEDED )
+    fi
+
+    # 3v is char
+    if [[ ${(%):-%#} = \# ]]; then
+      psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT) )
+    else
+      psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL) )
+    fi
+  fi
 }
 
 _hometown_git_prompt() {
@@ -167,16 +175,15 @@ _hometown_git_prompt() {
 _hometown_build_prompt() {
   emulate -L zsh
 
-  local -i is_first_line=$psvar[4]
   local prompt=
 
   # Blank line after result of previous command
-  local -i line_before=$HOMETOWN_LINEBREAK_BEFORE_PROMPT
-  if (( HOMETOWN_SET_PSVAR && HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT )); then
-    line_before=$(( ! ! psvar[4] ))
-  fi
-  if (( line_before )); then
-    prompt+=$'\n'
+  if (( HOMETOWN_LINEBREAK_BEFORE_PROMPT )); then
+    if (( HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT )); then
+      prompt+='${HOMETOWN_IS_NOT_FIRST_PROMPT:+\n}'
+    else
+      prompt+=$'\n'
+    fi
   fi
 
   # User and host
@@ -218,7 +225,7 @@ _hometown_init() {
 
   PROMPT=$(_hometown_build_prompt)
 
-  if (( HOMETOWN_SET_PSVAR )); then
+  if (( HOMETOWN_SET_PSVAR || HOMETOWN_LINEBREAK_BEFORE_PROMPT )); then
     (( ${+precmd_functions} )) || typeset -ga precmd_functions
     precmd_functions+=_hometown_precmd
   fi
