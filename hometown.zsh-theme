@@ -16,6 +16,8 @@ typeset -g GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT=${GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT-$'\
 typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%*}
 typeset -gi HOMETOWN_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_LINEBREAK_AFTER_GIT_REF:-1}
 typeset -gi HOMETOWN_LINEBREAK_BEFORE_PROMPT=${HOMETOWN_LINEBREAK_BEFORE_PROMPT:-1}
+typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT=${HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT:-1}
+
 typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF:-1}
 typeset -gi HOMETOWN_SET_PSVAR=${HOMETOWN_SET_PSVAR:-1}
 typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
@@ -81,33 +83,37 @@ _hometown_transient_prompt() {
   done
 
   'builtin' 'source' ${_hometown_source_path}/zsh-transient-prompt/transient-prompt.zsh-theme
+}
 
-  if (( HOMETOWN_SET_PSVAR )); then
-    precmd_functions+=_hometown_transient_prompt_precmd
-    _hometown_transient_prompt_precmd() {
-      local prompt_drawn_time=${(%):-%*}
-      local -i exit_code=$?
+_hometown_precmd() {
+  emulate -L zsh
 
-      psvar=( )
+  local prompt_drawn_time=${(%):-%*}
+  local -i exit_code=$?
+  local -i first_line=$(( ! psvar[5] ))
 
-      # 1v is drawn time
-      psvar+=( $prompt_drawn_time )
+  psvar=( )
 
-      # 2v is exit code color
-      if (( exit_code )); then
-        psvar+=( $GIT_PROMPT_KIT_COLOR_FAILED )
-      else
-        psvar+=( $GIT_PROMPT_KIT_COLOR_SUCCEEDED )
-      fi
+  # 1v is drawn time
+  psvar+=( $prompt_drawn_time )
 
-      # 3v is char
-      if [[ ${(%):-%#} = \# ]]; then
-        psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT) )
-      else
-        psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL) )
-      fi
-    }
+  # 2v is exit code color
+  if (( exit_code )); then
+    psvar+=( $GIT_PROMPT_KIT_COLOR_FAILED )
+  else
+    psvar+=( $GIT_PROMPT_KIT_COLOR_SUCCEEDED )
   fi
+
+  # 3v is char
+  if [[ ${(%):-%#} = \# ]]; then
+    psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT) )
+  else
+    psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL) )
+  fi
+
+  # 4v is whether this is the first line (0 if first line)
+  # 5v is reserved to assist with 4v calculation
+  psvar+=( $first_line 1 )
 }
 
 _hometown_git_prompt() {
@@ -161,10 +167,15 @@ _hometown_git_prompt() {
 _hometown_build_prompt() {
   emulate -L zsh
 
+  local -i is_first_line=$psvar[4]
   local prompt=
 
   # Blank line after result of previous command
-  if (( HOMETOWN_LINEBREAK_BEFORE_PROMPT )); then
+  local -i line_before=$HOMETOWN_LINEBREAK_BEFORE_PROMPT
+  if (( HOMETOWN_SET_PSVAR && HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT )); then
+    line_before=$(( ! ! psvar[4] ))
+  fi
+  if (( line_before )); then
     prompt+=$'\n'
   fi
 
@@ -206,6 +217,11 @@ _hometown_init() {
   'builtin' 'source' $_hometown_source_path/git-prompt-kit/git-prompt-kit.zsh
 
   PROMPT=$(_hometown_build_prompt)
+
+  if (( HOMETOWN_SET_PSVAR )); then
+    (( ${+precmd_functions} )) || typeset -ga precmd_functions
+    precmd_functions+=_hometown_precmd
+  fi
 
   if (( HOMETOWN_USE_TRANSIENT_PROMPT )); then
     _hometown_transient_prompt
