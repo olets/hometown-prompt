@@ -42,9 +42,15 @@ HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]=${HOMETO
 _hometown_transient_prompt() {
   emulate -L zsh
 
+  local key
+  local key_saved
+  local value
+
   typeset -gA TRANSIENT_PROMPT_ENV
 
   TRANSIENT_PROMPT_PRETRANSIENT() {
+    emulate -L zsh
+
     _git_prompt_kit_update_git
     _git_prompt_kit_update_nongit
   }
@@ -68,7 +74,6 @@ _hometown_transient_prompt() {
   TRANSIENT_PROMPT_TRANSIENT_PROMPT=$(_hometown_build_prompt)
 
   # restore backed up context
-  local key_saved
   for key in ${(k)HOMETOWN_TRANSIENT_PROMPT_CONTEXT}; do
     typeset key_saved=_hometown_${key}_saved
     typeset -g $key=${(P)key_saved}
@@ -183,9 +188,6 @@ _hometown_build_prompt() {
 
 _hometown_init() {
   emulate -L zsh
-
-  local key
-  local value
 
   # if installed with Homebrew, will not have .gitmodules
   if [[ -f ${_hometown_source_path}/.gitmodules && ! -f ${_hometown_source_path}/git-prompt-kit/git-prompt-kit.plugin.zsh ]]; then
