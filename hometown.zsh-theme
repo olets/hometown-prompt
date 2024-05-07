@@ -90,11 +90,11 @@ _hometown_transient_prompt() {
 }
 
 _hometown_precmd() {
+  local -i exit_code=$?
+
   emulate -L zsh
 
   local prompt_drawn_time=${(%):-%*}
-  local -i exit_code=$?
-  local -i first_line=$(( ! psvar[5] ))
 
   (( HOMETOWN_IS_FIRST_PROMPT )) && (( HOMETOWN_IS_FIRST_PROMPT-- ))
   if (( ! HOMETOWN_IS_FIRST_PROMPT )); then
