@@ -6,7 +6,7 @@
 # https://github.com/olets/hometown-prompt
 # Copyright (©) 2021-present Henry Bley-Vroman
 
-typeset -r HOMETOWN_VERSION="3.1.6"
+typeset -gr HOMETOWN_VERSION="3.1.6"
 
 # Git Prompt Kit config
 typeset -g GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL=${GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL-$'\n%% '}
