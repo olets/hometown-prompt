@@ -13,15 +13,19 @@ typeset -g GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL=${GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL
 typeset -g GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT=${GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT-$'\n# '}
 
 # Hometown config
-typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%*}
 typeset -gi HOMETOWN_LINEBREAK_AFTER_GIT_REF=${HOMETOWN_LINEBREAK_AFTER_GIT_REF:-1}
 typeset -gi HOMETOWN_LINEBREAK_BEFORE_PROMPT=${HOMETOWN_LINEBREAK_BEFORE_PROMPT:-1}
 typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT=${HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT:-1}
-
 typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF:-1}
+typeset -gi HOMETOWN_REFRESH_INTERVAL=${HOMETOWN_REFRESH_INTERVAL:-0}
 typeset -gi HOMETOWN_SET_PSVAR=${HOMETOWN_SET_PSVAR:-1}
 typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
 typeset -gi HOMETOWN_USE_TRANSIENT_PROMPT=${HOMETOWN_USE_TRANSIENT_PROMPT:-1}
+if (( HOMETOWN_SET_PSVAR )); then
+  typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%1v}
+else
+  typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%*}
+fi
 
 # Hometown transient prompt config
 if [[ -z $HOMETOWN_TRANSIENT_PROMPT_CONTEXT ]]; then
@@ -233,9 +237,38 @@ _hometown_init() {
   if (( HOMETOWN_USE_TRANSIENT_PROMPT )); then
     _hometown_transient_prompt
   fi
+
+  if (( HOMETOWN_REFRESH_INTERVAL )); then
+    zmodload -i zsh/sched
+    _hometown_scheduled_refresh
+  fi
+}
+
+_hometown_scheduled_refresh() {
+  emulate -L zsh
+
+  # With gratitude to Peter Stephenson
+  # https://www.zsh.org/mla/users/2007/msg00946.html
+
+  # Remove existing event, so that multiple calls to
+  # "_hometown_scheduled_refresh" work OK.  (You could put one in precmd to push
+  # the timer 30 seconds into the future, for example.)
+  typeset -i i=${"${(@)zsh_scheduled_events#*:*:}"[(I)_hometown_scheduled_refresh]}
+  (( i )) && sched -$i
+
+  # update
+  _git_prompt_kit_update_git
+
+  # Test that zle is running before calling the widget (recommended
+  # to avoid error messages).
+  # Otherwise it updates on entry to zle, so there's no loss.
+  zle && zle reset-prompt && zle -R
+
+  sched +$(( HOMETOWN_REFRESH_INTERVAL )) _hometown_scheduled_refresh
 }
 
 typeset -r _hometown_source_path=${0:A:h}
 
 setopt prompt_subst
 _hometown_init
+
