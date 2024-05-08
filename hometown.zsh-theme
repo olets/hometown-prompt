@@ -103,7 +103,6 @@ _hometown_precmd() {
   emulate -L zsh
 
   local -i different_day
-  local prompt_drawn_date=${(%):-%W}
   local prompt_drawn_time=${(%):-%*}
 
   (( HOMETOWN_IS_FIRST_PROMPT )) && (( HOMETOWN_IS_FIRST_PROMPT-- ))
@@ -113,6 +112,9 @@ _hometown_precmd() {
   fi
 
   if (( HOMETOWN_SET_PSVAR )); then
+    # near DUPE _hometown_precmd x 2, _hometown_scheduled_refresh
+    local prompt_drawn_date=${(%):-%W}
+
     if [[ -n $psvar[4] && $psvar[4] != $prompt_drawn_date ]]; then
       different_day=1
     fi
@@ -140,6 +142,7 @@ _hometown_precmd() {
     psvar+=( $prompt_drawn_date )
 
     # 5v is whether the prompt was drawn before today
+    # near DUPE _hometown_precmd x 2, _hometown_scheduled_refresh
     (( different_day )) && psvar+=( 1 )
   fi
 }
@@ -277,6 +280,17 @@ _hometown_scheduled_refresh() {
   # the timer 30 seconds into the future, for example.)
   typeset -i i=${"${(@)zsh_scheduled_events#*:*:}"[(I)_hometown_scheduled_refresh]}
   (( i )) && sched -$i
+
+  # near DUPE _hometown_precmd, _hometown_scheduled_refresh
+  if (( HOMETOWN_SET_PSVAR && ! psvar[5] )); then
+    # local prompt_drawn_date=
+
+    psvar[5]=
+
+    if [[ -n $psvar[4] && $psvar[4] != ${(%):-%W} ]]; then
+      psvar[5]=1
+    fi
+  fi
 
   # update
   _git_prompt_kit_update_git
