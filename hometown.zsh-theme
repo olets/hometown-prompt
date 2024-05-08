@@ -43,7 +43,7 @@ if (( HOMETOWN_DISTINCT_TRANSIENT_PROMPT )); then
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL]-$'\n'}
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT]-$'\n'}
   # Hometown transient prompt config: Hometown
-  HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]-'%F{%2v}%3v%f %v-%*'}
+  HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]-'%F{%2v}%3v%f %(5V.%5v %v - %W %*.%v-%*)'}
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_AFTER_GIT_REF]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_AFTER_GIT_REF]-0}
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_BEFORE_PROMPT]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_BEFORE_PROMPT]-0}
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]-1}
@@ -102,6 +102,8 @@ _hometown_precmd() {
 
   emulate -L zsh
 
+  local -i different_day
+  local prompt_drawn_date=${(%):-%W}
   local prompt_drawn_time=${(%):-%*}
 
   (( HOMETOWN_IS_FIRST_PROMPT )) && (( HOMETOWN_IS_FIRST_PROMPT-- ))
@@ -111,6 +113,10 @@ _hometown_precmd() {
   fi
 
   if (( HOMETOWN_SET_PSVAR )); then
+    if [[ -n $psvar[4] && $psvar[4] != $prompt_drawn_date ]]; then
+      different_day=1
+    fi
+    
     psvar=( )
 
     # 1v is drawn time
@@ -129,6 +135,12 @@ _hometown_precmd() {
     else
       psvar+=( $(print -P $GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL) )
     fi
+
+    # 4v is date
+    psvar+=( $prompt_drawn_date )
+
+    # 5v is whether the prompt was drawn before today
+    (( different_day )) && psvar+=( 1 )
   fi
 }
 
@@ -235,7 +247,13 @@ _hometown_init() {
 
   if (( HOMETOWN_SET_PSVAR || HOMETOWN_LINEBREAK_BEFORE_PROMPT )); then
     (( ${+precmd_functions} )) || typeset -ga precmd_functions
+
     precmd_functions+=_hometown_precmd
+  fi
+
+  if (( HOMETOWN_SET_PSVAR )); then
+    psvar=( )
+    psvar[4]=${(%):-%W}
   fi
 
   if (( HOMETOWN_USE_TRANSIENT_PROMPT )); then
