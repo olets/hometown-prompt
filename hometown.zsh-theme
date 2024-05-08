@@ -23,7 +23,7 @@ typeset -gi HOMETOWN_SET_PSVAR=${HOMETOWN_SET_PSVAR:-1}
 typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
 typeset -gi HOMETOWN_USE_TRANSIENT_PROMPT=${HOMETOWN_USE_TRANSIENT_PROMPT:-1}
 if (( HOMETOWN_SET_PSVAR )); then
-  typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%1v}
+  typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%v}
 else
   typeset -g HOMETOWN_CUSTOM=${HOMETOWN_CUSTOM-%*}
 fi
@@ -119,7 +119,7 @@ _hometown_precmd() {
     
     psvar=( )
 
-    # 1v is drawn time
+    # 1v (aka v) is drawn time
     psvar+=( $prompt_drawn_time )
 
     # 2v is exit code color
