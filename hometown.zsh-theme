@@ -6,6 +6,7 @@
 # https://github.com/olets/hometown-prompt
 # Copyright (©) 2021-present Henry Bley-Vroman
 
+# @TODO errors if user runs `source ~/.zshrc`
 typeset -gr HOMETOWN_VERSION="3.1.5"
 
 # Git Prompt Kit config
@@ -39,7 +40,7 @@ if (( HOMETOWN_DISTINCT_TRANSIENT_PROMPT )); then
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL]-$'\n'}
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[GIT_PROMPT_KIT_SYMBOL_CHAR_ROOT]-$'\n'}
   # Hometown transient prompt config: Hometown
-  HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]-'%F{%2v}%3v%f %(5V.%5v %v - %W %*.%v-%*)'}
+  HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_CUSTOM]-'%F{%2v}%3v%f %(5V.%4v %v - %W %*.%v-%*)'}
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_AFTER_GIT_REF]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_AFTER_GIT_REF]-0}
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_BEFORE_PROMPT]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_LINEBREAK_BEFORE_PROMPT]-0}
   HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]=${HOMETOWN_TRANSIENT_PROMPT_CONTEXT[HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF]-1}
@@ -49,6 +50,7 @@ fi
 typeset -g HOMETOWN_IS_FIRST_PROMPT=2
 typeset -g HOMETOWN_IS_NOT_FIRST_PROMPT=
 
+
 _hometown_transient_prompt() {
   emulate -L zsh
 
@@ -56,13 +58,14 @@ _hometown_transient_prompt() {
   local key_saved
   local value
 
-  typeset -gA TRANSIENT_PROMPT_ENV
+  typeset -gA TRANSIENT_PROMPT_ENV=( )
 
   TRANSIENT_PROMPT_PRETRANSIENT() {
     emulate -L zsh
 
     _git_prompt_kit_update_git
     _git_prompt_kit_update_nongit
+    (( HOMETOWN_SET_PSVAR )) && _hometown_set_date_psvar
   }
 
   TRANSIENT_PROMPT_PROMPT=$PROMPT
@@ -81,6 +84,8 @@ _hometown_transient_prompt() {
     TRANSIENT_PROMPT_ENV[$key]=$HOMETOWN_TRANSIENT_PROMPT_CONTEXT[$key]
   done
 
+  # typeset -m TRANSIENT_PROMPT_ENV
+
   TRANSIENT_PROMPT_TRANSIENT_PROMPT=$(_hometown_build_prompt)
 
   # restore backed up context
@@ -93,13 +98,18 @@ _hometown_transient_prompt() {
   'builtin' 'source' ${_hometown_source_path}/zsh-transient-prompt/transient-prompt.zsh-theme
 }
 
+_hometown_set_date_psvar() {
+  psvar[5]=
+
+  if [[ -n $psvar[4] && $psvar[4] != ${(%):-%W} ]]; then
+    psvar[5]=1
+  fi
+}
+
 _hometown_precmd() {
   local -i exit_code=$?
 
   emulate -L zsh
-
-  local -i different_day
-  local prompt_drawn_time=${(%):-%*}
 
   (( HOMETOWN_IS_FIRST_PROMPT )) && (( HOMETOWN_IS_FIRST_PROMPT-- ))
   if (( ! HOMETOWN_IS_FIRST_PROMPT )); then
@@ -108,17 +118,10 @@ _hometown_precmd() {
   fi
 
   if (( HOMETOWN_SET_PSVAR )); then
-    # near DUPE _hometown_precmd x 2, _hometown_scheduled_refresh
-    local prompt_drawn_date=${(%):-%W}
-
-    if [[ -n $psvar[4] && $psvar[4] != $prompt_drawn_date ]]; then
-      different_day=1
-    fi
-    
     psvar=( )
 
     # 1v (aka v) is drawn time
-    psvar+=( $prompt_drawn_time )
+    psvar+=( ${(%):-%*} )
 
     # 2v is exit code color
     if (( exit_code )); then
@@ -135,11 +138,10 @@ _hometown_precmd() {
     fi
 
     # 4v is date
-    psvar+=( $prompt_drawn_date )
+    psvar+=( ${(%):-%W} )
 
     # 5v is whether the prompt was drawn before today
-    # near DUPE _hometown_precmd x 2, _hometown_scheduled_refresh
-    (( different_day )) && psvar+=( 1 )
+    _hometown_set_date_psvar
   fi
 }
 
@@ -277,29 +279,24 @@ _hometown_scheduled_refresh() {
   typeset -i i=${"${(@)zsh_scheduled_events#*:*:}"[(I)_hometown_scheduled_refresh]}
   (( i )) && sched -$i
 
-  # near DUPE _hometown_precmd, _hometown_scheduled_refresh
   if (( HOMETOWN_SET_PSVAR && ! psvar[5] )); then
-    # local prompt_drawn_date=
-
-    psvar[5]=
-
-    if [[ -n $psvar[4] && $psvar[4] != ${(%):-%W} ]]; then
-      psvar[5]=1
-    fi
+    _hometown_set_date_psvar
   fi
 
   # update
   _git_prompt_kit_update_git
+  # _git_prompt_kit_update_nongit
 
   # Test that zle is running before calling the widget (recommended
   # to avoid error messages).
   # Otherwise it updates on entry to zle, so there's no loss.
+  # echo reset-prompt in refresh
   zle && zle reset-prompt && zle -R
 
   sched +$(( HOMETOWN_REFRESH_INTERVAL )) _hometown_scheduled_refresh
 }
 
-typeset -r _hometown_source_path=${0:A:h}
+typeset -gr _hometown_source_path=${0:A:h}
 
 setopt prompt_subst
 _hometown_init
