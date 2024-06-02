@@ -1,3 +1,18 @@
+# [v3.1.4](/compare/v3.1.3...v3.1.4) (2024-06-02)
+
+
+### Bug Fixes
+
+* enable prompt substitution [7d8cc29](https://github.com/olets/hometown-prompt/commit/7d8cc29)
+
+
+### Features
+
+* **ci:** do not bump homebrew for github prereleases [596cba2](https://github.com/olets/hometown-prompt/commit/596cba2)
+* **git-prompt-kit:** upgrade from 4.1.2 (10c164e) to 4.1.3 (4a168ef) [1551944](https://github.com/olets/hometown-prompt/commit/1551944)
+
+
+
 # [v3.1.3](/compare/v3.1.2...v3.1.3) (2024-03-26)
 
 * **deps:** bump git-prompt-kit from `742f995` to `f5979bb` v4.1.2 [fe09de1](https://github.com/olets/hometown-prompt/commit/fe09de14715e5dc853481227462013d01b61bf91)
