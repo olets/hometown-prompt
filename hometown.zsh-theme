@@ -83,8 +83,6 @@ _hometown_transient_prompt() {
     TRANSIENT_PROMPT_ENV[$key]=$HOMETOWN_TRANSIENT_PROMPT_CONTEXT[$key]
   done
 
-  # typeset -m TRANSIENT_PROMPT_ENV
-
   TRANSIENT_PROMPT_TRANSIENT_PROMPT=$(_hometown_build_prompt)
 
   # restore backed up context
@@ -284,12 +282,10 @@ _hometown_scheduled_refresh() {
 
   # update
   _git_prompt_kit_update_git
-  # _git_prompt_kit_update_nongit
 
   # Test that zle is running before calling the widget (recommended
   # to avoid error messages).
   # Otherwise it updates on entry to zle, so there's no loss.
-  # echo reset-prompt in refresh
   zle && zle reset-prompt && zle -R
 
   sched +$(( HOMETOWN_REFRESH_INTERVAL )) _hometown_scheduled_refresh
