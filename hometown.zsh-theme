@@ -6,8 +6,7 @@
 # https://github.com/olets/hometown-prompt
 # Copyright (©) 2021-present Henry Bley-Vroman
 
-# @TODO errors if user runs `source ~/.zshrc`
-typeset -gr HOMETOWN_VERSION="3.1.6"
+typeset -g HOMETOWN_VERSION="3.1.6"
 
 # Git Prompt Kit config
 typeset -g GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL=${GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL-$'\n%% '}
@@ -296,7 +295,7 @@ _hometown_scheduled_refresh() {
   sched +$(( HOMETOWN_REFRESH_INTERVAL )) _hometown_scheduled_refresh
 }
 
-typeset -gr _hometown_source_path=${0:A:h}
+typeset -g _hometown_source_path=${0:A:h}
 
 setopt prompt_subst
 _hometown_init
