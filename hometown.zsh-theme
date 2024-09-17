@@ -181,6 +181,10 @@ _hometown_build_prompt() {
 _hometown_init() {
   emulate -L zsh
 
+  local -a shell_vars
+
+  shell_vars=( ${(k)parameters} )
+
   typeset -g HOMETOWN_VERSION="3.1.6"
 
   # Git Prompt Kit config
@@ -199,11 +203,9 @@ _hometown_init() {
   typeset -gi HOMETOWN_USE_TRANSIENT_PROMPT=${HOMETOWN_USE_TRANSIENT_PROMPT:-1}
 
   # Hometown transient prompt config
-  if [[ -z $HOMETOWN_TRANSIENT_PROMPT_ENV ]]; then
+  if (( HOMETOWN_USE_TRANSIENT_PROMPT && ! shell_vars[(Ie)HOMETOWN_TRANSIENT_PROMPT_ENV] )); then
     typeset -gA HOMETOWN_TRANSIENT_PROMPT_ENV
-  fi
 
-  if (( HOMETOWN_USE_TRANSIENT_PROMPT )); then
     # Hometown transient prompt config: Git Prompt Kit
     HOMETOWN_TRANSIENT_PROMPT_ENV[GIT_PROMPT_KIT_HIDE_INACTIVE_AHEAD_BEHIND]=${HOMETOWN_TRANSIENT_PROMPT_ENV[GIT_PROMPT_KIT_HIDE_INACTIVE_AHEAD_BEHIND]-1}
     HOMETOWN_TRANSIENT_PROMPT_ENV[GIT_PROMPT_KIT_HIDE_INACTIVE_EXTENDED_STATUS]=${HOMETOWN_TRANSIENT_PROMPT_ENV[GIT_PROMPT_KIT_HIDE_INACTIVE_EXTENDED_STATUS]-1}
@@ -293,4 +295,3 @@ typeset -g _hometown_source_path=${0:A:h}
 
 setopt prompt_subst
 _hometown_init
-
