@@ -1,3 +1,12 @@
+# [v3.1.5](/compare/v3.1.4...v3.1.5) (2024-10-03)
+
+
+### Features
+
+* **git-prompt-kit:** bump from `6373a70` to `be2cd7c` 46a0a54
+
+
+
 # [v3.1.4](/compare/v3.1.3...v3.1.4) (2024-06-02)
 
 
