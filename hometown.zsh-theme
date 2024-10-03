@@ -48,7 +48,7 @@ _hometown_transient_prompt() {
     unset $key_saved
   done
 
-  if (( ! ${+functions[_transient_prompt_init]} )); then
+  if (( ! ${+functions[_transient_prompt_precmd]} )); then
     'builtin' 'source' ${_hometown_source_path}/zsh-transient-prompt/transient-prompt.zsh-theme
   fi
 }
