@@ -48,7 +48,9 @@ _hometown_transient_prompt() {
     unset $key_saved
   done
 
-  'builtin' 'source' ${_hometown_source_path}/zsh-transient-prompt/transient-prompt.zsh-theme
+  if (( ! ${+functions[_transient_prompt_init]} )); then
+    'builtin' 'source' ${_hometown_source_path}/zsh-transient-prompt/transient-prompt.zsh-theme
+  fi
 }
 
 _hometown_set_date_psvar() {
