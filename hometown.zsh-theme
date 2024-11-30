@@ -199,10 +199,22 @@ _hometown_init() {
   typeset -gi HOMETOWN_LINEBREAK_BEFORE_PROMPT=${HOMETOWN_LINEBREAK_BEFORE_PROMPT:-1}
   typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT=${HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT:-1}
   typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF:-1}
+  
   typeset -gi HOMETOWN_REFRESH_INTERVAL=${HOMETOWN_REFRESH_INTERVAL:-0}
   typeset -gi HOMETOWN_SET_PSVAR=${HOMETOWN_SET_PSVAR:-1}
   typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
   typeset -gi HOMETOWN_USE_TRANSIENT_PROMPT=${HOMETOWN_USE_TRANSIENT_PROMPT:-1}
+
+  'builtin' 'command' -v HOMETOWN_REFRESH_FUNCTION &>/dev/null || {
+    HOMETOWN_REFRESH_FUNCTION() {
+      if (( HOMETOWN_SET_PSVAR && ! psvar[5] )); then
+        _hometown_set_date_psvar
+      fi
+
+      # update Git
+      _git_prompt_kit_update_git
+    }
+  }
 
   # Hometown transient prompt config
   if (( HOMETOWN_USE_TRANSIENT_PROMPT && ! shell_vars[(Ie)HOMETOWN_TRANSIENT_PROMPT_ENV] )); then
@@ -278,12 +290,7 @@ _hometown_scheduled_refresh() {
   typeset -i i=${"${(@)zsh_scheduled_events#*:*:}"[(I)_hometown_scheduled_refresh]}
   (( i )) && sched -$i
 
-  if (( HOMETOWN_SET_PSVAR && ! psvar[5] )); then
-    _hometown_set_date_psvar
-  fi
-
-  # update
-  _git_prompt_kit_update_git
+  HOMETOWN_REFRESH_FUNCTION
 
   # Test that zle is running before calling the widget (recommended
   # to avoid error messages).
