@@ -24,7 +24,7 @@ _hometown_transient_prompt() {
   }
 
   TRANSIENT_PROMPT_PROMPT=$PROMPT
-  
+
   # cannot use `for key value in ${(kv)…}` because that has undesired results when values are empty
   for key in ${(k)HOMETOWN_TRANSIENT_PROMPT_ENV}; do
     value=$HOMETOWN_TRANSIENT_PROMPT_ENV[$key]
@@ -34,7 +34,7 @@ _hometown_transient_prompt() {
 
     # apply transient prompt context
     typeset -g "$key"="$value"
-    
+
     # share transient prompt context with zsh-transient-prompt
     TRANSIENT_PROMPT_ENV[$key]=$HOMETOWN_TRANSIENT_PROMPT_ENV[$key]
   done
@@ -199,7 +199,7 @@ _hometown_init() {
   typeset -gi HOMETOWN_LINEBREAK_BEFORE_PROMPT=${HOMETOWN_LINEBREAK_BEFORE_PROMPT:-1}
   typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT=${HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT:-1}
   typeset -gi HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF=${HOMETOWN_NO_LINEBREAK_BEFORE_GIT_REF:-1}
-  
+
   typeset -gi HOMETOWN_REFRESH_INTERVAL=${HOMETOWN_REFRESH_INTERVAL:-0}
   typeset -gi HOMETOWN_SET_PSVAR=${HOMETOWN_SET_PSVAR:-1}
   typeset -gi HOMETOWN_SHOW_EXTENDED_STATUS=${HOMETOWN_SHOW_EXTENDED_STATUS:-1}
