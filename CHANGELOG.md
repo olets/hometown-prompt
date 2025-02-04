@@ -1,3 +1,27 @@
+# [v4.0.0](https://github.com/olets/hometown-prompt/compare/v3.1.6...v4.0.0) (2025-02-05)
+
+⚠️ Has breaking changes. If you do advanced configuration, read the [migration guide](https://v4.hometown-prompt.olets.dev/migrating-between-versions.html) and/or read about [pinning v3.x](https://v3.hometown-prompt.olets.dev/installation.html).
+
+### Breaking changes
+
+- Dropped options:
+  - `HOMETOWN_LINEBREAK_AFTER_CHAR`
+  - `HOMETOWN_LINEBREAK_BEFORE_CHAR`
+
+### Features
+
+- Support **transient prompt**, using zsh-transient-prompt (submodule)
+- Support **scheduled refresh**
+- Added options:
+  - `HOMETOWN_LINEBREAK_BEFORE_PROMPT`
+  - `HOMETOWN_NO_LINEBREAK_BEFORE_FIRST_PROMPT`
+  - `HOMETOWN_REFRESH_FUNCTION`
+  - `HOMETOWN_REFRESH_INTERVAL`
+  - `HOMETOWN_SET_PSVAR`
+  - `HOMETOWN_TRANSIENT_PROMPT_ENV`
+  - `HOMETOWN_USE_TRANSIENT_PROMPT`
+- **HOMETOWN_VERSION:** now global ([53e1b15](https://github.com/olets/hometown-prompt/commit/53e1b151ab1b8df2b9296c93b607f0c45c1aae4a))
+
 # [v3.1.6](https://github.com/olets/hometown-prompt/compare/v3.1.5...v3.1.6) (2025-02-03)
 
 Submodule updates

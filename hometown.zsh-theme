@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
 # Hometown
-# v3.1.6
-# Febrary 2 2025
+# v4.0.0
+# Febrary 5 2025
 # https://github.com/olets/hometown-prompt
 # Copyright (©) 2021 Henry Bley-Vroman
 
@@ -187,7 +187,7 @@ _hometown_init() {
 
   shell_vars=( ${(k)parameters} )
 
-  typeset -g HOMETOWN_VERSION="3.1.6"
+  typeset -g HOMETOWN_VERSION="4.0.0"
 
   # Git Prompt Kit config
   typeset -g GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL=${GIT_PROMPT_KIT_SYMBOL_CHAR_NORMAL-$'\n%% '}
