@@ -4,7 +4,7 @@
 # v3.1.6
 # Febrary 2 2025
 # https://github.com/olets/hometown-prompt
-# Copyright (©) 2021-present Henry Bley-Vroman
+# Copyright (©) 2021 Henry Bley-Vroman
 
 _hometown_transient_prompt() {
   emulate -L zsh
