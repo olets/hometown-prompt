@@ -1,92 +1,155 @@
-<img src="./img/hometown.png" alt="">
+# Hometown Prompt
 
-# Hometown Prompt ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/olets/hometown-prompt?include_prereleases&label=pre-release) ![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/olets/hometown-prompt/latest?include_prereleases)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/olets/hometown-prompt?include_prereleases&label=pre-release) ![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/olets/hometown-prompt/latest?include_prereleases)
 
-**Hometown is a feature rich, high performance Git-centric zsh theme** with segments for the user, host, time, the current working directory and its parent, and —within a Git repo— detailed Git status. It is carefully designed to show dense information clearly.
+<img src="./assets/hometown.png" alt="">
+
+**Hometown is a feature rich, high performance Git-aware zsh theme** with segments for the user, host, time, the current working directory and its parent, and —within a Git repo— detailed Git status. It is carefully designed to show a lot of information clearly.
 
 ## Documentation
 
 &nbsp;
 
-<!-- TODO drop `next.` -->
-📖 See the guide, including a web simulation demonstrating how the prompt responds to context and configuration, at https://next.hometown-prompt.olets.dev/
+📖 See the guide, including a web simulation demonstrating how the prompt responds to context and configuration, at https://hometown-prompt.olets.dev/
 
 &nbsp;
 
-### How does it look?
+## Screencast
 
-You can customize symbols and colors, hide inactive segments, hide certain segments always, and choose how many lines the prompt takes up. Given your configuration, the content shown and the colors it's shown in changes based on which user is logged in, whether the previous command succeeded, and whether you're in a Git repo — and, if so, the Git status.
+Here's a screencast showing it in action, as a gif. Note that when you "accept" the command line (that is, hit <kbd>Enter</kbd>) the prompt trims down. You can view the same screencast as a video, with controls to pause, rewind, and fast forward, on the [Hometown docs site](https://hometown-prompt.olets.dev/).
 
-<!-- TODO drop `next.` -->
-> Try It Out !  
-> The best way to get a sense of Hometown Prompt, other than installing it, is to play with the  
-> 🎨 [interactive web demo](https://next.hometown-prompt.olets.dev/demo.html) 🎨  
+<details><summary>Toggle to show/hide the screencast</summary>
 
-Here are three static examples to start with, using the default colors and default symbol sets. In each, Hometown Prompt is telling us that we're logged in as one of our usual users on one of our usual hosts, the user is not root, the previous command succeeded, the current directory is the Git repo `hometown-prompt`, the branch `main` is checked out, `main` pushes and pulls from `origin/main`, we're 15 commits ahead of the remote, there are seven stashes, and there are three untracked files.
+![Hometown Prompt screencast gif, default configuration](/assets/hometown-prompt-v4-demo.gif)
 
-Default (Git ref on first line, no inactive Git ref segments, no extended Git status, default symbols, inactive Git status segments visible)
+</details>
 
-![Hometown Prompt screenshot, default configuration](./img/hometown-prompt-default.png)
+<!-- DUPE hometown-prompt@v4 README.md hometown-prompt-docs@v4 docs/parts/screencast.md, zsh-transient-prompt@v1 docs/parts/screencast.md -->
 
-More concise (inactive Git status segments hidden, active extended Git status segments visible, everything on one line)
+<details><summary>Toggle to show/hide an annotated transcript</summary>
 
-![Hometown Prompt screenshot, short configuration](./img/hometown-prompt-short.png)
+```shell
+mkdir -p repo/child/grandchild/great-grandchild
+cd repo
 
-Less concise (Git ref and status each on their own line, inactive Git ref segments visible, active extended Git status segments visible, inactive Git status segments hidden, verbose default symbols)
+# cwd changes to current dir
+# previous prompt simplifies: cwd has only one segment
 
-![Hometown Prompt screenshot, long configuration](./img/hometown-prompt-long.png)
+git init
 
-Or go completely custom! The colors and symbols can be anything you want.
+# cwd changes to underline Git repo root; Git branch and its appear
 
-![Hometown Prompt screenshot, custom configuration](./img/hometown-prompt-custom.png)
+cd child
 
-> The window title in the screenshots above is thanks to [zsh-window-title](https://github.com/olets/zsh-window-title)
+# cwd changes to current dir. segments start at repo root's parent
 
-### What all is shown?
+cd grandchild
 
-Always:
+# cwd changes as before
+# previous prompt simplifies: cwd starts at the repo root
 
-- The **current user**, if not one you've configured as hidden, and whether they are **root**
-- The **current host**, if not one you've configured as hidden
-- The **time** the prompt was drawn
-- **User-configured content**
-- The **current working directory** (the maximum number of path segments above the CWD is configurable)
-- Whether the **previous command** succeeded
+cd great-grandchild
 
-If in a Git repo:
+# cwd changes. shows at most repo root's parent, repo root, ellipsis, cwd parent, cwd
 
-- the **repo root directory, underlined** (the maximum number directories above the CWD is configurable)
-- If in a subdirectory of the repo, the **subdirectory name** (the maximum number of directories listed between the Git root and the CWD is configurable)
-- If HEAD is detached, the **checked out commit**. Text color is dependent on whether or not the index is dirty
-- If a branch is checked out:
-  - The name of the **checked out branch**. Text color is dependent on whether or not the index is dirty
-  - If the checked out branch does not have a remote tracking branch, a symbol indicating that it is **local only**
-  - If the checked out branch has an upstream (that is, [`@{upstream}`](https://www.git-scm.com/docs/gitrevisions#Documentation/gitrevisions.txt-emltbranchnamegtupstreamemegemmasterupstreamememuem)),
-    - The number of **commits ahead of the upstream** the local branch is. Optionally show the indicator even if the local branch is not ahead of the upstream.
-    - The number of **commits behind the upstream** the local branch is. Optionally show the indicator even if the local branch is not behind the upstream.
-    - The **upstream's remote**, if different from the user-configured default
-    - The **upstream's name**, if different from the local branch's
-    - Text color is dependent on context and status:
-      - If no distinct push remote, colored if the local is either ahead or behind
-      - If there a distinct push remote, colored if the local is behind
-  - If the checked out branch has a push remote (that is, [`@{push}`](https://www.git-scm.com/docs/gitrevisions#Documentation/gitrevisions.txt-emltbranchnamegtpushemegemmasterpushemempushem)) different from the upstream,
-    - The number **commits ahead of the push remote** the local branch is. Optionally show the indicator even if the local branch is not ahead of the push remote.
-    - The number **commits behind the push remote** the local branch is. Optionally show the indicator even if the local branch is not behind the push remote.
-    - The **push remote's remote**, if different from the user-configured default
-    - (The push branch's name is not shown, even if it differs from the local name. Want it to be? Weigh in at at [romkatv/gitstatus/#291](https://github.com/romkatv/gitstatus/issues/291))
-- The first **tag** pointing to the current commit, if any
-- The number of **untracked ("new") files**. Optionally show the accompanying symbol when there are no such files.
-- The number of **conflicted files**. Optionally show the accompanying symbol when there are no such files.
-- The number of **unstaged deleted files**. Optionally show the accompanying symbol when there are no such files.
-- The number of **unstaged modified files**. Optionally show the accompanying symbol when there are no such files.
-- The number of **staged new files**. Optionally show the accompanying symbol when there are no such files.
-- The number of **staged deleted files**. Optionally show the accompanying symbol when there are no such files.
-- The number of **staged modified files**. Optionally show the accompanying symbol when there are no such files.
-- The name of the **ongoing action** (for example "rebase"), if any
-- Optionally:
-  - The **number of stashes**. Optionally show the accompanying symbol when there are no such files.
-  - The **number of files with the assume-unchanged bit set**. Optionally show the accompanying symbol when there are no such files.
-  - The **number of files with the skip-worktree bit set**. Optionally show the accompanying symbol when there are no such files.
+git init
+
+# cwd changes to underlined repo root, and parent
+
+touch x y
+
+# Git status changes
+
+git add -A
+
+# Git status changes, Git branch color changes
+
+git commit -m first
+
+# Git status changes, Git branch color changes
+
+git switch -c feature
+
+# Git branch changes, Git branch color changes
+
+echo wip >> x
+
+# Git status changes, Git branch color changes
+
+git stash
+
+# Git stash appears, Git status changes, Git branch color changes
+
+echo a >> x
+
+# Git status changes
+
+rm y
+
+# Git status changes
+
+git add .
+
+# Git status changes
+
+git commit -m second
+
+# Git status changes, Git branch color changes
+
+git stash drop
+
+# Git stash disappears
+
+git switch main
+
+# Git branch changes
+
+echo b >> x
+
+# Git status changes, Git branch color changes
+
+git commit -am third
+
+# Git status changes, Git branch color changes
+
+git rebase @ feature
+
+# Git HEAD changes, Git HEAD color changes, Git status changes, Git action appears, prompt character color changes
+
+git checkout —ours x
+
+# Git status changes, Git action appears, prompt character color changes
+
+git add x
+
+# Git HEAD changes, Git HEAD color changes, Git status changes, Git action appears
+
+git rebase —continue —no-edit
+```
+
+</details>
+
+## Appearance
+
+By default it looks something like this. Time, current working directory, and Git ref info on the first line (using symbols, with inactive status data points hidden); Git file info on the second (using symbols, with disabled symbols for inactive status data points); and the prompt character on the third.
+
+![Hometown Prompt screenshot, default configuration](/assets/hometown-prompt-default.png)
+
+It has numerous layout and content toggles.
+
+For example you can mix and match line break options, hidden/disabled options, and word/symbol options in any way you like.
+
+With very little configuration it can look, for example, like this. Time, current working directory, Git ref info (using symbols, with inactive status data points hidden); and Git file info (using symbols, with inactive status data points hidden) on the first line; and the prompt character on the second.
+
+![Hometown Prompt screenshot, default configuration](/assets/hometown-prompt-short.png)
+
+Or like this. Time and current working directory on the first line; Git ref info (using words, with disabled symbols for inactive branch data points) on the second line; Git file info (using words, with inactive status data points hidden) on the third line; and the prompt character on the fourth.
+
+![Hometown Prompt screenshot, default configuration](/assets/hometown-prompt-long.png)
+
+You can also customize colors, text, symbols, and the slot which in these screenshots is the time. Here's just one of the infinite possibilities:
+
+![Hometown Prompt screenshot, custom configuration](/assets/hometown-prompt-custom.png)
 
 ## Changelog
 
@@ -137,4 +200,3 @@ Under the following terms
 - The human-readable license summary is based on https://creativecommons.org/licenses/by-nc-sa/4.0. The ethics point was added.
 - Splash card font is [Nickainley](https://www.fontfabric.com/fonts/nickainley/) by Seniors Studio.
 - See also [Git Prompt Kit](https://github.com/olets/git-prompt-kit#acknowledgments)'s acknowledgments.
-
