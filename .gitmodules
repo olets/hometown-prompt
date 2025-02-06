@@ -1,3 +1,6 @@
 [submodule "git-prompt-kit"]
 	path = git-prompt-kit
 	url = https://github.com/olets/git-prompt-kit
+[submodule "zsh-transient-prompt"]
+	path = zsh-transient-prompt
+	url = https://codeberg.org/olets/zsh-transient-prompt.git
